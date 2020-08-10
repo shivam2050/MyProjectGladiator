@@ -1,0 +1,9 @@
+.container{
+    display: flex;
+    justify-content: center;
+    border-style: solid;
+    border-color: greenyellow;
+    border-radius: 2%;
+    background-color: lightyellow;
+}
+
