@@ -1,0 +1,15 @@
+.footerParent{
+    margin-top: 2%;
+}
+
+.foot{
+    margin-top: 2%;
+    background-color: lightblue;
+}
+
+.footerDiv{
+    text-align: center;
+    padding: 2%;
+    bottom: 0;
+    width: 100%;
+}

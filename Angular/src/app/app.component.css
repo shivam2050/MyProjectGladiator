@@ -8,22 +8,14 @@
     width: 100vw;
 } */
 
-.cls{
-    margin: 2%;
-}
+
 
 /* .footerParent{
     height: 50%;
 } */
 
-.foot{
-    margin-top: 2%;
-    background-color: lightblue;
-}
-
-.footerDiv{
-    text-align: center;
-    padding: 2%;
+.mainFoot{
+    margin-top: 5%;
 }
 
 .routerOutlet{

@@ -1,0 +1,27 @@
+<div class="mainDiv">
+    <h1 class="headH1">Welcome to Admin Login</h1>
+    <div class="formDiv">
+        <form action="" [formGroup]="adminLogin">
+            <label for="">Username*</label>
+            <input type="text" class="form-control" formControlName="userName">
+            <p class="alert alert-danger" *ngIf="userName.touched && userName.invalid">
+                <span class="alert alert-danger" *ngIf="userName.errors.required">Username cannot be empty</span>
+            </p>
+    
+            <label for="">Password*</label>
+            <input type="password" class="form-control" formControlName="userPassword">
+            <p class="alert alert-danger" *ngIf="userPassword.touched && userPassword.invalid">
+                <span class="alert alert-danger" *ngIf="userPassword.errors.required">Password cannot be empty</span>
+            </p>
+    
+            <div class="btnDiv">
+                <section class="btnSection">
+                    <button class="btn-success">Login</button>
+                </section>
+                <section class="linkSection">
+                    <a href=""><p style="color: brown;">Forgot Password?</p></a>
+                </section>
+            </div>
+        </form>
+    </div>
+</div>

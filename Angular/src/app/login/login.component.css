@@ -1,0 +1,19 @@
+.loginDiv{
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    justify-content: center;
+    margin-bottom: 2%;
+}
+
+.childSection{
+    display: flex;
+    flex-direction: column;
+    /* text-align: center; */
+}
+
+.para{
+    margin-top: 2%;
+    /* text-align: center; */
+    font-size: larger;
+}
