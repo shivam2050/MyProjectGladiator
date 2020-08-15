@@ -3,26 +3,26 @@
     <div class="formDiv">
         <form action="" [formGroup]="farmerLogin">
             <label for="">Username*</label>
-            <input type="text" class="form-control" formControlName="userName">
+            <input type="text" class="form-control" formControlName="userName" [(ngModel)]="login.femail">
             <p class="alert alert-danger" *ngIf="userName.touched && userName.invalid">
                 <span class="alert alert-danger" *ngIf="userName.errors.required">Username cannot be empty</span>
             </p>
     
             <label for="">Password*</label>
             <input type="password" class="form-control" formControlName="userPassword">
-            <p class="alert alert-danger" *ngIf="userPassword.touched && userPassword.invalid">
+            <p class="alert alert-danger" *ngIf="userPassword.touched && userPassword.invalid" [(ngModel)]="login.username">
                 <span class="alert alert-danger" *ngIf="userPassword.errors.required">Password cannot be empty</span>
             </p>
     
             <div class="btnDiv">
                 <section class="btnSection">
-                    <button class="btn-success">Login</button>
+                    <a routerLink="/farmerportal"><button class="btn-success" (click) = "submit()">Login</button></a>
                 </section>
                 <section class="linkSection">
                     <a href=""><p style="color: brown;">Forgot Password?</p></a>
                 </section>
             </div>
         </form>
-        <a href="">New User? Click to Register</a>
+        <a routerLink = '/farmerregistration'>New User? Click to Register</a>
     </div>
 </div>

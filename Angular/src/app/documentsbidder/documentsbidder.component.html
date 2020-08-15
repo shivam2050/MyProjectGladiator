@@ -1,0 +1,40 @@
+
+<div class="mainDiv">
+    <h1 class="headH1">Welcome to Bidder Registration</h1>
+    <div class="formDiv">
+        <form action="" >
+            <label for="">Email Id</label>
+            <input class="form-control inputClass"  [value]="bidemail" >
+            <!-- <p class="alert alert-danger" *ngIf="name.touched && name.invalid">
+                <span class="alert alert-danger" *ngIf="name.errors.required">Name cannot be empty</span>
+            </p> -->
+
+            <label for="">Aadhaar Image*</label>
+            <input type="file" required  #aadhar >
+            <!-- <p class="alert alert-danger" *ngIf="Aaddhar.touched && Aadhar.invalid">
+                <span class="alert alert-danger" *ngIf="Aadhar.errors.required">Please upload Aadhaar Image</span>
+            </p> -->
+            <button (click)="getAadhar(aadhar)" >Click here to Upload</button>
+            <br>
+            <label for="">PAN Card Image*</label>
+            <input type="file" required  #pan >
+            <!-- <p class="alert alert-danger" *ngIf="PAN.touched && PAN.invalid">
+                <span class="alert alert-danger" *ngIf="PAN.errors.required">Please upload PAN Card Image</span>
+            </p> -->
+            <button (click)="getPan(pan)" >Click here to Upload</button>
+            <br>
+            <label for="">Trader License*</label>
+            <input type="file" required  #trader >
+            <!-- <p class="alert alert-danger" *ngIf="CertificateFarmer.touched && CertificateFarmer.invalid">
+                <span class="alert alert-danger" *ngIf="CertificateFarmer.errors.required">Please upload Farmer's Certificate</span>
+            </p> -->
+            <button (click)="getTrader(trader)" >Click here to Upload</button>
+    
+            <div class="btnDiv">
+                <section class="btnSection">
+                    <button class="btn-success" (click) = "insertDocuments()">Submit</button>
+                </section>
+            </div>
+        </form>
+    </div>
+</div>

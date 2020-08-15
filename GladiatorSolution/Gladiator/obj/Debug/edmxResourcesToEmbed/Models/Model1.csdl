@@ -1,0 +1,310 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="gladiatorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Bidder">
+    <Key>
+      <PropertyRef Name="Bemail" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Bemail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PIN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AccNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IFSC" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RegStatus" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="LiveBids" Relationship="Self.LiveBid_fk1" FromRole="Bidder" ToRole="LiveBid" />
+  </EntityType>
+  <EntityType Name="CropBuy">
+    <Key>
+      <PropertyRef Name="BidId" />
+    </Key>
+    <Property Name="BidId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BuyPrice" Type="Double" Nullable="false" />
+    <NavigationProperty Name="LiveBid" Relationship="Self.CropBuy_fk0" FromRole="CropBuy" ToRole="LiveBid" />
+    <NavigationProperty Name="Transactions" Relationship="Self.Transaction_fk0" FromRole="CropBuy" ToRole="Transaction" />
+  </EntityType>
+  <EntityType Name="Crop">
+    <Key>
+      <PropertyRef Name="CropName" />
+    </Key>
+    <Property Name="CropTID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CropName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <NavigationProperty Name="CropType" Relationship="Self.Crops_fk0" FromRole="Crops" ToRole="CropType" />
+    <NavigationProperty Name="CropSells" Relationship="Self.CropSell_fk0" FromRole="Crops" ToRole="CropSell" />
+  </EntityType>
+  <EntityType Name="CropSell">
+    <Key>
+      <PropertyRef Name="CropID" />
+    </Key>
+    <Property Name="CropName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CropID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Femail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Fertilizer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Quantity" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="PhVal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="BaseFarmerPrice" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="AdminApprove" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
+    <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
+    <NavigationProperty Name="LiveBids" Relationship="Self.LiveBid_fk0" FromRole="CropSell" ToRole="LiveBid" />
+  </EntityType>
+  <EntityType Name="CropType">
+    <Key>
+      <PropertyRef Name="CropTID" />
+    </Key>
+    <Property Name="CropTID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TypeName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Crops" Relationship="Self.Crops_fk0" FromRole="CropType" ToRole="Crops" />
+  </EntityType>
+  <EntityType Name="Document">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Aadhar" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="PAN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="TraderLi" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="CertificateFarmer" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ApproveStatus" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Farmer">
+    <Key>
+      <PropertyRef Name="Femail" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Femail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ContactNo" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="City" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="State" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PIN" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="AccNo" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IFSC" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="RegStatus" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="CropSells" Relationship="Self.CropSell_fk1" FromRole="Farmer" ToRole="CropSell" />
+  </EntityType>
+  <EntityType Name="LiveBid">
+    <Key>
+      <PropertyRef Name="BidId" />
+    </Key>
+    <Property Name="CropId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BasePrice" Type="Double" Nullable="false" />
+    <Property Name="BidPrice" Type="Double" Nullable="false" />
+    <Property Name="BidStatus" Type="Boolean" />
+    <Property Name="Bemail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BidId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TransBidID" Type="Int32" Nullable="false" />
+    <Property Name="time" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Bidder" Relationship="Self.LiveBid_fk1" FromRole="LiveBid" ToRole="Bidder" />
+    <NavigationProperty Name="CropBuy" Relationship="Self.CropBuy_fk0" FromRole="LiveBid" ToRole="CropBuy" />
+    <NavigationProperty Name="CropSell" Relationship="Self.LiveBid_fk0" FromRole="LiveBid" ToRole="CropSell" />
+  </EntityType>
+  <EntityType Name="OfficialUser">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagram">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PaymentType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="BidID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="CropBuy" Relationship="Self.Transaction_fk0" FromRole="Transaction" ToRole="CropBuy" />
+  </EntityType>
+  <Association Name="LiveBid_fk1">
+    <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bidder">
+        <PropertyRef Name="Bemail" />
+      </Principal>
+      <Dependent Role="LiveBid">
+        <PropertyRef Name="Bemail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CropBuy_fk0">
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="LiveBid">
+        <PropertyRef Name="BidId" />
+      </Principal>
+      <Dependent Role="CropBuy">
+        <PropertyRef Name="BidId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_fk0">
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropBuy">
+        <PropertyRef Name="BidId" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="BidID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Crops_fk0">
+    <End Role="CropType" Type="Self.CropType" Multiplicity="1" />
+    <End Role="Crops" Type="Self.Crop" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropType">
+        <PropertyRef Name="CropTID" />
+      </Principal>
+      <Dependent Role="Crops">
+        <PropertyRef Name="CropTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CropSell_fk0">
+    <End Role="Crops" Type="Self.Crop" Multiplicity="1" />
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Crops">
+        <PropertyRef Name="CropName" />
+      </Principal>
+      <Dependent Role="CropSell">
+        <PropertyRef Name="CropName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CropSell_fk1">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Femail" />
+      </Principal>
+      <Dependent Role="CropSell">
+        <PropertyRef Name="Femail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LiveBid_fk0">
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="1" />
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropSell">
+        <PropertyRef Name="CropID" />
+      </Principal>
+      <Dependent Role="LiveBid">
+        <PropertyRef Name="CropId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="gladiatorEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Bidders" EntityType="Self.Bidder" />
+    <EntitySet Name="CropBuys" EntityType="Self.CropBuy" />
+    <EntitySet Name="Crops" EntityType="Self.Crop" />
+    <EntitySet Name="CropSells" EntityType="Self.CropSell" />
+    <EntitySet Name="CropTypes" EntityType="Self.CropType" />
+    <EntitySet Name="Documents" EntityType="Self.Document" />
+    <EntitySet Name="Farmers" EntityType="Self.Farmer" />
+    <EntitySet Name="LiveBids" EntityType="Self.LiveBid" />
+    <EntitySet Name="OfficialUsers" EntityType="Self.OfficialUser" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+    <EntitySet Name="Transactions" EntityType="Self.Transaction" />
+    <AssociationSet Name="LiveBid_fk1" Association="Self.LiveBid_fk1">
+      <End Role="Bidder" EntitySet="Bidders" />
+      <End Role="LiveBid" EntitySet="LiveBids" />
+    </AssociationSet>
+    <AssociationSet Name="CropBuy_fk0" Association="Self.CropBuy_fk0">
+      <End Role="LiveBid" EntitySet="LiveBids" />
+      <End Role="CropBuy" EntitySet="CropBuys" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_fk0" Association="Self.Transaction_fk0">
+      <End Role="CropBuy" EntitySet="CropBuys" />
+      <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="Crops_fk0" Association="Self.Crops_fk0">
+      <End Role="CropType" EntitySet="CropTypes" />
+      <End Role="Crops" EntitySet="Crops" />
+    </AssociationSet>
+    <AssociationSet Name="CropSell_fk0" Association="Self.CropSell_fk0">
+      <End Role="Crops" EntitySet="Crops" />
+      <End Role="CropSell" EntitySet="CropSells" />
+    </AssociationSet>
+    <AssociationSet Name="CropSell_fk1" Association="Self.CropSell_fk1">
+      <End Role="Farmer" EntitySet="Farmers" />
+      <End Role="CropSell" EntitySet="CropSells" />
+    </AssociationSet>
+    <AssociationSet Name="LiveBid_fk0" Association="Self.LiveBid_fk0">
+      <End Role="CropSell" EntitySet="CropSells" />
+      <End Role="LiveBid" EntitySet="LiveBids" />
+    </AssociationSet>
+    <FunctionImport Name="sold" ReturnType="Collection(gladiatorModel.sold_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(gladiatorModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(gladiatorModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+  </EntityContainer>
+  <ComplexType Name="sold_Result">
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Double" Name="BuyPrice" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+</Schema>

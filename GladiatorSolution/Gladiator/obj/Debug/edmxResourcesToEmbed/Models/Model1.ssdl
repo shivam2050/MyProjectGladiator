@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="gladiatorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Bidder">
+    <Key>
+      <PropertyRef Name="Bemail" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Bemail" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="ContactNo" Type="varchar" MaxLength="200" />
+    <Property Name="Address" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="PIN" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="AccNo" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="IFSC" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="RegStatus" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CropBuy">
+    <Key>
+      <PropertyRef Name="BidId" />
+    </Key>
+    <Property Name="BidId" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="BuyPrice" Type="float" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Crops">
+    <Key>
+      <PropertyRef Name="CropName" />
+    </Key>
+    <Property Name="CropTID" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="CropName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Price" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CropSell">
+    <Key>
+      <PropertyRef Name="CropID" />
+    </Key>
+    <Property Name="CropName" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="CropID" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Femail" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Fertilizer" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Quantity" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+    <Property Name="PhVal" Type="nvarchar(max)" />
+    <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
+    <Property Name="BaseFarmerPrice" Type="datetime" Nullable="false" />
+    <Property Name="AdminApprove" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CropType">
+    <Key>
+      <PropertyRef Name="CropTID" />
+    </Key>
+    <Property Name="CropTID" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="TypeName" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Documents">
+    <Key>
+      <PropertyRef Name="Email" />
+    </Key>
+    <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Aadhar" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PAN" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TraderLi" Type="nvarchar(max)" />
+    <Property Name="CertificateFarmer" Type="nvarchar(max)" />
+    <Property Name="ApproveStatus" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Farmer">
+    <Key>
+      <PropertyRef Name="Femail" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Femail" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="ContactNo" Type="varchar" MaxLength="200" />
+    <Property Name="Address" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="City" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="State" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="PIN" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="AccNo" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="IFSC" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="RegStatus" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LiveBid">
+    <Key>
+      <PropertyRef Name="BidId" />
+    </Key>
+    <Property Name="CropId" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="BasePrice" Type="float" Nullable="false" />
+    <Property Name="BidPrice" Type="float" Nullable="false" />
+    <Property Name="BidStatus" Type="bit" />
+    <Property Name="Bemail" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="BidId" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="TransBidID" Type="int" Nullable="false" />
+    <Property Name="time" Type="datetime" />
+  </EntityType>
+  <EntityType Name="OfficialUsers">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Password" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TransactionID" />
+    </Key>
+    <Property Name="TransactionID" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="PaymentType" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="BidID" Type="varchar" MaxLength="255" Nullable="false" />
+  </EntityType>
+  <Association Name="CropBuy_fk0">
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="LiveBid">
+        <PropertyRef Name="BidId" />
+      </Principal>
+      <Dependent Role="CropBuy">
+        <PropertyRef Name="BidId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Crops_fk0">
+    <End Role="CropType" Type="Self.CropType" Multiplicity="1" />
+    <End Role="Crops" Type="Self.Crops" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropType">
+        <PropertyRef Name="CropTID" />
+      </Principal>
+      <Dependent Role="Crops">
+        <PropertyRef Name="CropTID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CropSell_fk0">
+    <End Role="Crops" Type="Self.Crops" Multiplicity="1" />
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Crops">
+        <PropertyRef Name="CropName" />
+      </Principal>
+      <Dependent Role="CropSell">
+        <PropertyRef Name="CropName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CropSell_fk1">
+    <End Role="Farmer" Type="Self.Farmer" Multiplicity="1" />
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Farmer">
+        <PropertyRef Name="Femail" />
+      </Principal>
+      <Dependent Role="CropSell">
+        <PropertyRef Name="Femail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LiveBid_fk0">
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="1" />
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropSell">
+        <PropertyRef Name="CropID" />
+      </Principal>
+      <Dependent Role="LiveBid">
+        <PropertyRef Name="CropId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="LiveBid_fk1">
+    <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Bidder">
+        <PropertyRef Name="Bemail" />
+      </Principal>
+      <Dependent Role="LiveBid">
+        <PropertyRef Name="Bemail" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Transaction_fk0">
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropBuy">
+        <PropertyRef Name="BidId" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="BidID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="gladiatorModelStoreContainer">
+    <EntitySet Name="Bidder" EntityType="Self.Bidder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CropBuy" EntityType="Self.CropBuy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Crops" EntityType="Self.Crops" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CropSell" EntityType="Self.CropSell" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CropType" EntityType="Self.CropType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Documents" EntityType="Self.Documents" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Farmer" EntityType="Self.Farmer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="LiveBid" EntityType="Self.LiveBid" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OfficialUsers" EntityType="Self.OfficialUsers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="CropBuy_fk0" Association="Self.CropBuy_fk0">
+      <End Role="LiveBid" EntitySet="LiveBid" />
+      <End Role="CropBuy" EntitySet="CropBuy" />
+    </AssociationSet>
+    <AssociationSet Name="Crops_fk0" Association="Self.Crops_fk0">
+      <End Role="CropType" EntitySet="CropType" />
+      <End Role="Crops" EntitySet="Crops" />
+    </AssociationSet>
+    <AssociationSet Name="CropSell_fk0" Association="Self.CropSell_fk0">
+      <End Role="Crops" EntitySet="Crops" />
+      <End Role="CropSell" EntitySet="CropSell" />
+    </AssociationSet>
+    <AssociationSet Name="CropSell_fk1" Association="Self.CropSell_fk1">
+      <End Role="Farmer" EntitySet="Farmer" />
+      <End Role="CropSell" EntitySet="CropSell" />
+    </AssociationSet>
+    <AssociationSet Name="LiveBid_fk0" Association="Self.LiveBid_fk0">
+      <End Role="CropSell" EntitySet="CropSell" />
+      <End Role="LiveBid" EntitySet="LiveBid" />
+    </AssociationSet>
+    <AssociationSet Name="LiveBid_fk1" Association="Self.LiveBid_fk1">
+      <End Role="Bidder" EntitySet="Bidder" />
+      <End Role="LiveBid" EntitySet="LiveBid" />
+    </AssociationSet>
+    <AssociationSet Name="Transaction_fk0" Association="Self.Transaction_fk0">
+      <End Role="CropBuy" EntitySet="CropBuy" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

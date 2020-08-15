@@ -1,4 +1,4 @@
 export class Farmer{
-    username : string;
+    femail : string;
     password : string;
 }

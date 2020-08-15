@@ -1,0 +1,23 @@
+.upperDiv{
+    display: flex;
+    justify-content: flex-end;
+    height: 10%;
+    background-color: turquoise;
+    align-items: center;
+    padding-right: 5%;
+
+}
+
+.soldDiv{
+    display: flex;
+    justify-content: center;
+    padding-top: 5%;
+}
+
+.soldTable{
+    width: 50%;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

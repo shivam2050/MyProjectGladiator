@@ -1,0 +1,41 @@
+.mainDiv{
+    display: flex;
+    /* height: 100vh; */
+    /* margin: auto; */
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* background-image: url("/assets/background.jpg"); */
+}
+
+.headH1{
+    margin-bottom: 5%;
+    color: darkblue;
+}
+
+.formDiv{
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: center; */
+    border-style: groove;
+    border-color: mediumaquamarine;
+    padding: 2%;
+    background-color: whitesmoke;
+}
+
+.btnSection{
+    display: flex;
+    flex-direction: row;
+    float: left;
+}
+
+.linkSection{
+    display: flex;
+    float: right;
+}
+
+.btnDiv{
+    margin-top: 5%;
+}

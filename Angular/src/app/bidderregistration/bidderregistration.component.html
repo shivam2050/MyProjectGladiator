@@ -1,0 +1,84 @@
+<div class="mainDiv">
+    <h1 class="headH1">Welcome to Bidder Registration</h1>
+    <div class="formDiv">
+        <form action="" [formGroup]="bidderForm">
+            <label for="">Name*</label>
+            <input type="text" class="form-control" formControlName="name" [(ngModel)] = "bidder.name">
+            <p class="alert alert-danger" *ngIf="name.touched && name.invalid">
+                <span class="alert alert-danger" *ngIf="name.errors.required">Name cannot be empty</span>
+            </p>
+
+            <label for="">Email*</label>
+            <input type="email" class="form-control" formControlName="bemail" [(ngModel)] = "bidder.bemail">
+            <p class="alert alert-danger" *ngIf="bemail.touched && bemail.invalid">
+                <span class="alert alert-danger" *ngIf="bemail.errors.required">Email cannot be empty</span>
+            </p>
+
+            <label for="">Contact*</label>
+            <input type="text" class="form-control" formControlName="contact" [(ngModel)] = "bidder.contact">
+            <p class="alert alert-danger" *ngIf="contact.touched && contact.invalid">
+                <span class="alert alert-danger" *ngIf="contact.errors.required">Contact cannot be empty</span>
+            </p>
+
+            <label for="">Address*</label>
+            <input type="text" class="form-control" formControlName="address" [(ngModel)] = "bidder.address">
+            <p class="alert alert-danger" *ngIf="address.touched && address.invalid">
+                <span class="alert alert-danger" *ngIf="address.errors.required">Address cannot be empty</span>
+            </p>
+
+            <label for="">City*</label>
+            <input type="text" class="form-control" formControlName="city" [(ngModel)] = "bidder.city">
+            <p class="alert alert-danger" *ngIf="city.touched && city.invalid">
+                <span class="alert alert-danger" *ngIf="city.errors.required">City cannot be empty</span>
+            </p>
+
+            <label for="">State*</label>
+            <input type="text" class="form-control" formControlName="state" [(ngModel)] = "bidder.state">
+            <p class="alert alert-danger" *ngIf="state.touched && state.invalid">
+                <span class="alert alert-danger" *ngIf="state.errors.required">State cannot be empty</span>
+            </p>
+
+            <label for="">Pin*</label>
+            <input type="text" class="form-control" formControlName="pin" [(ngModel)] = "bidder.pin">
+            <p class="alert alert-danger" *ngIf="pin.touched && pin.invalid">
+                <span class="alert alert-danger" *ngIf="pin.errors.required">Pin cannot be empty</span>
+            </p>
+
+            <label for="">Account No.*</label>
+            <input type="text" class="form-control" formControlName="accno" [(ngModel)] = "bidder.accno">
+            <p class="alert alert-danger" *ngIf="accno.touched && accno.invalid">
+                <span class="alert alert-danger" *ngIf="accno.errors.required">Account No. cannot be empty</span>
+            </p>
+
+            <label for="">IFSC Code*</label>
+            <input type="text" class="form-control" formControlName="ifsc" [(ngModel)] = "bidder.ifsc">
+            <p class="alert alert-danger" *ngIf="ifsc.touched && ifsc.invalid">
+                <span class="alert alert-danger" *ngIf="ifsc.errors.required">IFSC Code cannot be empty</span>
+            </p>
+                
+            <label for="">Password*</label>
+            <input type="password" class="form-control" formControlName="password" [(ngModel)] = "bidder.password">
+            <p class="alert alert-danger" *ngIf="password.touched && password.invalid">
+                <span class="alert alert-danger" *ngIf="password.errors.required">Password cannot be empty</span>
+            </p>
+
+            <label for="">Confirm Password*</label>
+            <input type="password" class="form-control" formControlName="confirmpassword">
+            <p class="alert alert-danger" *ngIf="confirmpassword.touched && confirmpassword.invalid">
+                <span class="alert alert-danger" *ngIf="confirmpassword.errors.required">Confirm Password cannot be empty</span>
+            </p>
+    
+            <div class="btnDiv">
+                <section class="btnSection">
+                    <button class="btn btn-success" (click) = "insertBidder()">Save</button>
+                </section>
+                <section class="linkSection">
+                    <a routerLink="/documentsbidder"><p style="color: brown;">Next</p></a>
+                </section>
+            </div>
+        </form>
+        <p *ngIf="result">
+            Details Saved Successfully.
+        </p>
+    </div>
+</div>

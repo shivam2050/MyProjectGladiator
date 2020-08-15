@@ -32,4 +32,7 @@ export class FarmerloginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  submit(){
+    localStorage.setItem("loginEmail",(this.login.femail));
+  }
 }

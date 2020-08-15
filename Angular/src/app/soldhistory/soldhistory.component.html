@@ -1,0 +1,25 @@
+<div class="upperDiv">
+    <div>
+        Welcome {{email}}
+    </div>
+    <div>
+        <button>Logout</button>
+    </div>
+</div>
+
+<div class="soldDiv">
+    <table class="soldTable table-bordered">
+        <tr>
+            <th>S.No.</th>
+            <th>Crop Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+        <tr *ngFor="let s of sold">
+            <td>{{count + 1}}.</td>
+            <td>{{s.CropName}}</td>
+            <td>{{s.Quantity}}</td>
+            <td>{{s.BuyPrice}}</td>
+        </tr>
+    </table>
+</div>
