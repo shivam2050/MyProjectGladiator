@@ -3,6 +3,7 @@ import { FarmerRegisterService } from '../service/FarmerRegisterService';
 import { DocumentsFarmerService } from '../service/DocumentsService';
 import { DocumentsFarmer } from '../model/Documents';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-documentsfarmer',
@@ -14,7 +15,7 @@ export class DocumentsfarmerComponent implements OnInit {
   document : DocumentsFarmer;
   documentForm : FormGroup;
   demail:string;
-  constructor(private documentSer:DocumentsFarmerService) { 
+  constructor(private documentSer:DocumentsFarmerService, private router:Router) { 
     // this.demail = this.farmerSer.email;
     this.demail = (localStorage.getItem("email"));
     this.document = new DocumentsFarmer();
@@ -80,7 +81,9 @@ export class DocumentsfarmerComponent implements OnInit {
     console.log(this.document.Aadhar);
     this.documentSer.addFarmerDocuments(this.document).subscribe((data) =>{
 
-    })
+    });
+    this.router.navigate(['/farmerlogin'])
+    
   }
 
 }

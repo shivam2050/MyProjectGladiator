@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BidderRegister } from '../model/bidder';
 import { BidderRegisterService } from '../service/BidderRegisterService';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bidderregistration',
@@ -14,7 +15,9 @@ export class BidderregistrationComponent implements OnInit {
   bidderForm : FormGroup;
   count : number;
   result;
-  constructor(private bidderService:BidderRegisterService) {
+  alert;
+  constructor(private bidderService:BidderRegisterService, private router:Router) {
+    this.alert = false;
     this.count = 0;
     this.bidder = new BidderRegister();
     this.bidderForm = new FormGroup({
@@ -90,16 +93,26 @@ export class BidderregistrationComponent implements OnInit {
     return this.bidderForm.get('confirmpassword');
   }
 
-  insertBidder()
+  insertBidder(val)
   {
-    localStorage.setItem("bidderemail",(this.bidder.bemail));
-    if(this.count == 0)
+    if(val !== this.bidder.password)
     {
-      this.bidderService.postBidder(this.bidder).subscribe((data) => {
-        this.result = data;
-      })
-      this.count += 1;
+      this.alert = true;
     }
+    if(this.alert == false)
+    {
+      localStorage.setItem("bidderemail",(this.bidder.bemail));
+        this.bidderService.postBidder(this.bidder).subscribe((data) => {
+          this.result = data;
+        })
+        this.router.navigate(['/documentsbidder'])
+
+    }
+  }
+
+  onClose()
+  {
+    this.alert = false;
   }
 
 }

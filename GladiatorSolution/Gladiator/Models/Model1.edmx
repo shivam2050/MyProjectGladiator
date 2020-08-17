@@ -25,7 +25,7 @@
           <Key>
             <PropertyRef Name="BidId" />
           </Key>
-          <Property Name="BidId" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="BidId" Type="int" Nullable="false" />
           <Property Name="BuyPrice" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Crops">
@@ -41,14 +41,14 @@
             <PropertyRef Name="CropID" />
           </Key>
           <Property Name="CropName" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="CropID" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Femail" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Fertilizer" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Quantity" Type="numeric" Precision="10" Scale="2" Nullable="false" />
           <Property Name="PhVal" Type="nvarchar(max)" />
           <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
-          <Property Name="BaseFarmerPrice" Type="datetime" Nullable="false" />
-          <Property Name="AdminApprove" Type="bit" Nullable="false" />
+          <Property Name="AdminApprove" Type="int" Nullable="false" />
+          <Property Name="BaseFarmerPrice" Type="int" />
+          <Property Name="CropID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="CropType">
           <Key>
@@ -88,14 +88,14 @@
           <Key>
             <PropertyRef Name="BidId" />
           </Key>
-          <Property Name="CropId" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="CropId" Type="int" />
           <Property Name="BasePrice" Type="float" Nullable="false" />
           <Property Name="BidPrice" Type="float" Nullable="false" />
-          <Property Name="BidStatus" Type="bit" />
+          <Property Name="BidStatus" Type="bit" Nullable="false" />
           <Property Name="Bemail" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="BidId" Type="varchar" MaxLength="255" Nullable="false" />
-          <Property Name="TransBidID" Type="int" Nullable="false" />
+          <Property Name="TransBidID" Type="int" />
           <Property Name="time" Type="datetime" />
+          <Property Name="BidId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="OfficialUsers">
           <Key>
@@ -117,25 +117,13 @@
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
-            <PropertyRef Name="TransactionID" />
+            <PropertyRef Name="TransactioID" />
           </Key>
-          <Property Name="TransactionID" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="PaymentType" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Date" Type="datetime" Nullable="false" />
-          <Property Name="BidID" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="BidID" Type="int" />
+          <Property Name="TransactioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <Association Name="CropBuy_fk0">
-          <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
-          <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="LiveBid">
-              <PropertyRef Name="BidId" />
-            </Principal>
-            <Dependent Role="CropBuy">
-              <PropertyRef Name="BidId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="Crops_fk0">
           <End Role="CropType" Type="Self.CropType" Multiplicity="1" />
           <End Role="Crops" Type="Self.Crops" Multiplicity="*" />
@@ -172,8 +160,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="LiveBid_fk0">
-          <End Role="CropSell" Type="Self.CropSell" Multiplicity="1" />
+        <Association Name="CropSell_fk2">
+          <End Role="CropSell" Type="Self.CropSell" Multiplicity="0..1" />
           <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CropSell">
@@ -184,7 +172,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="LiveBid_fk1">
+        <Association Name="fk_Bemail">
           <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
           <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
           <ReferentialConstraint>
@@ -196,8 +184,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Transaction_fk0">
-          <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="1" />
+        <Association Name="fk_BidId">
+          <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
           <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CropBuy">
@@ -208,9 +196,117 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_BidIdCrop">
+          <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
+          <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="LiveBid">
+              <PropertyRef Name="BidId" />
+            </Principal>
+            <Dependent Role="CropBuy">
+              <PropertyRef Name="BidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="bidApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="bidderApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="bidderDecilne" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="bidderDocApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="bidderDocDecline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="bidderHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="BidderLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="buyCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bidId" Type="int" Mode="In" />
+          <Parameter Name="price" Type="int" Mode="In" />
+        </Function>
+        <Function Name="cropApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="cropApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="cropBought" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="cropData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ctype" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="cropDeclined" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="cropPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="cropSold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cropId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="farmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="farmerDecline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="farmerDocApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="farmerDocDecline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="FarmerLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="username" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="farmerMarket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="farmerMarketBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="farmerSoldHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="insertLiveBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cropid" Type="int" Mode="In" />
+          <Parameter Name="baseprice" Type="float" Mode="In" />
+          <Parameter Name="bidprice" Type="float" Mode="In" />
+          <Parameter Name="bemail" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="liveCropBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="marketCropBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="maxBidDisplay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="pendingTransaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+          <Parameter Name="cropId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="seeSellCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="setStatusCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="cropId" Type="int" Mode="In" />
+        </Function>
         <Function Name="sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="email" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="soldBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bidId" Type="int" Mode="In" />
         </Function>
         <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -242,6 +338,16 @@
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="trans" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bidId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="transacDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="viewBidder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="viewBidderApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="viewFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="viewFarmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="gladiatorModelStoreContainer">
           <EntitySet Name="Bidder" EntityType="Self.Bidder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CropBuy" EntityType="Self.CropBuy" Schema="dbo" store:Type="Tables" />
@@ -254,10 +360,6 @@
           <EntitySet Name="OfficialUsers" EntityType="Self.OfficialUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="CropBuy_fk0" Association="Self.CropBuy_fk0">
-            <End Role="LiveBid" EntitySet="LiveBid" />
-            <End Role="CropBuy" EntitySet="CropBuy" />
-          </AssociationSet>
           <AssociationSet Name="Crops_fk0" Association="Self.Crops_fk0">
             <End Role="CropType" EntitySet="CropType" />
             <End Role="Crops" EntitySet="Crops" />
@@ -270,17 +372,21 @@
             <End Role="Farmer" EntitySet="Farmer" />
             <End Role="CropSell" EntitySet="CropSell" />
           </AssociationSet>
-          <AssociationSet Name="LiveBid_fk0" Association="Self.LiveBid_fk0">
+          <AssociationSet Name="CropSell_fk2" Association="Self.CropSell_fk2">
             <End Role="CropSell" EntitySet="CropSell" />
             <End Role="LiveBid" EntitySet="LiveBid" />
           </AssociationSet>
-          <AssociationSet Name="LiveBid_fk1" Association="Self.LiveBid_fk1">
+          <AssociationSet Name="fk_Bemail" Association="Self.fk_Bemail">
             <End Role="Bidder" EntitySet="Bidder" />
             <End Role="LiveBid" EntitySet="LiveBid" />
           </AssociationSet>
-          <AssociationSet Name="Transaction_fk0" Association="Self.Transaction_fk0">
+          <AssociationSet Name="fk_BidId" Association="Self.fk_BidId">
             <End Role="CropBuy" EntitySet="CropBuy" />
             <End Role="Transaction" EntitySet="Transaction" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BidIdCrop" Association="Self.fk_BidIdCrop">
+            <End Role="LiveBid" EntitySet="LiveBid" />
+            <End Role="CropBuy" EntitySet="CropBuy" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -303,16 +409,16 @@
           <Property Name="IFSC" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="RegStatus" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="LiveBids" Relationship="Self.LiveBid_fk1" FromRole="Bidder" ToRole="LiveBid" />
+          <NavigationProperty Name="LiveBids" Relationship="Self.fk_Bemail" FromRole="Bidder" ToRole="LiveBid" />
         </EntityType>
         <EntityType Name="CropBuy">
           <Key>
             <PropertyRef Name="BidId" />
           </Key>
-          <Property Name="BidId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="BidId" Type="Int32" Nullable="false" />
           <Property Name="BuyPrice" Type="Double" Nullable="false" />
-          <NavigationProperty Name="LiveBid" Relationship="Self.CropBuy_fk0" FromRole="CropBuy" ToRole="LiveBid" />
-          <NavigationProperty Name="Transactions" Relationship="Self.Transaction_fk0" FromRole="CropBuy" ToRole="Transaction" />
+          <NavigationProperty Name="Transactions" Relationship="Self.fk_BidId" FromRole="CropBuy" ToRole="Transaction" />
+          <NavigationProperty Name="LiveBid" Relationship="Self.fk_BidIdCrop" FromRole="CropBuy" ToRole="LiveBid" />
         </EntityType>
         <EntityType Name="Crop">
           <Key>
@@ -329,17 +435,17 @@
             <PropertyRef Name="CropID" />
           </Key>
           <Property Name="CropName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="CropID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Femail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Fertilizer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Quantity" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="PhVal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BaseFarmerPrice" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AdminApprove" Type="Boolean" Nullable="false" />
+          <Property Name="AdminApprove" Type="Int32" Nullable="false" />
+          <Property Name="BaseFarmerPrice" Type="Int32" />
+          <Property Name="CropID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
           <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
-          <NavigationProperty Name="LiveBids" Relationship="Self.LiveBid_fk0" FromRole="CropSell" ToRole="LiveBid" />
+          <NavigationProperty Name="LiveBids" Relationship="Self.CropSell_fk2" FromRole="CropSell" ToRole="LiveBid" />
         </EntityType>
         <EntityType Name="CropType">
           <Key>
@@ -381,17 +487,17 @@
           <Key>
             <PropertyRef Name="BidId" />
           </Key>
-          <Property Name="CropId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CropId" Type="Int32" />
           <Property Name="BasePrice" Type="Double" Nullable="false" />
           <Property Name="BidPrice" Type="Double" Nullable="false" />
-          <Property Name="BidStatus" Type="Boolean" />
+          <Property Name="BidStatus" Type="Boolean" Nullable="false" />
           <Property Name="Bemail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="BidId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="TransBidID" Type="Int32" Nullable="false" />
+          <Property Name="TransBidID" Type="Int32" />
           <Property Name="time" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="Bidder" Relationship="Self.LiveBid_fk1" FromRole="LiveBid" ToRole="Bidder" />
-          <NavigationProperty Name="CropBuy" Relationship="Self.CropBuy_fk0" FromRole="LiveBid" ToRole="CropBuy" />
-          <NavigationProperty Name="CropSell" Relationship="Self.LiveBid_fk0" FromRole="LiveBid" ToRole="CropSell" />
+          <Property Name="BidId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Bidder" Relationship="Self.fk_Bemail" FromRole="LiveBid" ToRole="Bidder" />
+          <NavigationProperty Name="CropBuy" Relationship="Self.fk_BidIdCrop" FromRole="LiveBid" ToRole="CropBuy" />
+          <NavigationProperty Name="CropSell" Relationship="Self.CropSell_fk2" FromRole="LiveBid" ToRole="CropSell" />
         </EntityType>
         <EntityType Name="OfficialUser">
           <Key>
@@ -413,15 +519,15 @@
         </EntityType>
         <EntityType Name="Transaction">
           <Key>
-            <PropertyRef Name="TransactionID" />
+            <PropertyRef Name="TransactioID" />
           </Key>
-          <Property Name="TransactionID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PaymentType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="BidID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="CropBuy" Relationship="Self.Transaction_fk0" FromRole="Transaction" ToRole="CropBuy" />
+          <Property Name="BidID" Type="Int32" />
+          <Property Name="TransactioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CropBuy" Relationship="Self.fk_BidId" FromRole="Transaction" ToRole="CropBuy" />
         </EntityType>
-        <Association Name="LiveBid_fk1">
+        <Association Name="fk_Bemail">
           <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
           <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
           <ReferentialConstraint>
@@ -433,7 +539,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="CropBuy_fk0">
+        <Association Name="fk_BidId">
+          <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
+          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CropBuy">
+              <PropertyRef Name="BidId" />
+            </Principal>
+            <Dependent Role="Transaction">
+              <PropertyRef Name="BidID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_BidIdCrop">
           <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
           <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
           <ReferentialConstraint>
@@ -442,18 +560,6 @@
             </Principal>
             <Dependent Role="CropBuy">
               <PropertyRef Name="BidId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="Transaction_fk0">
-          <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="1" />
-          <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="CropBuy">
-              <PropertyRef Name="BidId" />
-            </Principal>
-            <Dependent Role="Transaction">
-              <PropertyRef Name="BidID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -493,8 +599,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="LiveBid_fk0">
-          <End Role="CropSell" Type="Self.CropSell" Multiplicity="1" />
+        <Association Name="CropSell_fk2">
+          <End Role="CropSell" Type="Self.CropSell" Multiplicity="0..1" />
           <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="CropSell">
@@ -517,17 +623,17 @@
           <EntitySet Name="OfficialUsers" EntityType="Self.OfficialUser" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Transactions" EntityType="Self.Transaction" />
-          <AssociationSet Name="LiveBid_fk1" Association="Self.LiveBid_fk1">
+          <AssociationSet Name="fk_Bemail" Association="Self.fk_Bemail">
             <End Role="Bidder" EntitySet="Bidders" />
             <End Role="LiveBid" EntitySet="LiveBids" />
           </AssociationSet>
-          <AssociationSet Name="CropBuy_fk0" Association="Self.CropBuy_fk0">
-            <End Role="LiveBid" EntitySet="LiveBids" />
-            <End Role="CropBuy" EntitySet="CropBuys" />
-          </AssociationSet>
-          <AssociationSet Name="Transaction_fk0" Association="Self.Transaction_fk0">
+          <AssociationSet Name="fk_BidId" Association="Self.fk_BidId">
             <End Role="CropBuy" EntitySet="CropBuys" />
             <End Role="Transaction" EntitySet="Transactions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_BidIdCrop" Association="Self.fk_BidIdCrop">
+            <End Role="LiveBid" EntitySet="LiveBids" />
+            <End Role="CropBuy" EntitySet="CropBuys" />
           </AssociationSet>
           <AssociationSet Name="Crops_fk0" Association="Self.Crops_fk0">
             <End Role="CropType" EntitySet="CropTypes" />
@@ -541,12 +647,108 @@
             <End Role="Farmer" EntitySet="Farmers" />
             <End Role="CropSell" EntitySet="CropSells" />
           </AssociationSet>
-          <AssociationSet Name="LiveBid_fk0" Association="Self.LiveBid_fk0">
+          <AssociationSet Name="CropSell_fk2" Association="Self.CropSell_fk2">
             <End Role="CropSell" EntitySet="CropSells" />
             <End Role="LiveBid" EntitySet="LiveBids" />
           </AssociationSet>
+          <FunctionImport Name="AdminLogin" ReturnType="Collection(gladiatorModel.AdminLogin_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="bidApproval" ReturnType="Collection(gladiatorModel.bidApproval_Result)" />
+          <FunctionImport Name="bidderApproval">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="bidderDecilne">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="bidderDocApproval">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="bidderDocDecline">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="bidderHistory" ReturnType="Collection(gladiatorModel.bidderHistory_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="BidderLogin" ReturnType="Collection(gladiatorModel.BidderLogin_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="buyCrop">
+            <Parameter Name="bidId" Mode="In" Type="Int32" />
+            <Parameter Name="price" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="cropApproval" ReturnType="Collection(gladiatorModel.cropApproval_Result)" />
+          <FunctionImport Name="cropApproved">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="cropBought" ReturnType="Collection(gladiatorModel.cropBought_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="cropData" ReturnType="Collection(gladiatorModel.cropData_Result)">
+            <Parameter Name="ctype" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="cropDeclined">
+            <Parameter Name="id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="cropPrice" ReturnType="Collection(gladiatorModel.cropPrice_Result)">
+            <Parameter Name="cName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="cropSold">
+            <Parameter Name="cropId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="farmerApproval">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="farmerDecline">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="farmerDocApproval">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="farmerDocDecline">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="FarmerLogin" ReturnType="Collection(gladiatorModel.FarmerLogin_Result)">
+            <Parameter Name="username" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="farmerMarket" ReturnType="Collection(gladiatorModel.farmerMarket_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="farmerMarketBid" ReturnType="Collection(gladiatorModel.farmerMarketBid_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="farmerSoldHistory" ReturnType="Collection(gladiatorModel.farmerSoldHistory_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="insertLiveBid">
+            <Parameter Name="cropid" Mode="In" Type="Int32" />
+            <Parameter Name="baseprice" Mode="In" Type="Double" />
+            <Parameter Name="bidprice" Mode="In" Type="Double" />
+            <Parameter Name="bemail" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="liveCropBid" ReturnType="Collection(gladiatorModel.liveCropBid_Result)" />
+          <FunctionImport Name="marketCropBid" ReturnType="Collection(Double)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="maxBidDisplay" ReturnType="Collection(gladiatorModel.maxBidDisplay_Result)" />
+          <FunctionImport Name="pendingTransaction" ReturnType="Collection(gladiatorModel.pendingTransaction_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="cropId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="seeSellCrop" ReturnType="Collection(gladiatorModel.seeSellCrop_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="setStatusCrop">
+            <Parameter Name="cropId" Mode="In" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="sold" ReturnType="Collection(gladiatorModel.sold_Result)">
             <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="soldBid">
+            <Parameter Name="bidId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -578,7 +780,148 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="trans">
+            <Parameter Name="bidId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="transacDetails" ReturnType="Collection(gladiatorModel.transacDetails_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="viewBidder" ReturnType="Collection(gladiatorModel.viewBidder_Result)" />
+          <FunctionImport Name="viewBidderApproval" ReturnType="Collection(gladiatorModel.viewBidderApproval_Result)" />
+          <FunctionImport Name="viewFarmer" ReturnType="Collection(gladiatorModel.viewFarmer_Result)" />
+          <FunctionImport Name="viewFarmerApproval" ReturnType="Collection(gladiatorModel.viewFarmerApproval_Result)" />
         </EntityContainer>
+        <ComplexType Name="AdminLogin_Result">
+          <Property Type="String" Name="ID" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="bidApproval_Result">
+          <Property Type="Int32" Name="BidId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="CropId" Nullable="false" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="DateTime" Name="Expirydate" Nullable="false" Precision="23" />
+          <Property Type="Double" Name="Current_Bid" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="bidderHistory_Result">
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="Double" Name="BidPrice" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="BidderLogin_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+          <Property Type="Boolean" Name="RegStatus" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="cropApproval_Result">
+          <Property Type="Int32" Name="CropId" Nullable="false" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Fertilizer" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="PhVal" Nullable="true" />
+          <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="cropBought_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="CropID" Nullable="false" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="Double" Name="BidPrice" Nullable="false" />
+          <Property Type="String" Name="FName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="cropData_Result">
+          <Property Type="String" Name="CropTID" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="cropPrice_Result">
+          <Property Type="String" Name="CropTID" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" Scale="2" />
+        </ComplexType>
+        <ComplexType Name="FarmerLogin_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+          <Property Type="Boolean" Name="RegStatus" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="farmerMarket_Result">
+          <Property Type="Int32" Name="CropId" Nullable="false" />
+          <Property Type="String" Name="cropName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="TypeName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="farmerMarketBid_Result">
+          <Property Type="Int32" Name="CropID" Nullable="false" />
+          <Property Type="Double" Name="BidPrice" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="farmerSoldHistory_Result">
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="Double" Name="BidPrice" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="liveCropBid_Result">
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Fertilizer" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="PhVal" Nullable="true" />
+          <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="AdminApprove" Nullable="false" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="Int32" Name="CropID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="maxBidDisplay_Result">
+          <Property Type="String" Name="Crop_Name" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="CropID" Nullable="true" />
+          <Property Type="Double" Name="Farmer_Price" Nullable="false" />
+          <Property Type="Double" Name="CurrentBid" Nullable="true" />
+          <Property Type="Int32" Name="TimeLeft" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="pendingTransaction_Result">
+          <Property Type="Int32" Name="BidId" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="bemail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="CropId" Nullable="false" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="Double" Name="BidPrice" Nullable="false" />
+          <Property Type="String" Name="FName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Faccount" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="FIFSC" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="seeSellCrop_Result">
+          <Property Type="Int32" Name="CropID" Nullable="false" />
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="TypeName" Nullable="false" MaxLength="255" />
+        </ComplexType>
         <ComplexType Name="sold_Result">
           <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
           <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
@@ -594,6 +937,68 @@
           <Property Type="Int32" Name="ID" Nullable="false" />
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="transacDetails_Result">
+          <Property Type="Double" Name="BuyPrice" Nullable="false" />
+          <Property Type="String" Name="PaymentType" Nullable="false" MaxLength="255" />
+          <Property Type="Int32" Name="TransactioID" Nullable="false" />
+          <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="viewBidder_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Aadhar" Nullable="false" />
+          <Property Type="String" Name="PAN" Nullable="false" />
+          <Property Type="String" Name="TraderLi" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="viewBidderApproval_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Aadhar" Nullable="false" />
+          <Property Type="String" Name="PAN" Nullable="false" />
+          <Property Type="String" Name="TraderLi" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="viewFarmer_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Aadhar" Nullable="false" />
+          <Property Type="String" Name="PAN" Nullable="false" />
+          <Property Type="String" Name="CertificateFarmer" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="viewFarmerApproval_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+          <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Aadhar" Nullable="false" />
+          <Property Type="String" Name="PAN" Nullable="false" />
+          <Property Type="String" Name="CertificateFarmer" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -639,14 +1044,14 @@
             <EntityTypeMapping TypeName="gladiatorModel.CropSell">
               <MappingFragment StoreEntitySet="CropSell">
                 <ScalarProperty Name="CropName" ColumnName="CropName" />
-                <ScalarProperty Name="CropID" ColumnName="CropID" />
                 <ScalarProperty Name="Femail" ColumnName="Femail" />
                 <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
                 <ScalarProperty Name="PhVal" ColumnName="PhVal" />
                 <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
-                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
                 <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -695,9 +1100,9 @@
                 <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
                 <ScalarProperty Name="BidStatus" ColumnName="BidStatus" />
                 <ScalarProperty Name="Bemail" ColumnName="Bemail" />
-                <ScalarProperty Name="BidId" ColumnName="BidId" />
                 <ScalarProperty Name="TransBidID" ColumnName="TransBidID" />
                 <ScalarProperty Name="time" ColumnName="time" />
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -724,13 +1129,223 @@
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="gladiatorModel.Transaction">
               <MappingFragment StoreEntitySet="Transaction">
-                <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
                 <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="BidID" ColumnName="BidID" />
+                <ScalarProperty Name="TransactioID" ColumnName="TransactioID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AdminLogin" FunctionName="gladiatorModel.Store.AdminLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.AdminLogin_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="bidApproval" FunctionName="gladiatorModel.Store.bidApproval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.bidApproval_Result">
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+                <ScalarProperty Name="CropId" ColumnName="CropId" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
+                <ScalarProperty Name="Current_Bid" ColumnName="Current Bid" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="bidderApproval" FunctionName="gladiatorModel.Store.bidderApproval" />
+          <FunctionImportMapping FunctionImportName="bidderDecilne" FunctionName="gladiatorModel.Store.bidderDecilne" />
+          <FunctionImportMapping FunctionImportName="bidderDocApproval" FunctionName="gladiatorModel.Store.bidderDocApproval" />
+          <FunctionImportMapping FunctionImportName="bidderDocDecline" FunctionName="gladiatorModel.Store.bidderDocDecline" />
+          <FunctionImportMapping FunctionImportName="bidderHistory" FunctionName="gladiatorModel.Store.bidderHistory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.bidderHistory_Result">
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="BidderLogin" FunctionName="gladiatorModel.Store.BidderLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.BidderLogin_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RegStatus" ColumnName="RegStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="buyCrop" FunctionName="gladiatorModel.Store.buyCrop" />
+          <FunctionImportMapping FunctionImportName="cropApproval" FunctionName="gladiatorModel.Store.cropApproval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.cropApproval_Result">
+                <ScalarProperty Name="CropId" ColumnName="CropId" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PhVal" ColumnName="PhVal" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="cropApproved" FunctionName="gladiatorModel.Store.cropApproved" />
+          <FunctionImportMapping FunctionImportName="cropBought" FunctionName="gladiatorModel.Store.cropBought">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.cropBought_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="cropData" FunctionName="gladiatorModel.Store.cropData">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.cropData_Result">
+                <ScalarProperty Name="CropTID" ColumnName="CropTID" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="cropDeclined" FunctionName="gladiatorModel.Store.cropDeclined" />
+          <FunctionImportMapping FunctionImportName="cropPrice" FunctionName="gladiatorModel.Store.cropPrice">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.cropPrice_Result">
+                <ScalarProperty Name="CropTID" ColumnName="CropTID" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="cropSold" FunctionName="gladiatorModel.Store.cropSold" />
+          <FunctionImportMapping FunctionImportName="farmerApproval" FunctionName="gladiatorModel.Store.farmerApproval" />
+          <FunctionImportMapping FunctionImportName="farmerDecline" FunctionName="gladiatorModel.Store.farmerDecline" />
+          <FunctionImportMapping FunctionImportName="farmerDocApproval" FunctionName="gladiatorModel.Store.farmerDocApproval" />
+          <FunctionImportMapping FunctionImportName="farmerDocDecline" FunctionName="gladiatorModel.Store.farmerDocDecline" />
+          <FunctionImportMapping FunctionImportName="FarmerLogin" FunctionName="gladiatorModel.Store.FarmerLogin">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.FarmerLogin_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RegStatus" ColumnName="RegStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="farmerMarket" FunctionName="gladiatorModel.Store.farmerMarket">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.farmerMarket_Result">
+                <ScalarProperty Name="CropId" ColumnName="CropId" />
+                <ScalarProperty Name="cropName" ColumnName="cropName" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="farmerMarketBid" FunctionName="gladiatorModel.Store.farmerMarketBid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.farmerMarketBid_Result">
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="farmerSoldHistory" FunctionName="gladiatorModel.Store.farmerSoldHistory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.farmerSoldHistory_Result">
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="insertLiveBid" FunctionName="gladiatorModel.Store.insertLiveBid" />
+          <FunctionImportMapping FunctionImportName="liveCropBid" FunctionName="gladiatorModel.Store.liveCropBid">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.liveCropBid_Result">
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PhVal" ColumnName="PhVal" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="marketCropBid" FunctionName="gladiatorModel.Store.marketCropBid" />
+          <FunctionImportMapping FunctionImportName="maxBidDisplay" FunctionName="gladiatorModel.Store.maxBidDisplay">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.maxBidDisplay_Result">
+                <ScalarProperty Name="Crop_Name" ColumnName="Crop Name" />
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="Farmer_Price" ColumnName="Farmer Price" />
+                <ScalarProperty Name="CurrentBid" ColumnName="CurrentBid" />
+                <ScalarProperty Name="TimeLeft" ColumnName="TimeLeft" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="pendingTransaction" FunctionName="gladiatorModel.Store.pendingTransaction">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.pendingTransaction_Result">
+                <ScalarProperty Name="BidId" ColumnName="BidId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="bemail" ColumnName="bemail" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="CropId" ColumnName="CropId" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+                <ScalarProperty Name="FName" ColumnName="FName" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="Faccount" ColumnName="Faccount" />
+                <ScalarProperty Name="FIFSC" ColumnName="FIFSC" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="seeSellCrop" FunctionName="gladiatorModel.Store.seeSellCrop">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.seeSellCrop_Result">
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="setStatusCrop" FunctionName="gladiatorModel.Store.setStatusCrop" />
           <FunctionImportMapping FunctionImportName="sold" FunctionName="gladiatorModel.Store.sold">
             <ResultMapping>
               <ComplexTypeMapping TypeName="gladiatorModel.sold_Result">
@@ -740,6 +1355,7 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="soldBid" FunctionName="gladiatorModel.Store.soldBid" />
           <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="gladiatorModel.Store.sp_alterdiagram" />
           <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="gladiatorModel.Store.sp_creatediagram" />
           <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="gladiatorModel.Store.sp_dropdiagram" />
@@ -764,6 +1380,89 @@
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="gladiatorModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="gladiatorModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="trans" FunctionName="gladiatorModel.Store.trans" />
+          <FunctionImportMapping FunctionImportName="transacDetails" FunctionName="gladiatorModel.Store.transacDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.transacDetails_Result">
+                <ScalarProperty Name="BuyPrice" ColumnName="BuyPrice" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="TransactioID" ColumnName="TransactioID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewBidder" FunctionName="gladiatorModel.Store.viewBidder">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.viewBidder_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="TraderLi" ColumnName="TraderLi" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewBidderApproval" FunctionName="gladiatorModel.Store.viewBidderApproval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.viewBidderApproval_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="TraderLi" ColumnName="TraderLi" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewFarmer" FunctionName="gladiatorModel.Store.viewFarmer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.viewFarmer_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewFarmerApproval" FunctionName="gladiatorModel.Store.viewFarmerApproval">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.viewFarmerApproval_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PIN" ColumnName="PIN" />
+                <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+                <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -1,0 +1,38 @@
+<div class="container py-5">  
+    <h3 class="text-center text-uppercase b1" >Price Update</h3>  
+    <!-- <form #Form=ngForm (ngSubmit)="submitme(cropname,price)" > -->
+        <br>
+        <div class="row">
+        <div class="column text-center"> 
+    Select crop to update:<br>
+    <select [(ngModel)]="cropname"  >
+        <option *ngFor="let cr of crops" [value]="cr.CropName">{{cr.CropName}}</option>
+        </select> 
+        <!-- <input type="number" [value]="price" >  -->
+        <br>
+        Enter the price:<br>
+        <input [(ngModel)]="price" type=“number” name=“price”>
+        <br>
+        <br>
+        <button type="submit" (click)="DataPut()" class="btn btn-success">Save</button>
+    </div>
+    <div class="column" >
+        Updated Item:
+        <table class="table-bordered table-stripped">
+            <thead>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+            </thead>
+            <tr>
+                <td>{{cropname}}</td>
+                <td>{{price}}</td>
+            </tr>
+        </table>
+    </div>
+    </div>
+    <!-- </form> -->
+</div>  

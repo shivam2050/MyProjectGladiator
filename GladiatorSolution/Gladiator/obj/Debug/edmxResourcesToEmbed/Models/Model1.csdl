@@ -15,16 +15,16 @@
     <Property Name="IFSC" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="RegStatus" Type="Boolean" Nullable="false" />
-    <NavigationProperty Name="LiveBids" Relationship="Self.LiveBid_fk1" FromRole="Bidder" ToRole="LiveBid" />
+    <NavigationProperty Name="LiveBids" Relationship="Self.fk_Bemail" FromRole="Bidder" ToRole="LiveBid" />
   </EntityType>
   <EntityType Name="CropBuy">
     <Key>
       <PropertyRef Name="BidId" />
     </Key>
-    <Property Name="BidId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="BidId" Type="Int32" Nullable="false" />
     <Property Name="BuyPrice" Type="Double" Nullable="false" />
-    <NavigationProperty Name="LiveBid" Relationship="Self.CropBuy_fk0" FromRole="CropBuy" ToRole="LiveBid" />
-    <NavigationProperty Name="Transactions" Relationship="Self.Transaction_fk0" FromRole="CropBuy" ToRole="Transaction" />
+    <NavigationProperty Name="Transactions" Relationship="Self.fk_BidId" FromRole="CropBuy" ToRole="Transaction" />
+    <NavigationProperty Name="LiveBid" Relationship="Self.fk_BidIdCrop" FromRole="CropBuy" ToRole="LiveBid" />
   </EntityType>
   <EntityType Name="Crop">
     <Key>
@@ -41,17 +41,17 @@
       <PropertyRef Name="CropID" />
     </Key>
     <Property Name="CropName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="CropID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Femail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Fertilizer" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Quantity" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
     <Property Name="PhVal" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="ExpiryDate" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="BaseFarmerPrice" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="AdminApprove" Type="Boolean" Nullable="false" />
+    <Property Name="AdminApprove" Type="Int32" Nullable="false" />
+    <Property Name="BaseFarmerPrice" Type="Int32" />
+    <Property Name="CropID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
     <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
-    <NavigationProperty Name="LiveBids" Relationship="Self.LiveBid_fk0" FromRole="CropSell" ToRole="LiveBid" />
+    <NavigationProperty Name="LiveBids" Relationship="Self.CropSell_fk2" FromRole="CropSell" ToRole="LiveBid" />
   </EntityType>
   <EntityType Name="CropType">
     <Key>
@@ -93,17 +93,17 @@
     <Key>
       <PropertyRef Name="BidId" />
     </Key>
-    <Property Name="CropId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CropId" Type="Int32" />
     <Property Name="BasePrice" Type="Double" Nullable="false" />
     <Property Name="BidPrice" Type="Double" Nullable="false" />
-    <Property Name="BidStatus" Type="Boolean" />
+    <Property Name="BidStatus" Type="Boolean" Nullable="false" />
     <Property Name="Bemail" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="BidId" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="TransBidID" Type="Int32" Nullable="false" />
+    <Property Name="TransBidID" Type="Int32" />
     <Property Name="time" Type="DateTime" Precision="3" />
-    <NavigationProperty Name="Bidder" Relationship="Self.LiveBid_fk1" FromRole="LiveBid" ToRole="Bidder" />
-    <NavigationProperty Name="CropBuy" Relationship="Self.CropBuy_fk0" FromRole="LiveBid" ToRole="CropBuy" />
-    <NavigationProperty Name="CropSell" Relationship="Self.LiveBid_fk0" FromRole="LiveBid" ToRole="CropSell" />
+    <Property Name="BidId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Bidder" Relationship="Self.fk_Bemail" FromRole="LiveBid" ToRole="Bidder" />
+    <NavigationProperty Name="CropBuy" Relationship="Self.fk_BidIdCrop" FromRole="LiveBid" ToRole="CropBuy" />
+    <NavigationProperty Name="CropSell" Relationship="Self.CropSell_fk2" FromRole="LiveBid" ToRole="CropSell" />
   </EntityType>
   <EntityType Name="OfficialUser">
     <Key>
@@ -125,15 +125,15 @@
   </EntityType>
   <EntityType Name="Transaction">
     <Key>
-      <PropertyRef Name="TransactionID" />
+      <PropertyRef Name="TransactioID" />
     </Key>
-    <Property Name="TransactionID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PaymentType" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
-    <Property Name="BidID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="CropBuy" Relationship="Self.Transaction_fk0" FromRole="Transaction" ToRole="CropBuy" />
+    <Property Name="BidID" Type="Int32" />
+    <Property Name="TransactioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="CropBuy" Relationship="Self.fk_BidId" FromRole="Transaction" ToRole="CropBuy" />
   </EntityType>
-  <Association Name="LiveBid_fk1">
+  <Association Name="fk_Bemail">
     <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
     <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
     <ReferentialConstraint>
@@ -145,7 +145,19 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CropBuy_fk0">
+  <Association Name="fk_BidId">
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CropBuy">
+        <PropertyRef Name="BidId" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="BidID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_BidIdCrop">
     <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
     <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
     <ReferentialConstraint>
@@ -154,18 +166,6 @@
       </Principal>
       <Dependent Role="CropBuy">
         <PropertyRef Name="BidId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="Transaction_fk0">
-    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="1" />
-    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CropBuy">
-        <PropertyRef Name="BidId" />
-      </Principal>
-      <Dependent Role="Transaction">
-        <PropertyRef Name="BidID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -205,8 +205,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="LiveBid_fk0">
-    <End Role="CropSell" Type="Self.CropSell" Multiplicity="1" />
+  <Association Name="CropSell_fk2">
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="0..1" />
     <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CropSell">
@@ -229,17 +229,17 @@
     <EntitySet Name="OfficialUsers" EntityType="Self.OfficialUser" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
     <EntitySet Name="Transactions" EntityType="Self.Transaction" />
-    <AssociationSet Name="LiveBid_fk1" Association="Self.LiveBid_fk1">
+    <AssociationSet Name="fk_Bemail" Association="Self.fk_Bemail">
       <End Role="Bidder" EntitySet="Bidders" />
       <End Role="LiveBid" EntitySet="LiveBids" />
     </AssociationSet>
-    <AssociationSet Name="CropBuy_fk0" Association="Self.CropBuy_fk0">
-      <End Role="LiveBid" EntitySet="LiveBids" />
-      <End Role="CropBuy" EntitySet="CropBuys" />
-    </AssociationSet>
-    <AssociationSet Name="Transaction_fk0" Association="Self.Transaction_fk0">
+    <AssociationSet Name="fk_BidId" Association="Self.fk_BidId">
       <End Role="CropBuy" EntitySet="CropBuys" />
       <End Role="Transaction" EntitySet="Transactions" />
+    </AssociationSet>
+    <AssociationSet Name="fk_BidIdCrop" Association="Self.fk_BidIdCrop">
+      <End Role="LiveBid" EntitySet="LiveBids" />
+      <End Role="CropBuy" EntitySet="CropBuys" />
     </AssociationSet>
     <AssociationSet Name="Crops_fk0" Association="Self.Crops_fk0">
       <End Role="CropType" EntitySet="CropTypes" />
@@ -253,12 +253,108 @@
       <End Role="Farmer" EntitySet="Farmers" />
       <End Role="CropSell" EntitySet="CropSells" />
     </AssociationSet>
-    <AssociationSet Name="LiveBid_fk0" Association="Self.LiveBid_fk0">
+    <AssociationSet Name="CropSell_fk2" Association="Self.CropSell_fk2">
       <End Role="CropSell" EntitySet="CropSells" />
       <End Role="LiveBid" EntitySet="LiveBids" />
     </AssociationSet>
+    <FunctionImport Name="AdminLogin" ReturnType="Collection(gladiatorModel.AdminLogin_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="bidApproval" ReturnType="Collection(gladiatorModel.bidApproval_Result)" />
+    <FunctionImport Name="bidderApproval">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="bidderDecilne">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="bidderDocApproval">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="bidderDocDecline">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="bidderHistory" ReturnType="Collection(gladiatorModel.bidderHistory_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="BidderLogin" ReturnType="Collection(gladiatorModel.BidderLogin_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="buyCrop">
+      <Parameter Name="bidId" Mode="In" Type="Int32" />
+      <Parameter Name="price" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="cropApproval" ReturnType="Collection(gladiatorModel.cropApproval_Result)" />
+    <FunctionImport Name="cropApproved">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="cropBought" ReturnType="Collection(gladiatorModel.cropBought_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="cropData" ReturnType="Collection(gladiatorModel.cropData_Result)">
+      <Parameter Name="ctype" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="cropDeclined">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="cropPrice" ReturnType="Collection(gladiatorModel.cropPrice_Result)">
+      <Parameter Name="cName" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="cropSold">
+      <Parameter Name="cropId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="farmerApproval">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="farmerDecline">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="farmerDocApproval">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="farmerDocDecline">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="FarmerLogin" ReturnType="Collection(gladiatorModel.FarmerLogin_Result)">
+      <Parameter Name="username" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="farmerMarket" ReturnType="Collection(gladiatorModel.farmerMarket_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="farmerMarketBid" ReturnType="Collection(gladiatorModel.farmerMarketBid_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="farmerSoldHistory" ReturnType="Collection(gladiatorModel.farmerSoldHistory_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="insertLiveBid">
+      <Parameter Name="cropid" Mode="In" Type="Int32" />
+      <Parameter Name="baseprice" Mode="In" Type="Double" />
+      <Parameter Name="bidprice" Mode="In" Type="Double" />
+      <Parameter Name="bemail" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="liveCropBid" ReturnType="Collection(gladiatorModel.liveCropBid_Result)" />
+    <FunctionImport Name="marketCropBid" ReturnType="Collection(Double)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="maxBidDisplay" ReturnType="Collection(gladiatorModel.maxBidDisplay_Result)" />
+    <FunctionImport Name="pendingTransaction" ReturnType="Collection(gladiatorModel.pendingTransaction_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="cropId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="seeSellCrop" ReturnType="Collection(gladiatorModel.seeSellCrop_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="setStatusCrop">
+      <Parameter Name="cropId" Mode="In" Type="Int32" />
+    </FunctionImport>
     <FunctionImport Name="sold" ReturnType="Collection(gladiatorModel.sold_Result)">
       <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="soldBid">
+      <Parameter Name="bidId" Mode="In" Type="Int32" />
     </FunctionImport>
     <FunctionImport Name="sp_alterdiagram">
       <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -290,7 +386,148 @@
       <Parameter Name="new_diagramname" Mode="In" Type="String" />
     </FunctionImport>
     <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="trans">
+      <Parameter Name="bidId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="transacDetails" ReturnType="Collection(gladiatorModel.transacDetails_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="viewBidder" ReturnType="Collection(gladiatorModel.viewBidder_Result)" />
+    <FunctionImport Name="viewBidderApproval" ReturnType="Collection(gladiatorModel.viewBidderApproval_Result)" />
+    <FunctionImport Name="viewFarmer" ReturnType="Collection(gladiatorModel.viewFarmer_Result)" />
+    <FunctionImport Name="viewFarmerApproval" ReturnType="Collection(gladiatorModel.viewFarmerApproval_Result)" />
   </EntityContainer>
+  <ComplexType Name="AdminLogin_Result">
+    <Property Type="String" Name="ID" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="bidApproval_Result">
+    <Property Type="Int32" Name="BidId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="CropId" Nullable="false" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="DateTime" Name="Expirydate" Nullable="false" Precision="23" />
+    <Property Type="Double" Name="Current_Bid" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="bidderHistory_Result">
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="Double" Name="BidPrice" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="BidderLogin_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+    <Property Type="Boolean" Name="RegStatus" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="cropApproval_Result">
+    <Property Type="Int32" Name="CropId" Nullable="false" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Fertilizer" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="String" Name="PhVal" Nullable="true" />
+    <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="cropBought_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="CropID" Nullable="false" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="Double" Name="BidPrice" Nullable="false" />
+    <Property Type="String" Name="FName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="cropData_Result">
+    <Property Type="String" Name="CropTID" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="cropPrice_Result">
+    <Property Type="String" Name="CropTID" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Price" Nullable="false" Precision="10" Scale="2" />
+  </ComplexType>
+  <ComplexType Name="FarmerLogin_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
+    <Property Type="Boolean" Name="RegStatus" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="farmerMarket_Result">
+    <Property Type="Int32" Name="CropId" Nullable="false" />
+    <Property Type="String" Name="cropName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="TypeName" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="farmerMarketBid_Result">
+    <Property Type="Int32" Name="CropID" Nullable="false" />
+    <Property Type="Double" Name="BidPrice" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="farmerSoldHistory_Result">
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="Double" Name="BidPrice" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="liveCropBid_Result">
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Fertilizer" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="String" Name="PhVal" Nullable="true" />
+    <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="AdminApprove" Nullable="false" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="Int32" Name="CropID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="maxBidDisplay_Result">
+    <Property Type="String" Name="Crop_Name" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="CropID" Nullable="true" />
+    <Property Type="Double" Name="Farmer_Price" Nullable="false" />
+    <Property Type="Double" Name="CurrentBid" Nullable="true" />
+    <Property Type="Int32" Name="TimeLeft" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="pendingTransaction_Result">
+    <Property Type="Int32" Name="BidId" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="bemail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="CropId" Nullable="false" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="Double" Name="BidPrice" Nullable="false" />
+    <Property Type="String" Name="FName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Faccount" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="FIFSC" Nullable="false" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="seeSellCrop_Result">
+    <Property Type="Int32" Name="CropID" Nullable="false" />
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="TypeName" Nullable="false" MaxLength="255" />
+  </ComplexType>
   <ComplexType Name="sold_Result">
     <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
     <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
@@ -306,5 +543,67 @@
     <Property Type="Int32" Name="ID" Nullable="false" />
     <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
     <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="transacDetails_Result">
+    <Property Type="Double" Name="BuyPrice" Nullable="false" />
+    <Property Type="String" Name="PaymentType" Nullable="false" MaxLength="255" />
+    <Property Type="Int32" Name="TransactioID" Nullable="false" />
+    <Property Type="DateTime" Name="Date" Nullable="false" Precision="23" />
+  </ComplexType>
+  <ComplexType Name="viewBidder_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Aadhar" Nullable="false" />
+    <Property Type="String" Name="PAN" Nullable="false" />
+    <Property Type="String" Name="TraderLi" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="viewBidderApproval_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Aadhar" Nullable="false" />
+    <Property Type="String" Name="PAN" Nullable="false" />
+    <Property Type="String" Name="TraderLi" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="viewFarmer_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Aadhar" Nullable="false" />
+    <Property Type="String" Name="PAN" Nullable="false" />
+    <Property Type="String" Name="CertificateFarmer" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="viewFarmerApproval_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="ContactNo" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Address" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="City" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="State" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="PIN" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="AccNo" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Aadhar" Nullable="false" />
+    <Property Type="String" Name="PAN" Nullable="false" />
+    <Property Type="String" Name="CertificateFarmer" Nullable="true" />
   </ComplexType>
 </Schema>

@@ -3,6 +3,7 @@ import { FarmerRegister } from '../model/farmer';
 import { FarmerRegisterService } from '../service/FarmerRegisterService';
 import { Farmer } from '../farmerlogin/farmer';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-farmerregistration',
@@ -14,11 +15,13 @@ export class FarmerregistrationComponent implements OnInit {
   farmer : FarmerRegister;
   farmerForm : FormGroup;
   result;
-  constructor(private farmerService : FarmerRegisterService) {
+  alert;
+  constructor(private farmerService : FarmerRegisterService, private router:Router) {
+    this.alert = false;
     this.farmer = new FarmerRegister();
     this.farmerForm = new FormGroup({
       name : new FormControl(null, Validators.required),
-      femail : new FormControl(null, [Validators.required,]),
+      femail : new FormControl(null, [Validators.required,Validators.email]),
       contact : new FormControl(null,[Validators.required,Validators.minLength(10),Validators.maxLength(10)]),
       address : new FormControl(null, Validators.required),
       city : new FormControl(null, Validators.required),
@@ -89,12 +92,26 @@ export class FarmerregistrationComponent implements OnInit {
     return this.farmerForm.get('confirmpassword');
   }
 
-  insertFarmer()
+  insertFarmer(val)
   {
-    localStorage.setItem("email",(this.farmer.femail));
-    // this.farmerService.email = this.farmer.femail;
-    this.farmerService.postFarmer(this.farmer).subscribe((data) => {
-      this.result = data;
-    })
+    if(val !== this.farmer.password)
+    {
+      this.alert = true;
+    }
+    
+    if(this.alert == false)
+    {
+      localStorage.setItem("email",(this.farmer.femail));
+      // this.farmerService.email = this.farmer.femail;
+      this.farmerService.postFarmer(this.farmer).subscribe((data) => {
+        this.result = data;
+      })
+      this.router.navigate(['/documentsfarmer'])
+    }
+
+  }
+  onClose()
+  {
+    this.alert = false;
   }
 }

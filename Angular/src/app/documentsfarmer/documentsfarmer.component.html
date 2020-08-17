@@ -2,7 +2,7 @@
 <div class="mainDiv">
     <h1 class="headH1">Welcome to Farmer Registration</h1>
     <div class="formDiv">
-        <form action="" >
+        <form action="" #documentsFarmer="ngForm">
             <label for="">Email Id</label>
             <input class="form-control inputClass"  [value]="demail" >
             <!-- <p class="alert alert-danger" *ngIf="name.touched && name.invalid">
@@ -32,7 +32,7 @@
     
             <div class="btnDiv">
                 <section class="btnSection">
-                    <button class="btn-success" (click) = "insertDocuments()">Submit</button>
+                    <button [disabled]="!documentsFarmer.valid" class="btn-success" (click) = "insertDocuments()">Submit</button>
                 </section>
             </div>
         </form>

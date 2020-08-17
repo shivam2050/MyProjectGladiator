@@ -39,6 +39,301 @@ namespace Gladiator.Models
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
     
+        public virtual ObjectResult<AdminLogin_Result> AdminLogin(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<AdminLogin_Result>("AdminLogin", usernameParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<bidApproval_Result> bidApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<bidApproval_Result>("bidApproval");
+        }
+    
+        public virtual int bidderApproval(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("bidderApproval", emailParameter);
+        }
+    
+        public virtual int bidderDecilne(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("bidderDecilne", emailParameter);
+        }
+    
+        public virtual int bidderDocApproval(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("bidderDocApproval", emailParameter);
+        }
+    
+        public virtual int bidderDocDecline(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("bidderDocDecline", emailParameter);
+        }
+    
+        public virtual ObjectResult<bidderHistory_Result> bidderHistory(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<bidderHistory_Result>("bidderHistory", emailParameter);
+        }
+    
+        public virtual ObjectResult<BidderLogin_Result> BidderLogin(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<BidderLogin_Result>("BidderLogin", usernameParameter, passwordParameter);
+        }
+    
+        public virtual int buyCrop(Nullable<int> bidId, Nullable<int> price)
+        {
+            var bidIdParameter = bidId.HasValue ?
+                new ObjectParameter("bidId", bidId) :
+                new ObjectParameter("bidId", typeof(int));
+    
+            var priceParameter = price.HasValue ?
+                new ObjectParameter("price", price) :
+                new ObjectParameter("price", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("buyCrop", bidIdParameter, priceParameter);
+        }
+    
+        public virtual ObjectResult<cropApproval_Result> cropApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<cropApproval_Result>("cropApproval");
+        }
+    
+        public virtual int cropApproved(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("cropApproved", idParameter);
+        }
+    
+        public virtual ObjectResult<cropBought_Result> cropBought(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<cropBought_Result>("cropBought", emailParameter);
+        }
+    
+        public virtual ObjectResult<cropData_Result> cropData(string ctype)
+        {
+            var ctypeParameter = ctype != null ?
+                new ObjectParameter("ctype", ctype) :
+                new ObjectParameter("ctype", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<cropData_Result>("cropData", ctypeParameter);
+        }
+    
+        public virtual int cropDeclined(Nullable<int> id)
+        {
+            var idParameter = id.HasValue ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("cropDeclined", idParameter);
+        }
+    
+        public virtual ObjectResult<cropPrice_Result> cropPrice(string cName)
+        {
+            var cNameParameter = cName != null ?
+                new ObjectParameter("cName", cName) :
+                new ObjectParameter("cName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<cropPrice_Result>("cropPrice", cNameParameter);
+        }
+    
+        public virtual int cropSold(Nullable<int> cropId)
+        {
+            var cropIdParameter = cropId.HasValue ?
+                new ObjectParameter("cropId", cropId) :
+                new ObjectParameter("cropId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("cropSold", cropIdParameter);
+        }
+    
+        public virtual int farmerApproval(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("farmerApproval", emailParameter);
+        }
+    
+        public virtual int farmerDecline(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("farmerDecline", emailParameter);
+        }
+    
+        public virtual int farmerDocApproval(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("farmerDocApproval", emailParameter);
+        }
+    
+        public virtual int farmerDocDecline(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("farmerDocDecline", emailParameter);
+        }
+    
+        public virtual ObjectResult<FarmerLogin_Result> FarmerLogin(string username, string password)
+        {
+            var usernameParameter = username != null ?
+                new ObjectParameter("username", username) :
+                new ObjectParameter("username", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<FarmerLogin_Result>("FarmerLogin", usernameParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<farmerMarket_Result> farmerMarket(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<farmerMarket_Result>("farmerMarket", emailParameter);
+        }
+    
+        public virtual ObjectResult<farmerMarketBid_Result> farmerMarketBid(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<farmerMarketBid_Result>("farmerMarketBid", emailParameter);
+        }
+    
+        public virtual ObjectResult<farmerSoldHistory_Result> farmerSoldHistory(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<farmerSoldHistory_Result>("farmerSoldHistory", emailParameter);
+        }
+    
+        public virtual int insertLiveBid(Nullable<int> cropid, Nullable<double> baseprice, Nullable<double> bidprice, string bemail)
+        {
+            var cropidParameter = cropid.HasValue ?
+                new ObjectParameter("cropid", cropid) :
+                new ObjectParameter("cropid", typeof(int));
+    
+            var basepriceParameter = baseprice.HasValue ?
+                new ObjectParameter("baseprice", baseprice) :
+                new ObjectParameter("baseprice", typeof(double));
+    
+            var bidpriceParameter = bidprice.HasValue ?
+                new ObjectParameter("bidprice", bidprice) :
+                new ObjectParameter("bidprice", typeof(double));
+    
+            var bemailParameter = bemail != null ?
+                new ObjectParameter("bemail", bemail) :
+                new ObjectParameter("bemail", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("insertLiveBid", cropidParameter, basepriceParameter, bidpriceParameter, bemailParameter);
+        }
+    
+        public virtual ObjectResult<liveCropBid_Result> liveCropBid()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<liveCropBid_Result>("liveCropBid");
+        }
+    
+        public virtual ObjectResult<Nullable<double>> marketCropBid(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("marketCropBid", emailParameter);
+        }
+    
+        public virtual ObjectResult<maxBidDisplay_Result> maxBidDisplay()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<maxBidDisplay_Result>("maxBidDisplay");
+        }
+    
+        public virtual ObjectResult<pendingTransaction_Result> pendingTransaction(string email, Nullable<int> cropId)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var cropIdParameter = cropId.HasValue ?
+                new ObjectParameter("cropId", cropId) :
+                new ObjectParameter("cropId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<pendingTransaction_Result>("pendingTransaction", emailParameter, cropIdParameter);
+        }
+    
+        public virtual ObjectResult<seeSellCrop_Result> seeSellCrop(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<seeSellCrop_Result>("seeSellCrop", emailParameter);
+        }
+    
+        public virtual int setStatusCrop(Nullable<int> cropId)
+        {
+            var cropIdParameter = cropId.HasValue ?
+                new ObjectParameter("cropId", cropId) :
+                new ObjectParameter("cropId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("setStatusCrop", cropIdParameter);
+        }
+    
         public virtual ObjectResult<sold_Result> sold(string email)
         {
             var emailParameter = email != null ?
@@ -46,6 +341,15 @@ namespace Gladiator.Models
                 new ObjectParameter("email", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sold_Result>("sold", emailParameter);
+        }
+    
+        public virtual int soldBid(Nullable<int> bidId)
+        {
+            var bidIdParameter = bidId.HasValue ?
+                new ObjectParameter("bidId", bidId) :
+                new ObjectParameter("bidId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("soldBid", bidIdParameter);
         }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
@@ -149,6 +453,44 @@ namespace Gladiator.Models
         public virtual int sp_upgraddiagrams()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
+        }
+    
+        public virtual int trans(Nullable<int> bidId)
+        {
+            var bidIdParameter = bidId.HasValue ?
+                new ObjectParameter("bidId", bidId) :
+                new ObjectParameter("bidId", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("trans", bidIdParameter);
+        }
+    
+        public virtual ObjectResult<transacDetails_Result> transacDetails(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<transacDetails_Result>("transacDetails", emailParameter);
+        }
+    
+        public virtual ObjectResult<viewBidder_Result> viewBidder()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewBidder_Result>("viewBidder");
+        }
+    
+        public virtual ObjectResult<viewBidderApproval_Result> viewBidderApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewBidderApproval_Result>("viewBidderApproval");
+        }
+    
+        public virtual ObjectResult<viewFarmer_Result> viewFarmer()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewFarmer_Result>("viewFarmer");
+        }
+    
+        public virtual ObjectResult<viewFarmerApproval_Result> viewFarmerApproval()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewFarmerApproval_Result>("viewFarmerApproval");
         }
     }
 }

@@ -20,7 +20,7 @@
     <Key>
       <PropertyRef Name="BidId" />
     </Key>
-    <Property Name="BidId" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="BidId" Type="int" Nullable="false" />
     <Property Name="BuyPrice" Type="float" Nullable="false" />
   </EntityType>
   <EntityType Name="Crops">
@@ -36,14 +36,14 @@
       <PropertyRef Name="CropID" />
     </Key>
     <Property Name="CropName" Type="varchar" MaxLength="255" Nullable="false" />
-    <Property Name="CropID" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Femail" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Fertilizer" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Quantity" Type="numeric" Precision="10" Scale="2" Nullable="false" />
     <Property Name="PhVal" Type="nvarchar(max)" />
     <Property Name="ExpiryDate" Type="datetime" Nullable="false" />
-    <Property Name="BaseFarmerPrice" Type="datetime" Nullable="false" />
-    <Property Name="AdminApprove" Type="bit" Nullable="false" />
+    <Property Name="AdminApprove" Type="int" Nullable="false" />
+    <Property Name="BaseFarmerPrice" Type="int" />
+    <Property Name="CropID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="CropType">
     <Key>
@@ -83,14 +83,14 @@
     <Key>
       <PropertyRef Name="BidId" />
     </Key>
-    <Property Name="CropId" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="CropId" Type="int" />
     <Property Name="BasePrice" Type="float" Nullable="false" />
     <Property Name="BidPrice" Type="float" Nullable="false" />
-    <Property Name="BidStatus" Type="bit" />
+    <Property Name="BidStatus" Type="bit" Nullable="false" />
     <Property Name="Bemail" Type="varchar" MaxLength="255" Nullable="false" />
-    <Property Name="BidId" Type="varchar" MaxLength="255" Nullable="false" />
-    <Property Name="TransBidID" Type="int" Nullable="false" />
+    <Property Name="TransBidID" Type="int" />
     <Property Name="time" Type="datetime" />
+    <Property Name="BidId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="OfficialUsers">
     <Key>
@@ -112,25 +112,13 @@
   </EntityType>
   <EntityType Name="Transaction">
     <Key>
-      <PropertyRef Name="TransactionID" />
+      <PropertyRef Name="TransactioID" />
     </Key>
-    <Property Name="TransactionID" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="PaymentType" Type="varchar" MaxLength="255" Nullable="false" />
     <Property Name="Date" Type="datetime" Nullable="false" />
-    <Property Name="BidID" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="BidID" Type="int" />
+    <Property Name="TransactioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
-  <Association Name="CropBuy_fk0">
-    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
-    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="LiveBid">
-        <PropertyRef Name="BidId" />
-      </Principal>
-      <Dependent Role="CropBuy">
-        <PropertyRef Name="BidId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="Crops_fk0">
     <End Role="CropType" Type="Self.CropType" Multiplicity="1" />
     <End Role="Crops" Type="Self.Crops" Multiplicity="*" />
@@ -167,8 +155,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="LiveBid_fk0">
-    <End Role="CropSell" Type="Self.CropSell" Multiplicity="1" />
+  <Association Name="CropSell_fk2">
+    <End Role="CropSell" Type="Self.CropSell" Multiplicity="0..1" />
     <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CropSell">
@@ -179,7 +167,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="LiveBid_fk1">
+  <Association Name="fk_Bemail">
     <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
     <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
     <ReferentialConstraint>
@@ -191,8 +179,8 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="Transaction_fk0">
-    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="1" />
+  <Association Name="fk_BidId">
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
     <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CropBuy">
@@ -203,9 +191,117 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="fk_BidIdCrop">
+    <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="1" />
+    <End Role="CropBuy" Type="Self.CropBuy" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="LiveBid">
+        <PropertyRef Name="BidId" />
+      </Principal>
+      <Dependent Role="CropBuy">
+        <PropertyRef Name="BidId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="nvarchar" Mode="In" />
+    <Parameter Name="password" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="bidApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="bidderApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="bidderDecilne" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="bidderDocApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="bidderDocDecline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="bidderHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="BidderLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="nvarchar" Mode="In" />
+    <Parameter Name="password" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="buyCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="bidId" Type="int" Mode="In" />
+    <Parameter Name="price" Type="int" Mode="In" />
+  </Function>
+  <Function Name="cropApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="cropApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="cropBought" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="cropData" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ctype" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="cropDeclined" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="cropPrice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cName" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="cropSold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cropId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="farmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="farmerDecline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="farmerDocApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="farmerDocDecline" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="FarmerLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="username" Type="nvarchar" Mode="In" />
+    <Parameter Name="password" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="farmerMarket" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="farmerMarketBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="farmerSoldHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="insertLiveBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cropid" Type="int" Mode="In" />
+    <Parameter Name="baseprice" Type="float" Mode="In" />
+    <Parameter Name="bidprice" Type="float" Mode="In" />
+    <Parameter Name="bemail" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="liveCropBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="marketCropBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="maxBidDisplay" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="pendingTransaction" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+    <Parameter Name="cropId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="seeSellCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="setStatusCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="cropId" Type="int" Mode="In" />
+  </Function>
   <Function Name="sold" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="email" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="soldBid" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="bidId" Type="int" Mode="In" />
   </Function>
   <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
@@ -237,6 +333,16 @@
     <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="trans" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="bidId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="transacDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="viewBidder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="viewBidderApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="viewFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="viewFarmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="gladiatorModelStoreContainer">
     <EntitySet Name="Bidder" EntityType="Self.Bidder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CropBuy" EntityType="Self.CropBuy" Schema="dbo" store:Type="Tables" />
@@ -249,10 +355,6 @@
     <EntitySet Name="OfficialUsers" EntityType="Self.OfficialUsers" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="CropBuy_fk0" Association="Self.CropBuy_fk0">
-      <End Role="LiveBid" EntitySet="LiveBid" />
-      <End Role="CropBuy" EntitySet="CropBuy" />
-    </AssociationSet>
     <AssociationSet Name="Crops_fk0" Association="Self.Crops_fk0">
       <End Role="CropType" EntitySet="CropType" />
       <End Role="Crops" EntitySet="Crops" />
@@ -265,17 +367,21 @@
       <End Role="Farmer" EntitySet="Farmer" />
       <End Role="CropSell" EntitySet="CropSell" />
     </AssociationSet>
-    <AssociationSet Name="LiveBid_fk0" Association="Self.LiveBid_fk0">
+    <AssociationSet Name="CropSell_fk2" Association="Self.CropSell_fk2">
       <End Role="CropSell" EntitySet="CropSell" />
       <End Role="LiveBid" EntitySet="LiveBid" />
     </AssociationSet>
-    <AssociationSet Name="LiveBid_fk1" Association="Self.LiveBid_fk1">
+    <AssociationSet Name="fk_Bemail" Association="Self.fk_Bemail">
       <End Role="Bidder" EntitySet="Bidder" />
       <End Role="LiveBid" EntitySet="LiveBid" />
     </AssociationSet>
-    <AssociationSet Name="Transaction_fk0" Association="Self.Transaction_fk0">
+    <AssociationSet Name="fk_BidId" Association="Self.fk_BidId">
       <End Role="CropBuy" EntitySet="CropBuy" />
       <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="fk_BidIdCrop" Association="Self.fk_BidIdCrop">
+      <End Role="LiveBid" EntitySet="LiveBid" />
+      <End Role="CropBuy" EntitySet="CropBuy" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

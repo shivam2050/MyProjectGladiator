@@ -14,10 +14,10 @@ namespace Gladiator.Models
     
     public partial class Transaction
     {
-        public string TransactionID { get; set; }
         public string PaymentType { get; set; }
         public System.DateTime Date { get; set; }
-        public string BidID { get; set; }
+        public Nullable<int> BidID { get; set; }
+        public int TransactioID { get; set; }
     
         public virtual CropBuy CropBuy { get; set; }
     }

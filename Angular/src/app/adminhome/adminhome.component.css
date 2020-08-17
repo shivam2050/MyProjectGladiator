@@ -1,0 +1,23 @@
+h2{
+    text-align: center;
+}
+li{
+    height: 200px;
+    width: 60%;
+    align-self: center;
+    width: 150px; 
+    float:left; 
+    height:100px; 
+    /*margin-left:45%;*/ 
+}
+p{
+    text-align: center;
+    font-size: medium;
+}
+/*table, th, td 
+{
+  border: 1px solid black;
+  width: 50px;
+  font-size: medium;
+}*/
+

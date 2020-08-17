@@ -21,14 +21,14 @@ namespace Gladiator.Models
         }
     
         public string CropName { get; set; }
-        public string CropID { get; set; }
         public string Femail { get; set; }
         public string Fertilizer { get; set; }
         public decimal Quantity { get; set; }
         public string PhVal { get; set; }
         public System.DateTime ExpiryDate { get; set; }
-        public System.DateTime BaseFarmerPrice { get; set; }
-        public bool AdminApprove { get; set; }
+        public int AdminApprove { get; set; }
+        public Nullable<int> BaseFarmerPrice { get; set; }
+        public int CropID { get; set; }
     
         public virtual Crop Crop { get; set; }
         public virtual Farmer Farmer { get; set; }

@@ -39,14 +39,14 @@
       <EntityTypeMapping TypeName="gladiatorModel.CropSell">
         <MappingFragment StoreEntitySet="CropSell">
           <ScalarProperty Name="CropName" ColumnName="CropName" />
-          <ScalarProperty Name="CropID" ColumnName="CropID" />
           <ScalarProperty Name="Femail" ColumnName="Femail" />
           <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
           <ScalarProperty Name="Quantity" ColumnName="Quantity" />
           <ScalarProperty Name="PhVal" ColumnName="PhVal" />
           <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
-          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
           <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -95,9 +95,9 @@
           <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
           <ScalarProperty Name="BidStatus" ColumnName="BidStatus" />
           <ScalarProperty Name="Bemail" ColumnName="Bemail" />
-          <ScalarProperty Name="BidId" ColumnName="BidId" />
           <ScalarProperty Name="TransBidID" ColumnName="TransBidID" />
           <ScalarProperty Name="time" ColumnName="time" />
+          <ScalarProperty Name="BidId" ColumnName="BidId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -124,13 +124,223 @@
     <EntitySetMapping Name="Transactions">
       <EntityTypeMapping TypeName="gladiatorModel.Transaction">
         <MappingFragment StoreEntitySet="Transaction">
-          <ScalarProperty Name="TransactionID" ColumnName="TransactionID" />
           <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
           <ScalarProperty Name="Date" ColumnName="Date" />
           <ScalarProperty Name="BidID" ColumnName="BidID" />
+          <ScalarProperty Name="TransactioID" ColumnName="TransactioID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AdminLogin" FunctionName="gladiatorModel.Store.AdminLogin">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.AdminLogin_Result">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="bidApproval" FunctionName="gladiatorModel.Store.bidApproval">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.bidApproval_Result">
+          <ScalarProperty Name="BidId" ColumnName="BidId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+          <ScalarProperty Name="CropId" ColumnName="CropId" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="Expirydate" ColumnName="Expirydate" />
+          <ScalarProperty Name="Current_Bid" ColumnName="Current Bid" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="bidderApproval" FunctionName="gladiatorModel.Store.bidderApproval" />
+    <FunctionImportMapping FunctionImportName="bidderDecilne" FunctionName="gladiatorModel.Store.bidderDecilne" />
+    <FunctionImportMapping FunctionImportName="bidderDocApproval" FunctionName="gladiatorModel.Store.bidderDocApproval" />
+    <FunctionImportMapping FunctionImportName="bidderDocDecline" FunctionName="gladiatorModel.Store.bidderDocDecline" />
+    <FunctionImportMapping FunctionImportName="bidderHistory" FunctionName="gladiatorModel.Store.bidderHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.bidderHistory_Result">
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="BidderLogin" FunctionName="gladiatorModel.Store.BidderLogin">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.BidderLogin_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RegStatus" ColumnName="RegStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="buyCrop" FunctionName="gladiatorModel.Store.buyCrop" />
+    <FunctionImportMapping FunctionImportName="cropApproval" FunctionName="gladiatorModel.Store.cropApproval">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.cropApproval_Result">
+          <ScalarProperty Name="CropId" ColumnName="CropId" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="PhVal" ColumnName="PhVal" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="cropApproved" FunctionName="gladiatorModel.Store.cropApproved" />
+    <FunctionImportMapping FunctionImportName="cropBought" FunctionName="gladiatorModel.Store.cropBought">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.cropBought_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+          <ScalarProperty Name="FName" ColumnName="FName" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="cropData" FunctionName="gladiatorModel.Store.cropData">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.cropData_Result">
+          <ScalarProperty Name="CropTID" ColumnName="CropTID" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="cropDeclined" FunctionName="gladiatorModel.Store.cropDeclined" />
+    <FunctionImportMapping FunctionImportName="cropPrice" FunctionName="gladiatorModel.Store.cropPrice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.cropPrice_Result">
+          <ScalarProperty Name="CropTID" ColumnName="CropTID" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="cropSold" FunctionName="gladiatorModel.Store.cropSold" />
+    <FunctionImportMapping FunctionImportName="farmerApproval" FunctionName="gladiatorModel.Store.farmerApproval" />
+    <FunctionImportMapping FunctionImportName="farmerDecline" FunctionName="gladiatorModel.Store.farmerDecline" />
+    <FunctionImportMapping FunctionImportName="farmerDocApproval" FunctionName="gladiatorModel.Store.farmerDocApproval" />
+    <FunctionImportMapping FunctionImportName="farmerDocDecline" FunctionName="gladiatorModel.Store.farmerDocDecline" />
+    <FunctionImportMapping FunctionImportName="FarmerLogin" FunctionName="gladiatorModel.Store.FarmerLogin">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.FarmerLogin_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RegStatus" ColumnName="RegStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="farmerMarket" FunctionName="gladiatorModel.Store.farmerMarket">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.farmerMarket_Result">
+          <ScalarProperty Name="CropId" ColumnName="CropId" />
+          <ScalarProperty Name="cropName" ColumnName="cropName" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="farmerMarketBid" FunctionName="gladiatorModel.Store.farmerMarketBid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.farmerMarketBid_Result">
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="farmerSoldHistory" FunctionName="gladiatorModel.Store.farmerSoldHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.farmerSoldHistory_Result">
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="insertLiveBid" FunctionName="gladiatorModel.Store.insertLiveBid" />
+    <FunctionImportMapping FunctionImportName="liveCropBid" FunctionName="gladiatorModel.Store.liveCropBid">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.liveCropBid_Result">
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="PhVal" ColumnName="PhVal" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="marketCropBid" FunctionName="gladiatorModel.Store.marketCropBid" />
+    <FunctionImportMapping FunctionImportName="maxBidDisplay" FunctionName="gladiatorModel.Store.maxBidDisplay">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.maxBidDisplay_Result">
+          <ScalarProperty Name="Crop_Name" ColumnName="Crop Name" />
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="Farmer_Price" ColumnName="Farmer Price" />
+          <ScalarProperty Name="CurrentBid" ColumnName="CurrentBid" />
+          <ScalarProperty Name="TimeLeft" ColumnName="TimeLeft" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="pendingTransaction" FunctionName="gladiatorModel.Store.pendingTransaction">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.pendingTransaction_Result">
+          <ScalarProperty Name="BidId" ColumnName="BidId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="bemail" ColumnName="bemail" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="CropId" ColumnName="CropId" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="BidPrice" ColumnName="BidPrice" />
+          <ScalarProperty Name="FName" ColumnName="FName" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="Faccount" ColumnName="Faccount" />
+          <ScalarProperty Name="FIFSC" ColumnName="FIFSC" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="seeSellCrop" FunctionName="gladiatorModel.Store.seeSellCrop">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.seeSellCrop_Result">
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="setStatusCrop" FunctionName="gladiatorModel.Store.setStatusCrop" />
     <FunctionImportMapping FunctionImportName="sold" FunctionName="gladiatorModel.Store.sold">
       <ResultMapping>
         <ComplexTypeMapping TypeName="gladiatorModel.sold_Result">
@@ -140,6 +350,7 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="soldBid" FunctionName="gladiatorModel.Store.soldBid" />
     <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="gladiatorModel.Store.sp_alterdiagram" />
     <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="gladiatorModel.Store.sp_creatediagram" />
     <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="gladiatorModel.Store.sp_dropdiagram" />
@@ -164,5 +375,88 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="gladiatorModel.Store.sp_renamediagram" />
     <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="gladiatorModel.Store.sp_upgraddiagrams" />
+    <FunctionImportMapping FunctionImportName="trans" FunctionName="gladiatorModel.Store.trans" />
+    <FunctionImportMapping FunctionImportName="transacDetails" FunctionName="gladiatorModel.Store.transacDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.transacDetails_Result">
+          <ScalarProperty Name="BuyPrice" ColumnName="BuyPrice" />
+          <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+          <ScalarProperty Name="TransactioID" ColumnName="TransactioID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="viewBidder" FunctionName="gladiatorModel.Store.viewBidder">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.viewBidder_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+          <ScalarProperty Name="PAN" ColumnName="PAN" />
+          <ScalarProperty Name="TraderLi" ColumnName="TraderLi" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="viewBidderApproval" FunctionName="gladiatorModel.Store.viewBidderApproval">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.viewBidderApproval_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+          <ScalarProperty Name="PAN" ColumnName="PAN" />
+          <ScalarProperty Name="TraderLi" ColumnName="TraderLi" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="viewFarmer" FunctionName="gladiatorModel.Store.viewFarmer">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.viewFarmer_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+          <ScalarProperty Name="PAN" ColumnName="PAN" />
+          <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="viewFarmerApproval" FunctionName="gladiatorModel.Store.viewFarmerApproval">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.viewFarmerApproval_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="State" ColumnName="State" />
+          <ScalarProperty Name="PIN" ColumnName="PIN" />
+          <ScalarProperty Name="AccNo" ColumnName="AccNo" />
+          <ScalarProperty Name="IFSC" ColumnName="IFSC" />
+          <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+          <ScalarProperty Name="PAN" ColumnName="PAN" />
+          <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>

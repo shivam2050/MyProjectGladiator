@@ -135,7 +135,6 @@ D:\Final Project Git\GladiatorSolution\Gladiator\bin\System.Net.Http.Formatting.
 D:\Final Project Git\GladiatorSolution\Gladiator\bin\System.Web.Http.xml
 D:\Final Project Git\GladiatorSolution\Gladiator\bin\System.Web.Http.WebHost.xml
 D:\Final Project Git\GladiatorSolution\Gladiator\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-D:\Final Project Git\GladiatorSolution\Gladiator\obj\Debug\Gladiator.csprojAssemblyReference.cache
 D:\Final Project Git\GladiatorSolution\Gladiator\obj\Debug\Gladiator.csproj.CoreCompileInputs.cache
 D:\Final Project Git\GladiatorSolution\Gladiator\obj\Debug\Gladiator.csproj.CopyComplete
 D:\Final Project Git\GladiatorSolution\Gladiator\obj\Debug\Gladiator.dll
@@ -143,3 +142,4 @@ D:\Final Project Git\GladiatorSolution\Gladiator\obj\Debug\Gladiator.pdb
 D:\Final Project Git\GladiatorSolution\Gladiator\bin\System.Web.Cors.dll
 D:\Final Project Git\GladiatorSolution\Gladiator\bin\System.Web.Http.Cors.dll
 D:\Final Project Git\GladiatorSolution\Gladiator\bin\System.Web.Http.Cors.xml
+D:\Final Project Git\GladiatorSolution\Gladiator\obj\Debug\Gladiator.csprojAssemblyReference.cache

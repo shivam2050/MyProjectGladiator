@@ -1,4 +1,4 @@
 export class Admin{
-    username:string;
-    password:string;
+    Id:string;
+    Password:string;
 }

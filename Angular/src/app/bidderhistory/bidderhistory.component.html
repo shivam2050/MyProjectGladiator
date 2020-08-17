@@ -1,0 +1,33 @@
+<h2>Crop Bought History</h2>
+<table class="table-bordered">
+    <tr>
+        <th>Crop Name</th>
+        <th>Quantity</th>
+        <th>Farmer's Base Price</th>
+        <th>Price for which crop is bought</th>
+    </tr>
+    <tr *ngFor="let c of crop">
+        <td>{{c.CropName}}</td>
+        <td>{{c.Quantity}}</td>
+        <td>{{c.BaseFarmerPrice}}</td>
+        <td>{{c.BidPrice}}</td>
+    </tr>
+</table>
+
+<hr>
+
+<h2>Transaction Details</h2>
+<table class="table-bordered">
+    <tr>
+        <th>Price for which crop is bought</th>
+        <th>Payment Type</th>
+        <th>Transaction ID</th>
+        <th>Date</th>
+    </tr>
+    <tr *ngFor="let t of trans"> 
+        <td>{{t.BuyPrice}}</td>
+        <td>{{t.PaymentType}}</td>
+        <td>{{t.TransactioID}}</td>
+        <td>{{t.Date}}</td>
+    </tr>
+</table>

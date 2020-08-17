@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-farmerportal',
@@ -8,10 +9,16 @@ import { Component, OnInit } from '@angular/core';
 export class FarmerportalComponent implements OnInit {
 
   email:string;
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit(): void {
     this.email = (localStorage.getItem("loginEmail"));
+  }
+
+  onLogout()
+  {
+    localStorage.clear();
+    this.router.navigate(['/farmerlogin'])
   }
 
 }

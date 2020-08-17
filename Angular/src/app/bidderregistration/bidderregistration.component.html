@@ -1,7 +1,7 @@
 <div class="mainDiv">
     <h1 class="headH1">Welcome to Bidder Registration</h1>
     <div class="formDiv">
-        <form action="" [formGroup]="bidderForm">
+        <form action="" [formGroup]="bidderForm" #bidderRegistrationForm="ngForm">
             <label for="">Name*</label>
             <input type="text" class="form-control" formControlName="name" [(ngModel)] = "bidder.name">
             <p class="alert alert-danger" *ngIf="name.touched && name.invalid">
@@ -12,12 +12,15 @@
             <input type="email" class="form-control" formControlName="bemail" [(ngModel)] = "bidder.bemail">
             <p class="alert alert-danger" *ngIf="bemail.touched && bemail.invalid">
                 <span class="alert alert-danger" *ngIf="bemail.errors.required">Email cannot be empty</span>
+                <span class="alert alert-danger" *ngIf="femail.errors.email">Email format is wrong(e.g. xyz@gmail.com)</span>
             </p>
 
             <label for="">Contact*</label>
             <input type="text" class="form-control" formControlName="contact" [(ngModel)] = "bidder.contact">
             <p class="alert alert-danger" *ngIf="contact.touched && contact.invalid">
                 <span class="alert alert-danger" *ngIf="contact.errors.required">Contact cannot be empty</span>
+                <span class="alert alert-danger" *ngIf="contact.errors.minlength">Contact length is less than 10</span>
+                <span class="alert alert-danger" *ngIf="contact.errors.maxlength">Contact length is more than 10</span>
             </p>
 
             <label for="">Address*</label>
@@ -63,18 +66,24 @@
             </p>
 
             <label for="">Confirm Password*</label>
-            <input type="password" class="form-control" formControlName="confirmpassword">
+            <input type="password" class="form-control" #confirm formControlName="confirmpassword">
             <p class="alert alert-danger" *ngIf="confirmpassword.touched && confirmpassword.invalid">
                 <span class="alert alert-danger" *ngIf="confirmpassword.errors.required">Confirm Password cannot be empty</span>
             </p>
+            <div *ngIf="alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Failed!</strong> Confirm Password and Password does not match...
+                <button (click)="onClose()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
     
             <div class="btnDiv">
-                <section class="btnSection">
-                    <button class="btn btn-success" (click) = "insertBidder()">Save</button>
-                </section>
                 <section class="linkSection">
-                    <a routerLink="/documentsbidder"><p style="color: brown;">Next</p></a>
+                    <button [disabled]="!bidderRegistrationForm.valid" class="btn btn-success" (click) = "insertBidder(confirm.value)">Save</button>
                 </section>
+                <!-- <section class="linkSection">
+                    <a routerLink="/documentsbidder"><p style="color: brown;">Next</p></a>
+                </section> -->
             </div>
         </form>
         <p *ngIf="result">

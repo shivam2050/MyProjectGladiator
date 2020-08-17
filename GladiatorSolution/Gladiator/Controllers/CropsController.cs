@@ -7,11 +7,13 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using Gladiator.Models;
 
 namespace Gladiator.Controllers
 {
+    [EnableCors(origins: "http://localhost:4200", headers: "*", methods: "*")]
     public class CropsController : ApiController
     {
         private gladiatorEntities1 db = new gladiatorEntities1();
@@ -35,42 +37,21 @@ namespace Gladiator.Controllers
             return Ok(crop);
         }
 
-        // PUT: api/Crops/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCrop([FromBody] string id, Crop crop)
+        public IHttpActionResult PutCrop([FromBody] Crop crop)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != crop.CropName)
-            {
-                return BadRequest();
-            }
-
             db.Entry(crop).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CropExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Crops
+            // POST: api/Crops
         [ResponseType(typeof(Crop))]
         public IHttpActionResult PostCrop(Crop crop)
         {

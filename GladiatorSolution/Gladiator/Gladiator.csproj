@@ -109,21 +109,78 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AcceptBidderController.cs" />
+    <Compile Include="Controllers\AcceptFarmerController.cs" />
+    <Compile Include="Controllers\AddLiveBidController.cs" />
+    <Compile Include="Controllers\AdminBidApprovalController.cs" />
+    <Compile Include="Controllers\AdminLoginController.cs" />
+    <Compile Include="Controllers\BidderHistoryController.cs" />
+    <Compile Include="Controllers\BidderLoginController.cs" />
     <Compile Include="Controllers\BidderRegistrationController.cs" />
+    <Compile Include="Controllers\BuyCropController.cs" />
+    <Compile Include="Controllers\CropBoughtController.cs" />
+    <Compile Include="Controllers\CropDataController.cs" />
     <Compile Include="Controllers\CropsController.cs" />
+    <Compile Include="Controllers\CropTypeController.cs" />
+    <Compile Include="Controllers\CurrentBidController.cs" />
+    <Compile Include="Controllers\DocumentsBidderController.cs" />
+    <Compile Include="Controllers\DocumentsController.cs" />
     <Compile Include="Controllers\DocumentsUploadController.cs" />
+    <Compile Include="Controllers\FarmerLoginController.cs" />
+    <Compile Include="Controllers\FarmerMarketBidController.cs" />
+    <Compile Include="Controllers\FarmerMarketCropController.cs" />
     <Compile Include="Controllers\FarmerRegistrationController.cs" />
+    <Compile Include="Controllers\FarmerSoldHistoryController.cs" />
+    <Compile Include="Controllers\LiveCropBidController.cs" />
+    <Compile Include="Controllers\PendingTransactionController.cs" />
+    <Compile Include="Controllers\SeeCropBidController.cs" />
+    <Compile Include="Controllers\SeeSellCropController.cs" />
+    <Compile Include="Controllers\SellCropController.cs" />
+    <Compile Include="Controllers\SetStatusCropController.cs" />
     <Compile Include="Controllers\SoldHistoryController.cs" />
+    <Compile Include="Controllers\TransController.cs" />
+    <Compile Include="Controllers\TransDetailsController.cs" />
+    <Compile Include="Controllers\UpdateBidStatusController.cs" />
+    <Compile Include="Controllers\UpdateCropSellController.cs" />
+    <Compile Include="Controllers\ViewBidderController.cs" />
+    <Compile Include="Controllers\ViewCropController.cs" />
+    <Compile Include="Controllers\ViewfarmerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminLogin.cs" />
+    <Compile Include="Models\AdminLogin_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bidApproval_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Bidder.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\bidderHistory_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BidderLogi.cs" />
+    <Compile Include="Models\BidderLogin_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Crop.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\cropApproval_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cropBought_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CropBuy.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cropData_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\cropPrice_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CropSell.cs">
@@ -138,7 +195,26 @@
     <Compile Include="Models\Farmer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FarmerLogin.cs" />
+    <Compile Include="Models\FarmerLogin_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\farmerMarketBid_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\farmerMarket_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\farmerSoldHistory_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\LiveBid.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\liveCropBid_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\maxBidDisplay_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Model1.Context.cs">
@@ -159,6 +235,13 @@
     <Compile Include="Models\OfficialUser.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PendingTransaction.cs" />
+    <Compile Include="Models\pendingTransaction_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\seeSellCrop_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sold_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -171,7 +254,22 @@
     <Compile Include="Models\sysdiagram.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\transacDetails_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Transaction.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\viewBidderApproval_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\viewBidder_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\viewFarmerApproval_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\viewFarmer_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

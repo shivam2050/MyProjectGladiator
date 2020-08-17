@@ -11,22 +11,14 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    [DataContract]
+    
     public partial class Document
     {
-        [DataMember]
         public string Email { get; set; }
-        [DataMember]
         public string Aadhar { get; set; }
-        [DataMember]
         public string PAN { get; set; }
-        [DataMember]
         public string TraderLi { get; set; }
-        [DataMember]
         public string CertificateFarmer { get; set; }
-        [DataMember]
         public bool ApproveStatus { get; set; }
     }
 }

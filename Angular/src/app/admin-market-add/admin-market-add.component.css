@@ -1,0 +1,29 @@
+.column {
+    margin-top: 8vh;
+    padding-left: 10vh;
+    margin-bottom: 8vh;
+    float: left;
+    width: 50%;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    display: center;
+    width: 100vh;
+  }
+  .b1{
+      font-family: 'Times New Roman', Times, serif;
+      font: bold;   
+  }
+  table{
+      text-align: center;
+      border-style: solid;
+      width: 75%;
+  }
+
+  .b2{
+      position: flex;
+      justify-content: center;
+  }

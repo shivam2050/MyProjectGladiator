@@ -20,11 +20,11 @@ namespace Gladiator.Models
             this.Transactions = new HashSet<Transaction>();
         }
     
-        public string BidId { get; set; }
+        public int BidId { get; set; }
         public double BuyPrice { get; set; }
     
-        public virtual LiveBid LiveBid { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public virtual LiveBid LiveBid { get; set; }
     }
 }

@@ -1,0 +1,36 @@
+<div *ngIf="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success</strong> Your transaction has been completed successfully!!!
+    <button (click)="onClose()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<table class="table-bordered text-centred">
+    <tr>
+        <th>Name (Send By)</th>
+        <th>Email Id</th>
+        <th>Bidder's ID</th>
+        <th>Bidder Account No.</th>
+        <th>Bidder IFSC Code</th>
+        <th>Amount to be Paid</th>
+        <th>Receiver Name (send To)</th>
+        <th>Receiver Account No.</th>
+        <th>Receiver IFSC Code</th>
+    </tr>
+    <tr *ngFor="let r of result">
+        <td>{{r.Name}}</td>
+        <td>{{r.bemail}}</td>
+        <td>{{r.BidId}}</td>
+        <td>{{r.AccNo}}</td>
+        <td>{{r.IFSC}}</td>
+        <td>{{r.BidPrice}}</td>
+        <td>{{r.FName}}</td>
+        <td>{{r.Faccount}}</td>
+        <td>{{r.FIFSC}}</td>
+        <td><Button (click)="makePayment(r.BidId,r.BidPrice)">Make Payment</Button></td>
+    </tr>
+</table>
+<div>
+    <Button (click)="goHome()">Go Back to Home Page</Button>
+</div>
+
+

@@ -14,14 +14,14 @@ namespace Gladiator.Models
     
     public partial class LiveBid
     {
-        public string CropId { get; set; }
+        public Nullable<int> CropId { get; set; }
         public double BasePrice { get; set; }
         public double BidPrice { get; set; }
-        public Nullable<bool> BidStatus { get; set; }
+        public bool BidStatus { get; set; }
         public string Bemail { get; set; }
-        public string BidId { get; set; }
-        public int TransBidID { get; set; }
+        public Nullable<int> TransBidID { get; set; }
         public Nullable<System.DateTime> time { get; set; }
+        public int BidId { get; set; }
     
         public virtual Bidder Bidder { get; set; }
         public virtual CropBuy CropBuy { get; set; }

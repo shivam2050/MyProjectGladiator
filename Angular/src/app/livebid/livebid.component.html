@@ -1,0 +1,72 @@
+<div *ngIf="alert" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Failed!</strong> Your bid should be greater than Farmer's Base Price...
+    <button (click)="onClose()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div *ngIf="wrongBid" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Failed!</strong> Your bid should be greater than Current Bid...
+    <button (click)="onClose()" type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+<table class=" table-bordered">
+    <tr>
+        <th>Crop Id</th>
+        <th>Crop Name</th>
+        <th>Farmer Email</th>
+        <th>Fertilizer</th>
+        <th>Quantity</th>
+        <th>Expiry Date</th>
+        <th>Base Farmer Price</th>
+    </tr>
+    <tr *ngFor="let f of crop">
+        <td>{{f.CropID}}</td>
+        <td>{{f.CropName}}</td>
+        <td>{{f.Femail}}</td>
+        <td>{{f.Fertilizer}}</td>
+        <td>{{f.Quantity}}</td>
+        <td>{{f.ExpiryDate}}</td>
+        <td>{{f.BaseFarmerPrice}}</td>
+    </tr>
+</table>
+<hr>
+
+<table class="table-bordered">
+    <tr>
+        <th>Crop ID</th>
+        <th>Crop Name</th>
+        <th>Farmer Base Price</th>
+        <th>Bidder Email</th>
+        <th>Enter your Bid Price</th>
+    </tr>
+    <tr *ngFor="let f of crop">
+        <td>{{f.CropID}}</td>
+        <td>{{f.CropName}}</td>
+        <td>{{f.BaseFarmerPrice}}</td>
+        <td><input class="inputClass" [value]="bidemail"></td>
+        <td><input value=0 type="number" #bidprice></td>
+        <td><Button (click) = "makeBid(f.CropID,f.BaseFarmerPrice,bidprice.value)">Make Bid</Button></td>
+    </tr>
+</table>
+
+<hr>
+
+<table class="table-bordered">
+    <tr>
+        <th>Crop Id</th>
+        <th>Crop Name</th>
+        <th>Farmer Price</th>
+        <th>Current Bid</th>
+        <th>Time Left</th>
+    </tr>
+    <tr *ngFor="let cur of currentBid">
+        <td>{{cur.CropID}}</td>
+        <td>{{cur.Crop_Name}}</td>
+        <td>{{cur.Farmer_Price}}</td>
+        <td>{{cur.CurrentBid}}</td>
+        <td>{{cur.TimeLeft}}hrs</td>
+    </tr>
+</table>

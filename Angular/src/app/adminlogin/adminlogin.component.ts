@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Admin } from '../adminlogin/admin'
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-adminlogin',
@@ -11,8 +13,8 @@ export class AdminloginComponent implements OnInit {
 
   login:Admin;
   adminLogin : FormGroup;
-
-  constructor() {
+  result;
+  constructor(private router:Router,private http:HttpClient) {
     this.login = new Admin();
     this.adminLogin = new FormGroup({
       userName : new FormControl(null,Validators.required),
@@ -33,4 +35,18 @@ export class AdminloginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  submit()
+  {
+    console.log(this.login);
+    this.http.post('http://localhost:50107/api/AdminLogin',this.login).subscribe(data=>{
+      this.result = data;
+      console.log(this.result);
+      if(this.result.length !== 0)
+      {
+        this.router.navigate(['/adminhome'])
+        localStorage.setItem("loginEmail",(this.login.Id));
+        
+      }
+    })
+  }
 }

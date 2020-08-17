@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DocumentsBidderService } from '../service/DocumentsBidderService';
 import { DocumentsBidder } from '../model/DocumentsBidder';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-documentsbidder',
@@ -11,7 +12,7 @@ export class DocumentsbidderComponent implements OnInit {
 
   document : DocumentsBidder;
   bidemail:string;
-  constructor(private documentsBidSer:DocumentsBidderService) {
+  constructor(private documentsBidSer:DocumentsBidderService,private router:Router) {
     this.bidemail = (localStorage.getItem("bidderemail"));
     this.document = new DocumentsBidder();
    }
@@ -53,7 +54,8 @@ export class DocumentsbidderComponent implements OnInit {
     console.log(this.document.Aadhar);
     this.documentsBidSer.addBidderDocuments(this.document).subscribe((data) =>{
 
-    })
+    });
+    this.router.navigate(['/bidderlogin'])
   }
 
 }

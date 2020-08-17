@@ -1,1 +1,33 @@
-<p>sellcrop works!</p>
+<div class="divSell">
+    <h1>Sell Your Crop</h1>
+    <div class="divSellChild">
+        <label for="">Select Crop Type</label>
+        <select [ngModel]="selectedDeviceObj" (ngModelChange)="getCrop($event)" >
+            <option [ngValue]="c" *ngFor="let c of croptype">{{c.TypeName}}</option>
+        </select>
+        <br>
+            <label for="">Select Your Crop</label>
+            <select name="" id="" #d.Cropname [(ngModel)]="sellForm.CropName">
+                <option *ngFor="let d of details" [value]=d.CropName >{{d.CropName}}</option>
+            </select>
+            <br>
+            <label for="">Email</label>
+            <input input class="inputClass" [value]="email">
+            <br>
+            <label for="">Fertilizer</label>
+            <input type="text" [(ngModel)]="sellForm.Fertilizer">
+            <br>
+            <label for="">Quantity</label>
+            <input type="number" [(ngModel)]="sellForm.Quantity">
+            <br>
+            <label for="">PhValue Image</label>
+            <input type="file" required  #PhVal >
+            <button (click)="getPhVal(PhVal)" >Click here to Upload</button>
+            <br>
+            <label for="">ExpiryDate</label>
+            <input type="date" [(ngModel)]="sellForm.ExpiryDate">
+            <label for="">Enter Your Price</label>
+            <input type="number" [(ngModel)]="sellForm.BaseFarmerPrice">
+            <button (click) = "onSubmit()">Submit</button>
+    </div>
+</div>

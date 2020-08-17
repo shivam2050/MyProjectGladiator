@@ -1,0 +1,25 @@
+<table class="table-bordered">
+    <tr>
+        <th>Crop Id</th>
+        <th>Crop Type</th>
+        <th>Crop Name</th>
+        <th>Your Base Price</th>
+    </tr>
+    <tr *ngFor="let c of crop">
+        <td>{{c.CropId}}</td>
+        <td>{{c.TypeName}}</td>
+        <td>{{c.cropName}}</td>
+        <td>{{c.BaseFarmerPrice}}</td>
+    </tr>
+</table>
+<hr>
+<table class="table-bordered">
+    <tr>
+        <th>Crop Id</th>
+        <th>Bid Price</th>
+    </tr>
+    <tr *ngFor="let b of bid">
+        <td>{{b.CropID}}</td>
+        <td>{{b.BidPrice}}</td>
+    </tr>
+</table>

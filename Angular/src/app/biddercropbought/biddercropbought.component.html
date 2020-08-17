@@ -1,0 +1,23 @@
+<table class="table-bordered">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Crop ID</th>
+        <th>Crop Name</th>
+        <th>Farmer Base Price</th>
+        <th>Your Bid Price</th>
+        <th>Farmer Name</th>
+        <th>farmer Email</th>
+    </tr>
+    <tr *ngFor="let c of crop">
+        <td>{{c.Name}}</td>
+        <td>{{c.Bemail}}</td>
+        <td>{{c.CropID}}</td>
+        <td>{{c.CropName}}</td>
+        <td>{{c.BaseFarmerPrice}}</td>
+        <td>{{c.BidPrice}}</td>
+        <td>{{c.FName}}</td>
+        <td>{{c.Femail}}</td>
+        <td><Button (click)="onPayment(c.CropID)">Make Payment</Button></td>
+    </tr>
+</table>

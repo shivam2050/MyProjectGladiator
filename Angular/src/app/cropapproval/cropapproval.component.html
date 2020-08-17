@@ -1,0 +1,23 @@
+<table class="tableView table-bordered">
+    <tr>
+        <th>Crop Name</th>
+        <th>Farmer Email</th>
+        <th>Fertilizer</th>
+        <th>Quantity</th>
+        <th>PhVal</th>
+        <th>Expiry Date</th>
+        <th>Base Farmer Price</th>
+    </tr>
+    <tr *ngFor="let f of crop">
+        <td>{{f.CropName}}</td>
+        <td>{{f.Femail}}</td>
+        <td>{{f.Fertilizer}}</td>
+        <td>{{f.Quantity}}</td>
+        <td><img [src]="f.PhVal" alt="" width="100%" height="20%"></td>
+        <td>{{f.ExpiryDate}}</td>
+        <td>{{f.BaseFarmerPrice}}</td>
+        <td><Button (click)="onApproved(f.CropId,f.Femail)">Approve</Button></td>
+        <td><Button (click)="onDelete(f.CropId)">Decline</Button></td>
+    </tr>
+</table>
+

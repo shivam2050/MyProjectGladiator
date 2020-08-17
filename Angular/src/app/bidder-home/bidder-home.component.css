@@ -1,0 +1,35 @@
+.upperDiv{
+  display: flex;
+  justify-content: flex-end;
+  height: 10%;
+  background-color: turquoise;
+  align-items: center;
+  padding-right: 5%;
+
+}
+
+.column {
+    margin-top: 8vh;
+    padding-left: 10vh;
+    margin-bottom: 8vh;
+    float: left;
+    width: 30%;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    display: center;
+    width: 100vh;
+  }
+  p{
+      background-color: aqua;
+      border-style: solid;
+      border-color: blanchedalmond;
+      border-radius: 10%;
+      text-align: center;
+  }
+  svg{
+      padding-left: 7vh;
+  }

@@ -1,0 +1,13 @@
+span{
+    color:lightskyblue;
+    font-size:large;
+}
+div{
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+    font-size:medium;
+    overflow: hidden;
+    
+    
+}

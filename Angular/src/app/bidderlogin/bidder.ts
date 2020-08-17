@@ -1,4 +1,4 @@
 export class Bidder{
-    username:string;
+    bemail:string;
     password:string;
 }
