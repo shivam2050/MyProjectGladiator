@@ -49,6 +49,7 @@
     <Property Name="AdminApprove" Type="Int32" Nullable="false" />
     <Property Name="BaseFarmerPrice" Type="Int32" />
     <Property Name="CropID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeclineStatus" Type="Boolean" />
     <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
     <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
     <NavigationProperty Name="LiveBids" Relationship="Self.CropSell_fk2" FromRole="CropSell" ToRole="LiveBid" />
@@ -285,6 +286,12 @@
       <Parameter Name="bidId" Mode="In" Type="Int32" />
       <Parameter Name="price" Mode="In" Type="Int32" />
     </FunctionImport>
+    <FunctionImport Name="checkBidderRegistered" ReturnType="Collection(gladiatorModel.checkBidderRegistered_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="checkFarmerRegistered" ReturnType="Collection(gladiatorModel.checkFarmerRegistered_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
     <FunctionImport Name="cropApproval" ReturnType="Collection(gladiatorModel.cropApproval_Result)" />
     <FunctionImport Name="cropApproved">
       <Parameter Name="id" Mode="In" Type="Int32" />
@@ -396,6 +403,9 @@
     <FunctionImport Name="viewBidderApproval" ReturnType="Collection(gladiatorModel.viewBidderApproval_Result)" />
     <FunctionImport Name="viewFarmer" ReturnType="Collection(gladiatorModel.viewFarmer_Result)" />
     <FunctionImport Name="viewFarmerApproval" ReturnType="Collection(gladiatorModel.viewFarmerApproval_Result)" />
+    <FunctionImport Name="viewCropDeclined" ReturnType="Collection(gladiatorModel.viewCropDeclined_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="AdminLogin_Result">
     <Property Type="String" Name="ID" Nullable="false" MaxLength="255" />
@@ -430,6 +440,14 @@
     <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
     <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
     <Property Type="Boolean" Name="RegStatus" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="checkBidderRegistered_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+  </ComplexType>
+  <ComplexType Name="checkFarmerRegistered_Result">
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
   </ComplexType>
   <ComplexType Name="cropApproval_Result">
     <Property Type="Int32" Name="CropId" Nullable="false" />
@@ -500,6 +518,7 @@
     <Property Type="Int32" Name="AdminApprove" Nullable="false" />
     <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
     <Property Type="Int32" Name="CropID" Nullable="false" />
+    <Property Type="Boolean" Name="DeclineStatus" Nullable="true" />
   </ComplexType>
   <ComplexType Name="maxBidDisplay_Result">
     <Property Type="String" Name="Crop_Name" Nullable="false" MaxLength="255" />
@@ -605,5 +624,17 @@
     <Property Type="String" Name="Aadhar" Nullable="false" />
     <Property Type="String" Name="PAN" Nullable="false" />
     <Property Type="String" Name="CertificateFarmer" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="viewCropDeclined_Result">
+    <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Fertilizer" Nullable="false" MaxLength="255" />
+    <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+    <Property Type="String" Name="PhVal" Nullable="true" />
+    <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+    <Property Type="Int32" Name="AdminApprove" Nullable="false" />
+    <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+    <Property Type="Int32" Name="CropID" Nullable="false" />
+    <Property Type="Boolean" Name="DeclineStatus" Nullable="true" />
   </ComplexType>
 </Schema>

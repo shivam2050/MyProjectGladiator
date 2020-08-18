@@ -3,6 +3,7 @@ import { BidderRegister } from '../model/bidder';
 import { BidderRegisterService } from '../service/BidderRegisterService';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-bidderregistration',
@@ -16,7 +17,9 @@ export class BidderregistrationComponent implements OnInit {
   count : number;
   result;
   alert;
-  constructor(private bidderService:BidderRegisterService, private router:Router) {
+  already;
+  check;
+  constructor(private bidderService:BidderRegisterService, private router:Router, private http:HttpClient) {
     this.alert = false;
     this.count = 0;
     this.bidder = new BidderRegister();
@@ -95,24 +98,41 @@ export class BidderregistrationComponent implements OnInit {
 
   insertBidder(val)
   {
-    if(val !== this.bidder.password)
-    {
-      this.alert = true;
+    this.http.get('http://localhost:50107/api/CheckBidderRegistered?email=' + this.bidder.bemail).subscribe(data =>{
+      this.already = data;
+      console.log(this.already);
+      if(this.already.length !== 0)
+      {
+        this.check = true;
+      }
+      
+      else
+      {
+        if(val !== this.bidder.password)
+        {
+          this.alert = true;
+        }
+        
+        if(this.check == false && this.alert == false)
+        {
+          localStorage.setItem("bidderemail",(this.bidder.bemail));
+            this.bidderService.postBidder(this.bidder).subscribe((data) => {
+              this.result = data;
+            });
+            this.router.navigate(['/documentsbidder']);
+        }
     }
-    if(this.alert == false)
-    {
-      localStorage.setItem("bidderemail",(this.bidder.bemail));
-        this.bidderService.postBidder(this.bidder).subscribe((data) => {
-          this.result = data;
-        })
-        this.router.navigate(['/documentsbidder'])
-
-    }
-  }
+    });
+}
 
   onClose()
   {
     this.alert = false;
+  }
+  onCross()
+  {
+    console.log("dfd");
+    this.check = false;
   }
 
 }

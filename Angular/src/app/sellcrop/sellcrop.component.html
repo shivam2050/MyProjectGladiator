@@ -1,4 +1,25 @@
-<div class="divSell">
+<div class="container py-5">  
+    <div>
+    <h3 class="text-uppercase">Market Prices</h3> </div>
+    <div class="class1"> 
+        <table class="table-center table-bordered table-striped">  
+        
+        <thead>  
+            <tr class="text-center text-uppercase">  
+                <th>CropName</th>  
+                <th>Price</th>   
+              </tr>  
+        </thead> 
+          <tr *ngFor="let cr of crops" class="text-center">  
+
+            <td>{{cr.CropName}}</td>  
+            <td>{{cr.Price}}</td>  
+          </tr>   
+      </table> 
+    </div> 
+    </div>  
+
+<div class="divSell form-row d-flex justify-content-center">
     <h1>Sell Your Crop</h1>
     <div class="divSellChild">
         <label for="">Select Crop Type</label>
@@ -22,6 +43,7 @@
             <br>
             <label for="">PhValue Image</label>
             <input type="file" required  #PhVal >
+            <img [src]="sellForm.PhVal" width="20%" height="20%" alt="">
             <button (click)="getPhVal(PhVal)" >Click here to Upload</button>
             <br>
             <label for="">ExpiryDate</label>
@@ -31,3 +53,5 @@
             <button (click) = "onSubmit()">Submit</button>
     </div>
 </div>
+
+

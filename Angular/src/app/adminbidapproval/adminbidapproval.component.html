@@ -1,23 +1,25 @@
-<table class="table-bordered">
-    <tr>
-        <th>Bid Id</th>
-        <th>Bidder Name</th>
-        <th>Bidder Email</th>
-        <th>Crop Id</th>
-        <th>Crop Name</th>
-        <th>Farmer's Base Price</th>
-        <th>Expiry Date of Crop</th>
-        <th>Current Maximum Bid</th>
-    </tr>
-    <tr *ngFor="let b of bidData">
-        <td>{{b.BidId}}</td>
-        <td>{{b.Name}}</td>
-        <td>{{b.Bemail}}</td>
-        <td>{{b.CropId}}</td>
-        <td>{{b.CropName}}</td>
-        <td>{{b.BaseFarmerPrice}}</td>
-        <td>{{b.Expirydate}}</td>
-        <td>{{b.Current_Bid}}</td>
-        <td><Button (click)="onApprove(b.BidId,b.CropId,b.Bemail)">Approve</Button></td>
-    </tr>
-</table>
+<div class="container d-flex justify-content-center">
+    <table class="table-bordered table-striped table-center ">
+        <tr>
+            <th>Bid Id</th>
+            <th>Bidder Name</th>
+            <th>Bidder Email</th>
+            <th>Crop Id</th>
+            <th>Crop Name</th>
+            <th>Farmer's Base Price</th>
+            <th>Expiry Date of Crop</th>
+            <th>Current Maximum Bid</th>
+        </tr>
+        <tr *ngFor="let b of bidData">
+            <td>{{b.BidId}}</td>
+            <td>{{b.Name}}</td>
+            <td>{{b.Bemail}}</td>
+            <td>{{b.CropId}}</td>
+            <td>{{b.CropName}}</td>
+            <td>{{b.BaseFarmerPrice}}</td>
+            <td>{{b.Expirydate}}</td>
+            <td>{{b.Current_Bid}}</td>
+            <td><Button (click)="onApprove(b.BidId,b.CropId,b.Bemail)">Approve</Button></td>
+        </tr>
+    </table>
+</div>

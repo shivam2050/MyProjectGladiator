@@ -7,9 +7,32 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RouteComponent implements OnInit {
 
-  constructor() { }
+  idLoggedIn = false; 
+  result;
+  constructor() { 
+    this.result=localStorage.getItem("loginEmail");
+
+    if(localStorage.getItem("loginAdminEmail") !== null || localStorage.getItem("loginEmail") !== null || localStorage.getItem("loginBidderEmail") !== null)
+  {
+    console.log( this.idLoggedIn);
+    this.idLoggedIn =true;
+  } 
+  console.log( this.idLoggedIn);
+  }
 
   ngOnInit(): void {
+    
   }
+  
+  login(){
+  
+  }
+
+  logout(){
+    localStorage.clear();
+    this.idLoggedIn=false;
+    this.result="";
+  }
+  
 
 }

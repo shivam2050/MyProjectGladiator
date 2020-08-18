@@ -1,11 +1,10 @@
-.mainDiv{
+/* .mainDiv{
     display: flex;
     height: 100vh;
     margin: auto;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* background-image: url("/assets/background.jpg"); */
 }
 
 .headH1{
@@ -35,6 +34,9 @@
     float: right;
 }
 
+.btnDiv{
+    margin-top: 5%;
+} */
 .btnDiv{
     margin-top: 5%;
 }

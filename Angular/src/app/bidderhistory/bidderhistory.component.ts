@@ -13,7 +13,7 @@ export class BidderhistoryComponent implements OnInit {
   trans;
   constructor(private http:HttpClient) {
 
-    this.email = (localStorage.getItem("loginEmail"));
+    this.email = (localStorage.getItem("loginBidderEmail"));
     this.http.get('http://localhost:50107/api/TransDetails?email='+(this.email)).subscribe( data => {
       this.trans = data;
       console.log(this.crop);

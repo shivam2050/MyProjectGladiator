@@ -5,6 +5,7 @@ import { RouterModule,Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { HttpClientModule }  from '@angular/common/http';
 
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -45,6 +46,10 @@ import { FarmermarketComponent } from './farmermarket/farmermarket.component';
 import { BiddercropboughtComponent } from './biddercropbought/biddercropbought.component';
 import { TransactionComponent } from './transaction/transaction.component';
 import { BidderhistoryComponent } from './bidderhistory/bidderhistory.component';
+import { CropdeclinedComponent } from './cropdeclined/cropdeclined.component';
+import { AuthGuard } from './service/farmerauth';
+import { AdminAuthGuard } from './service/adminauth';
+import { BidderAuthGuard } from './service/bidderauth';
 
 var myRoutes:Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'  },
@@ -58,25 +63,26 @@ var myRoutes:Routes = [
   { path:"farmerregistration", component:FarmerregistrationComponent },
   { path:"bidderregistration", component:BidderregistrationComponent },
   { path:"documentsfarmer", component:DocumentsfarmerComponent },
-  { path:"farmerportal", component:FarmerportalComponent },
-  { path:"soldhistory", component:SoldhistoryComponent },
+  { path:"farmerportal", component:FarmerportalComponent, canActivate:[AuthGuard]},
+  { path:"soldhistory", component:SoldhistoryComponent, canActivate:[AuthGuard] },
   { path:"documentsbidder", component:DocumentsbidderComponent },
-  { path:"sellcrop", component:SellcropComponent },
+  { path:"sellcrop", component:SellcropComponent, canActivate:[AuthGuard] },
   { path:"market-val-bid", component:MarketValBidComponent },
-  { path:"bidder-home", component:BidderHomeComponent },
-  { path:"admin-market-add", component:AdminMarketAddComponent },
-  { path:"adminhome", component:AdminhomeComponent },
-  { path:"viewfarmer", component:ViewfarmerComponent },
-  { path:"viewbidder", component:ViewbidderComponent },
-  { path:"acceptfarmer", component:AcceptfarmerComponent},
-  { path:"acceptbidder", component:AcceptbidderComponent },
-  { path:"cropapproval", component:CropapprovalComponent },
-  { path:"livebid", component:LivebidComponent },
-  { path:"adminbidapproval", component:AdminbidapprovalComponent },
-  { path:"farmermarket", component:FarmermarketComponent },
-  { path:"biddercropbought", component:BiddercropboughtComponent },
-  { path:"transaction", component:TransactionComponent },
-  { path:"bidderhistory", component:BidderhistoryComponent }
+  { path:"bidder-home", component:BidderHomeComponent, canActivate:[BidderAuthGuard] },
+  { path:"admin-market-add", component:AdminMarketAddComponent, canActivate:[AdminAuthGuard] },
+  { path:"adminhome", component:AdminhomeComponent, canActivate:[AdminAuthGuard] },
+  { path:"viewfarmer", component:ViewfarmerComponent, canActivate:[AdminAuthGuard] },
+  { path:"viewbidder", component:ViewbidderComponent, canActivate:[AdminAuthGuard] },
+  { path:"acceptfarmer", component:AcceptfarmerComponent, canActivate:[AdminAuthGuard] },
+  { path:"acceptbidder", component:AcceptbidderComponent, canActivate:[AdminAuthGuard] },
+  { path:"cropapproval", component:CropapprovalComponent, canActivate:[AdminAuthGuard] },
+  { path:"livebid", component:LivebidComponent, canActivate:[BidderAuthGuard] },
+  { path:"adminbidapproval", component:AdminbidapprovalComponent, canActivate:[AdminAuthGuard] },
+  { path:"farmermarket", component:FarmermarketComponent, canActivate:[AuthGuard] },
+  { path:"biddercropbought", component:BiddercropboughtComponent, canActivate:[BidderAuthGuard] },
+  { path:"transaction", component:TransactionComponent, canActivate:[BidderAuthGuard] },
+  { path:"bidderhistory", component:BidderhistoryComponent, canActivate:[BidderAuthGuard] },
+  { path:"cropdeclined", component:CropdeclinedComponent, canActivate:[AuthGuard] }
 ] 
 
 @NgModule({
@@ -113,7 +119,8 @@ var myRoutes:Routes = [
     FarmermarketComponent,
     BiddercropboughtComponent,
     TransactionComponent,
-    BidderhistoryComponent
+    BidderhistoryComponent,
+    CropdeclinedComponent
   ],
   imports: [
     BrowserModule,
@@ -124,7 +131,7 @@ var myRoutes:Routes = [
     HttpClientModule,
     RouterModule.forRoot(myRoutes)
   ],
-  providers: [FarmerRegisterService,BidderRegisterService,SoldService,DocumentsFarmerService,DocumentsBidderService,CropSellService],
+  providers: [FarmerRegisterService,BidderRegisterService,SoldService,DocumentsFarmerService,DocumentsBidderService,CropSellService,AuthGuard,BidderAuthGuard,AdminAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

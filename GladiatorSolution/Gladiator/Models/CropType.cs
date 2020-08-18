@@ -11,7 +11,9 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class CropType
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +22,9 @@ namespace Gladiator.Models
             this.Crops = new HashSet<Crop>();
         }
     
+        [DataMember]
         public string CropTID { get; set; }
+        [DataMember]
         public string TypeName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

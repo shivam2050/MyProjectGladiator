@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="gladiatorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="gladiatorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bidder">
           <Key>
             <PropertyRef Name="Bemail" />
@@ -49,6 +49,7 @@
           <Property Name="AdminApprove" Type="int" Nullable="false" />
           <Property Name="BaseFarmerPrice" Type="int" />
           <Property Name="CropID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeclineStatus" Type="bit" />
         </EntityType>
         <EntityType Name="CropType">
           <Key>
@@ -236,6 +237,12 @@
           <Parameter Name="bidId" Type="int" Mode="In" />
           <Parameter Name="price" Type="int" Mode="In" />
         </Function>
+        <Function Name="checkBidderRegistered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="checkFarmerRegistered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="cropApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="cropApproved" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id" Type="int" Mode="In" />
@@ -346,6 +353,9 @@
         </Function>
         <Function Name="viewBidder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="viewBidderApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="viewCropDeclined" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="viewFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="viewFarmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="gladiatorModelStoreContainer">
@@ -389,8 +399,7 @@
             <End Role="CropBuy" EntitySet="CropBuy" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="gladiatorModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -443,6 +452,7 @@
           <Property Name="AdminApprove" Type="Int32" Nullable="false" />
           <Property Name="BaseFarmerPrice" Type="Int32" />
           <Property Name="CropID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeclineStatus" Type="Boolean" />
           <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
           <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
           <NavigationProperty Name="LiveBids" Relationship="Self.CropSell_fk2" FromRole="CropSell" ToRole="LiveBid" />
@@ -657,19 +667,19 @@
           </FunctionImport>
           <FunctionImport Name="bidApproval" ReturnType="Collection(gladiatorModel.bidApproval_Result)" />
           <FunctionImport Name="bidderApproval">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="bidderDecilne">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="bidderDocApproval">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="bidderDocDecline">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="bidderHistory" ReturnType="Collection(gladiatorModel.bidderHistory_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="BidderLogin" ReturnType="Collection(gladiatorModel.BidderLogin_Result)">
             <Parameter Name="username" Mode="In" Type="String" />
@@ -679,49 +689,55 @@
             <Parameter Name="bidId" Mode="In" Type="Int32" />
             <Parameter Name="price" Mode="In" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="checkBidderRegistered" ReturnType="Collection(gladiatorModel.checkBidderRegistered_Result)">
+          <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="checkFarmerRegistered" ReturnType="Collection(gladiatorModel.checkFarmerRegistered_Result)">
+          <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
           <FunctionImport Name="cropApproval" ReturnType="Collection(gladiatorModel.cropApproval_Result)" />
           <FunctionImport Name="cropApproved">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="cropBought" ReturnType="Collection(gladiatorModel.cropBought_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="cropData" ReturnType="Collection(gladiatorModel.cropData_Result)">
-            <Parameter Name="ctype" Mode="In" Type="String" />
+          <Parameter Name="ctype" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="cropDeclined">
-            <Parameter Name="id" Mode="In" Type="Int32" />
+          <Parameter Name="id" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="cropPrice" ReturnType="Collection(gladiatorModel.cropPrice_Result)">
-            <Parameter Name="cName" Mode="In" Type="String" />
+          <Parameter Name="cName" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="cropSold">
-            <Parameter Name="cropId" Mode="In" Type="Int32" />
+          <Parameter Name="cropId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="farmerApproval">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="farmerDecline">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="farmerDocApproval">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="farmerDocDecline">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="FarmerLogin" ReturnType="Collection(gladiatorModel.FarmerLogin_Result)">
             <Parameter Name="username" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="farmerMarket" ReturnType="Collection(gladiatorModel.farmerMarket_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="farmerMarketBid" ReturnType="Collection(gladiatorModel.farmerMarketBid_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="farmerSoldHistory" ReturnType="Collection(gladiatorModel.farmerSoldHistory_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="insertLiveBid">
             <Parameter Name="cropid" Mode="In" Type="Int32" />
@@ -731,7 +747,7 @@
           </FunctionImport>
           <FunctionImport Name="liveCropBid" ReturnType="Collection(gladiatorModel.liveCropBid_Result)" />
           <FunctionImport Name="marketCropBid" ReturnType="Collection(Double)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="maxBidDisplay" ReturnType="Collection(gladiatorModel.maxBidDisplay_Result)" />
           <FunctionImport Name="pendingTransaction" ReturnType="Collection(gladiatorModel.pendingTransaction_Result)">
@@ -739,16 +755,16 @@
             <Parameter Name="cropId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="seeSellCrop" ReturnType="Collection(gladiatorModel.seeSellCrop_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="setStatusCrop">
-            <Parameter Name="cropId" Mode="In" Type="Int32" />
+          <Parameter Name="cropId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sold" ReturnType="Collection(gladiatorModel.sold_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="soldBid">
-            <Parameter Name="bidId" Mode="In" Type="Int32" />
+          <Parameter Name="bidId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_alterdiagram">
             <Parameter Name="diagramname" Mode="In" Type="String" />
@@ -781,15 +797,18 @@
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
           <FunctionImport Name="trans">
-            <Parameter Name="bidId" Mode="In" Type="Int32" />
+          <Parameter Name="bidId" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="transacDetails" ReturnType="Collection(gladiatorModel.transacDetails_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="viewBidder" ReturnType="Collection(gladiatorModel.viewBidder_Result)" />
           <FunctionImport Name="viewBidderApproval" ReturnType="Collection(gladiatorModel.viewBidderApproval_Result)" />
           <FunctionImport Name="viewFarmer" ReturnType="Collection(gladiatorModel.viewFarmer_Result)" />
           <FunctionImport Name="viewFarmerApproval" ReturnType="Collection(gladiatorModel.viewFarmerApproval_Result)" />
+          <FunctionImport Name="viewCropDeclined" ReturnType="Collection(gladiatorModel.viewCropDeclined_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="AdminLogin_Result">
           <Property Type="String" Name="ID" Nullable="false" MaxLength="255" />
@@ -824,6 +843,14 @@
           <Property Type="String" Name="IFSC" Nullable="false" MaxLength="255" />
           <Property Type="String" Name="Password" Nullable="false" MaxLength="255" />
           <Property Type="Boolean" Name="RegStatus" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="checkBidderRegistered_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Bemail" Nullable="false" MaxLength="255" />
+        </ComplexType>
+        <ComplexType Name="checkFarmerRegistered_Result">
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
         </ComplexType>
         <ComplexType Name="cropApproval_Result">
           <Property Type="Int32" Name="CropId" Nullable="false" />
@@ -894,6 +921,7 @@
           <Property Type="Int32" Name="AdminApprove" Nullable="false" />
           <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
           <Property Type="Int32" Name="CropID" Nullable="false" />
+          <Property Type="Boolean" Name="DeclineStatus" Nullable="true" />
         </ComplexType>
         <ComplexType Name="maxBidDisplay_Result">
           <Property Type="String" Name="Crop_Name" Nullable="false" MaxLength="255" />
@@ -1000,6 +1028,18 @@
           <Property Type="String" Name="PAN" Nullable="false" />
           <Property Type="String" Name="CertificateFarmer" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="viewCropDeclined_Result">
+          <Property Type="String" Name="CropName" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Femail" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Fertilizer" Nullable="false" MaxLength="255" />
+          <Property Type="Decimal" Name="Quantity" Nullable="false" Precision="10" Scale="2" />
+          <Property Type="String" Name="PhVal" Nullable="true" />
+          <Property Type="DateTime" Name="ExpiryDate" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="AdminApprove" Nullable="false" />
+          <Property Type="Int32" Name="BaseFarmerPrice" Nullable="true" />
+          <Property Type="Int32" Name="CropID" Nullable="false" />
+          <Property Type="Boolean" Name="DeclineStatus" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1052,6 +1092,7 @@
                 <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
                 <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
                 <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="DeclineStatus" ColumnName="DeclineStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1191,6 +1232,22 @@
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="buyCrop" FunctionName="gladiatorModel.Store.buyCrop" />
+          <FunctionImportMapping FunctionImportName="checkBidderRegistered" FunctionName="gladiatorModel.Store.checkBidderRegistered">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.checkBidderRegistered_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="checkFarmerRegistered" FunctionName="gladiatorModel.Store.checkFarmerRegistered">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.checkFarmerRegistered_Result">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="cropApproval" FunctionName="gladiatorModel.Store.cropApproval">
             <ResultMapping>
               <ComplexTypeMapping TypeName="gladiatorModel.cropApproval_Result">
@@ -1302,6 +1359,7 @@
                 <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
                 <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
                 <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="DeclineStatus" ColumnName="DeclineStatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1460,6 +1518,22 @@
                 <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
                 <ScalarProperty Name="PAN" ColumnName="PAN" />
                 <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="viewCropDeclined" FunctionName="gladiatorModel.Store.viewCropDeclined">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.viewCropDeclined_Result">
+                <ScalarProperty Name="CropName" ColumnName="CropName" />
+                <ScalarProperty Name="Femail" ColumnName="Femail" />
+                <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="PhVal" ColumnName="PhVal" />
+                <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+                <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
+                <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+                <ScalarProperty Name="CropID" ColumnName="CropID" />
+                <ScalarProperty Name="DeclineStatus" ColumnName="DeclineStatus" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

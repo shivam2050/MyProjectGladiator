@@ -47,6 +47,7 @@
           <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
           <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
           <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="DeclineStatus" ColumnName="DeclineStatus" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -186,6 +187,22 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="buyCrop" FunctionName="gladiatorModel.Store.buyCrop" />
+    <FunctionImportMapping FunctionImportName="checkBidderRegistered" FunctionName="gladiatorModel.Store.checkBidderRegistered">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.checkBidderRegistered_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Bemail" ColumnName="Bemail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="checkFarmerRegistered" FunctionName="gladiatorModel.Store.checkFarmerRegistered">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.checkFarmerRegistered_Result">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="cropApproval" FunctionName="gladiatorModel.Store.cropApproval">
       <ResultMapping>
         <ComplexTypeMapping TypeName="gladiatorModel.cropApproval_Result">
@@ -297,6 +314,7 @@
           <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
           <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
           <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="DeclineStatus" ColumnName="DeclineStatus" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -455,6 +473,22 @@
           <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
           <ScalarProperty Name="PAN" ColumnName="PAN" />
           <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="viewCropDeclined" FunctionName="gladiatorModel.Store.viewCropDeclined">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.viewCropDeclined_Result">
+          <ScalarProperty Name="CropName" ColumnName="CropName" />
+          <ScalarProperty Name="Femail" ColumnName="Femail" />
+          <ScalarProperty Name="Fertilizer" ColumnName="Fertilizer" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="PhVal" ColumnName="PhVal" />
+          <ScalarProperty Name="ExpiryDate" ColumnName="ExpiryDate" />
+          <ScalarProperty Name="AdminApprove" ColumnName="AdminApprove" />
+          <ScalarProperty Name="BaseFarmerPrice" ColumnName="BaseFarmerPrice" />
+          <ScalarProperty Name="CropID" ColumnName="CropID" />
+          <ScalarProperty Name="DeclineStatus" ColumnName="DeclineStatus" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>

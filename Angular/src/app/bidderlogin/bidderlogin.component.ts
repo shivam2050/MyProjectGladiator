@@ -47,7 +47,7 @@ export class BidderloginComponent implements OnInit {
         if(this.result[0].RegStatus != 0)
         {
           this.router.navigate(['/bidder-home'])
-          localStorage.setItem("loginEmail",(this.login.bemail));
+          localStorage.setItem("loginBidderEmail",(this.login.bemail));
         }
         else{
           this.alert = true;

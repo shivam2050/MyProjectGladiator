@@ -11,7 +11,9 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Crop
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,8 +22,11 @@ namespace Gladiator.Models
             this.CropSells = new HashSet<CropSell>();
         }
     
+        [DataMember]
         public string CropTID { get; set; }
+        [DataMember]
         public string CropName { get; set; }
+        [DataMember]
         public decimal Price { get; set; }
     
         public virtual CropType CropType { get; set; }

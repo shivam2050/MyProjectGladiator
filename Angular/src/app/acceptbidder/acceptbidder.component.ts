@@ -26,12 +26,12 @@ export class AcceptbidderComponent implements OnInit {
     });
     this.http.put('http://localhost:50107/api/DocumentsBidder/1',new String(value)).subscribe(data =>{
       console.log(data);
+      this.http.get('http://localhost:50107/api/AcceptBidder').subscribe( data => {
+        this.bidder = data;
+        // console.log(data);
+        }
+      );
     });
-    this.http.get('http://localhost:50107/api/AcceptBidder').subscribe( data => {
-      this.bidder = data;
-      // console.log(data);
-      }
-    );
   }
 
   onDelete(value:any)
@@ -42,12 +42,12 @@ export class AcceptbidderComponent implements OnInit {
     });
     this.http.delete('http://localhost:50107/api/DocumentsBidder?id='+value).subscribe(data =>{
       console.log(data);
+      this.http.get('http://localhost:50107/api/AcceptBidder').subscribe( data => {
+        this.bidder = data;
+        // console.log(data);
+        }
+      );
     });
-    this.http.get('http://localhost:50107/api/AcceptBidder').subscribe( data => {
-      this.bidder = data;
-      // console.log(data);
-      }
-    );
   }
 
 }

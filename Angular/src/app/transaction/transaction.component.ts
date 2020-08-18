@@ -18,7 +18,7 @@ export class TransactionComponent implements OnInit {
   transaction:Transaction;
   constructor(private router:Router, private http:HttpClient) { 
     this.alert = false;
-    this.email = (localStorage.getItem("loginEmail"));
+    this.email = (localStorage.getItem("loginBidderEmail"));
     this.cropId = (localStorage.getItem("CropId"));
     this.transaction = new Transaction();
   }

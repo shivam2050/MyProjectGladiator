@@ -9,13 +9,16 @@ import { HttpClient } from '@angular/common/http';
 export class ViewbidderComponent implements OnInit {
 
   bidder;
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient) {
 
-  ngOnInit(): void {
     this.http.get("http://localhost:50107/api/ViewBidder").subscribe( data => {
       this.bidder = data;
+      console.log(this.bidder);
   }
     );
+   }
+
+  ngOnInit(): void {
   }
 
 }

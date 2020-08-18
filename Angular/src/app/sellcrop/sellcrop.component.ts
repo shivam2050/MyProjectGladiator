@@ -3,6 +3,7 @@ import { CropSellService } from '../service/sellCropService';
 import { CropType } from '../model/croptype';
 import { SellCropForm } from '../model/sellForm';
 import { FormGroup } from '@angular/forms';
+import {HttpClient,HttpClientModule} from '@angular/common/http';
  
 @Component({
   selector: 'app-sellcrop',
@@ -19,8 +20,13 @@ export class SellcropComponent implements OnInit {
   cropname;
   sell : FormGroup;
   result;
-  constructor(private cropSellSer:CropSellService) {
+  crops;
+  constructor(private cropSellSer:CropSellService, private http:HttpClient) {
     this.sellForm = new SellCropForm();
+    this.http.get('http://localhost:50107/api/Crops').subscribe( data => {
+      this.crops = data;
+      }
+    );
    }
 
   ngOnInit(): void {
@@ -62,3 +68,6 @@ export class SellcropComponent implements OnInit {
   }
 
 }
+
+
+

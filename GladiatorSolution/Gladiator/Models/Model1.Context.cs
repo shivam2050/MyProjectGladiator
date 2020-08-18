@@ -128,6 +128,24 @@ namespace Gladiator.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("buyCrop", bidIdParameter, priceParameter);
         }
     
+        public virtual ObjectResult<checkBidderRegistered_Result> checkBidderRegistered(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<checkBidderRegistered_Result>("checkBidderRegistered", emailParameter);
+        }
+    
+        public virtual ObjectResult<checkFarmerRegistered_Result> checkFarmerRegistered(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<checkFarmerRegistered_Result>("checkFarmerRegistered", emailParameter);
+        }
+    
         public virtual ObjectResult<cropApproval_Result> cropApproval()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<cropApproval_Result>("cropApproval");
@@ -491,6 +509,15 @@ namespace Gladiator.Models
         public virtual ObjectResult<viewFarmerApproval_Result> viewFarmerApproval()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewFarmerApproval_Result>("viewFarmerApproval");
+        }
+    
+        public virtual ObjectResult<viewCropDeclined_Result> viewCropDeclined(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewCropDeclined_Result>("viewCropDeclined", emailParameter);
         }
     }
 }

@@ -15,7 +15,7 @@ export class BiddercropboughtComponent implements OnInit {
   crop
   CropId;
   constructor(private http:HttpClient,private router:Router) {
-    this.email = (localStorage.getItem("loginEmail"));
+    this.email = (localStorage.getItem("loginBidderEmail"));
    }
 
   ngOnInit(): void {

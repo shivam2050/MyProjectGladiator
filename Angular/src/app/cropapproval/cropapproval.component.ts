@@ -22,11 +22,11 @@ export class CropapprovalComponent implements OnInit {
   {
     this.http.put('http://localhost:50107/api/ViewCrop?id=' + id, new String(value)).subscribe(data =>{
       console.log(data);
+      this.http.get('http://localhost:50107/api/ViewCrop').subscribe( data => {
+        this.crop = data;
+        }
+      );
     });
-    this.http.get('http://localhost:50107/api/ViewCrop').subscribe( data => {
-      this.crop = data;
-      }
-    );
   }
 
   onDelete(value:any)
@@ -34,11 +34,11 @@ export class CropapprovalComponent implements OnInit {
     console.log(value);
     this.http.delete('http://localhost:50107/api/ViewCrop?id='+value).subscribe(data =>{
       console.log(data);
+      this.http.get('http://localhost:50107/api/ViewCrop').subscribe( data => {
+        this.crop = data;
+        }
+      );
     });
-    this.http.get('http://localhost:50107/api/ViewCrop').subscribe( data => {
-      this.crop = data;
-      }
-    );
   }
 
 }

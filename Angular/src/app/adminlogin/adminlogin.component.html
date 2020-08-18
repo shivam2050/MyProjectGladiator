@@ -1,6 +1,6 @@
-<div class="mainDiv">
-    <h1 class="headH1">Welcome to Admin Login</h1>
-    <div class="formDiv">
+<div class="col-md-6 mx-auto my-5">
+    <h1 class="dark-grey-text mb-5">Admin Login</h1>
+    <div class="md-form">
         <form action="" [formGroup]="adminLogin">
             <label for="">Username*</label>
             <input type="text" class="form-control" formControlName="userName" [(ngModel)]="login.Id">
@@ -14,17 +14,19 @@
                 <span class="alert alert-danger" *ngIf="userPassword.errors.required">Password cannot be empty</span>
             </p>
     
+            <div *ngIf="(result?result.length:1)==0">
+                Incorrect username or password
+            </div>
             <div class="btnDiv">
                 <section class="btnSection">
-                    <button class="btn-success" (click)="submit()">Login</button>
+                    <button class="btn  btn-dark" (click) = "submit()">Login</button>
                 </section>
                 <section class="linkSection">
-                    <a href=""><p style="color: brown;">Forgot Password?</p></a>
+                    <p class="font-small blue-text d-flex justify-content-end"><a href="#" class="blue-text ml-1"> Forgot Password?</a>
+                    </p>
                 </section>
             </div>
         </form>
-    </div>
-    <div *ngIf="(result?result.length:1)==0">
-        Incorrect username or password
+        <!-- <a routerLink = '/farmerregistration'>New User? Click to Register</a> -->
     </div>
 </div>

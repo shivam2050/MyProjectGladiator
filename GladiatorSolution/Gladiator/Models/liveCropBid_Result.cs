@@ -22,5 +22,6 @@ namespace Gladiator.Models
         public int AdminApprove { get; set; }
         public Nullable<int> BaseFarmerPrice { get; set; }
         public int CropID { get; set; }
+        public Nullable<bool> DeclineStatus { get; set; }
     }
 }

@@ -44,7 +44,7 @@ export class AdminloginComponent implements OnInit {
       if(this.result.length !== 0)
       {
         this.router.navigate(['/adminhome'])
-        localStorage.setItem("loginEmail",(this.login.Id));
+        localStorage.setItem("loginAdminEmail",(this.login.Id));
         
       }
     })

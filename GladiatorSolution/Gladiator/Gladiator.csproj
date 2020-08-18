@@ -118,6 +118,8 @@
     <Compile Include="Controllers\BidderLoginController.cs" />
     <Compile Include="Controllers\BidderRegistrationController.cs" />
     <Compile Include="Controllers\BuyCropController.cs" />
+    <Compile Include="Controllers\CheckBidderRegisteredController.cs" />
+    <Compile Include="Controllers\CheckFarmerRegisteredController.cs" />
     <Compile Include="Controllers\CropBoughtController.cs" />
     <Compile Include="Controllers\CropDataController.cs" />
     <Compile Include="Controllers\CropsController.cs" />
@@ -144,6 +146,7 @@
     <Compile Include="Controllers\UpdateCropSellController.cs" />
     <Compile Include="Controllers\ViewBidderController.cs" />
     <Compile Include="Controllers\ViewCropController.cs" />
+    <Compile Include="Controllers\ViewCropDeclinedController.cs" />
     <Compile Include="Controllers\ViewfarmerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -163,6 +166,14 @@
     </Compile>
     <Compile Include="Models\BidderLogi.cs" />
     <Compile Include="Models\BidderLogin_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckBidder.cs" />
+    <Compile Include="Models\checkBidderRegistered_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckFarmer.cs" />
+    <Compile Include="Models\checkFarmerRegistered_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Crop.cs">
@@ -264,6 +275,9 @@
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\viewBidder_Result.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\viewCropDeclined_Result.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\viewFarmerApproval_Result.cs">

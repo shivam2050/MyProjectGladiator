@@ -11,6 +11,7 @@
 
             <label for="">Aadhaar Image*</label>
             <input type="file" required  #aadhar >
+            <img [src]="document.Aadhar" width="20%" height="20%" alt="">
             <!-- <p class="alert alert-danger" *ngIf="Aaddhar.touched && Aadhar.invalid">
                 <span class="alert alert-danger" *ngIf="Aadhar.errors.required">Please upload Aadhaar Image</span>
             </p> -->
@@ -18,6 +19,7 @@
             <br>
             <label for="">PAN Card Image*</label>
             <input type="file" required  #pan >
+            <img [src]="document.PAN" width="20%" height="20%" alt="">
             <!-- <p class="alert alert-danger" *ngIf="PAN.touched && PAN.invalid">
                 <span class="alert alert-danger" *ngIf="PAN.errors.required">Please upload PAN Card Image</span>
             </p> -->
@@ -25,6 +27,7 @@
             <br>
             <label for="">Trader License*</label>
             <input type="file" required  #trader >
+            <img [src]="document.TraderLi" width="20%" height="20%" alt="">
             <!-- <p class="alert alert-danger" *ngIf="CertificateFarmer.touched && CertificateFarmer.invalid">
                 <span class="alert alert-danger" *ngIf="CertificateFarmer.errors.required">Please upload Farmer's Certificate</span>
             </p> -->

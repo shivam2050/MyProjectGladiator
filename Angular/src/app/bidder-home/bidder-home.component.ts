@@ -12,7 +12,7 @@ export class BidderHomeComponent implements OnInit {
   constructor(private router:Router) {  }
 
   ngOnInit(): void {
-    this.email = (localStorage.getItem("loginEmail"));
+    this.email = (localStorage.getItem("loginBidderEmail"));
   }
 
   onLogout()

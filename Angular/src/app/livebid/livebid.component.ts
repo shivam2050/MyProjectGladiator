@@ -22,7 +22,7 @@ export class LivebidComponent implements OnInit {
     this.wrongBid = false;
     this.c=0;
     this.live = new LiveBid(); 
-    this.bidemail = (localStorage.getItem("loginEmail"));
+    this.bidemail = (localStorage.getItem("loginBidderEmail"));
   }
 
   ngOnInit(): void {
