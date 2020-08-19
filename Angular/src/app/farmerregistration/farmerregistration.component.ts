@@ -19,7 +19,14 @@ export class FarmerregistrationComponent implements OnInit {
   alert;
   already;
   check;
+  states:any;
+  details;
+  state_id:string;
   constructor(private farmerService : FarmerRegisterService, private router:Router, private http:HttpClient) {
+    this.http.get('http://localhost:50107/api/CityState').subscribe(data=>{
+      this.states = data;
+    })
+    this.state_id="";
     this.alert = false;
     this.check = false;
     this.farmer = new FarmerRegister();
@@ -30,10 +37,10 @@ export class FarmerregistrationComponent implements OnInit {
       address : new FormControl(null, Validators.required),
       city : new FormControl(null, Validators.required),
       state : new FormControl(null, Validators.required),
-      pin : new FormControl(null, Validators.required),
-      accno : new FormControl(null, Validators.required),
-      ifsc : new FormControl(null, Validators.required),
-      password : new FormControl(null, Validators.required),
+      pin : new FormControl(null, [Validators.required,Validators.minLength(6),Validators.maxLength(6)]),
+      accno : new FormControl(null,[ Validators.required,Validators.minLength(9),Validators.maxLength(18)]),
+      ifsc : new FormControl(null,[Validators.required,Validators.minLength(11),Validators.maxLength(11)]),
+      password : new FormControl(null, [Validators.required,Validators.minLength(8)]),
       confirmpassword : new FormControl(null, Validators.required)
     });
    }
@@ -96,6 +103,27 @@ export class FarmerregistrationComponent implements OnInit {
     return this.farmerForm.get('confirmpassword');
   }
 
+  getCity(value)
+  {
+    if(this.states == undefined)
+    {
+      return;
+    }
+    for(var items of this.states)
+    {
+      if(items.state_name == value)
+      {
+        this.state_id = items.state_code
+        break;
+      }
+    }
+
+     console.log(this.state_id,this.states,value);
+    this.http.get('http://localhost:50107/api/CityState?id='+this.state_id).subscribe((data) => {
+      this.details = data;
+    })
+  }
+
   insertFarmer(val)
   {
     this.http.get('http://localhost:50107/api/CheckFarmerRegistered?email=' + this.farmer.femail).subscribe(data =>{
@@ -103,6 +131,7 @@ export class FarmerregistrationComponent implements OnInit {
       console.log(this.already);
       if(this.already.length !== 0)
       {
+        localStorage.setItem("email",(this.farmer.femail));
         this.check = true;
       }
       
@@ -117,17 +146,23 @@ export class FarmerregistrationComponent implements OnInit {
         {
           localStorage.setItem("email",(this.farmer.femail));
           console.log(this.already);
-          // this.farmerService.email = this.farmer.femail;
-          // this.farmerService.postFarmer(this.farmer).subscribe((data) => {
-          //   this.result = data;
-          //   this.router.navigate(['/documentsfarmer'])
-          // })
+          console.log(this.farmer);
+          this.farmerService.postFarmer(this.farmer).subscribe((data) => {
+            this.result = data;
+            this.router.navigate(['/documentsfarmer'])
+          })
         }
       }
     })
     // console.log(this.already);
 
   }
+
+  redirect(){
+    localStorage.setItem("email",(this.farmer.femail));
+    this.router.navigate(['/documentsfarmer']);
+  }
+
   onClose()
   {
     this.alert = false;

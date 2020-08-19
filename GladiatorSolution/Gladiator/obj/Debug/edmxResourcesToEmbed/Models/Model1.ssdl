@@ -1,5 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="gladiatorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="all_cities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="city_name" Type="varchar" MaxLength="50" />
+    <Property Name="city_code" Type="varchar" MaxLength="50" />
+    <Property Name="state_code" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="all_states">
+    <Key>
+      <PropertyRef Name="state_code" />
+    </Key>
+    <Property Name="state_code" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="state_name" Type="varchar" MaxLength="50" />
+    <Property Name="country_code" Type="varchar" MaxLength="50" />
+  </EntityType>
   <EntityType Name="Bidder">
     <Key>
       <PropertyRef Name="Bemail" />
@@ -44,7 +61,7 @@
     <Property Name="AdminApprove" Type="int" Nullable="false" />
     <Property Name="BaseFarmerPrice" Type="int" />
     <Property Name="CropID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DeclineStatus" Type="bit" />
+    <Property Name="DeclineStatus" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="CropType">
     <Key>
@@ -168,6 +185,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__all_citie__state__17C286CF">
+    <End Role="all_states" Type="Self.all_states" Multiplicity="0..1" />
+    <End Role="all_cities" Type="Self.all_cities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="all_states">
+        <PropertyRef Name="state_code" />
+      </Principal>
+      <Dependent Role="all_cities">
+        <PropertyRef Name="state_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="fk_Bemail">
     <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
     <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
@@ -204,6 +233,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="addFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="name" Type="nvarchar" Mode="In" />
+    <Parameter Name="femail" Type="nvarchar" Mode="In" />
+    <Parameter Name="contactno" Type="nvarchar" Mode="In" />
+    <Parameter Name="address" Type="nvarchar" Mode="In" />
+    <Parameter Name="city" Type="nvarchar" Mode="In" />
+    <Parameter Name="state" Type="nvarchar" Mode="In" />
+    <Parameter Name="pin" Type="nvarchar" Mode="In" />
+    <Parameter Name="accno" Type="nvarchar" Mode="In" />
+    <Parameter Name="ifsc" Type="nvarchar" Mode="In" />
+    <Parameter Name="password" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="username" Type="nvarchar" Mode="In" />
     <Parameter Name="password" Type="nvarchar" Mode="In" />
@@ -233,6 +274,9 @@
     <Parameter Name="price" Type="int" Mode="In" />
   </Function>
   <Function Name="checkBidderRegistered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="email" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="checkDcouments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="email" Type="nvarchar" Mode="In" />
   </Function>
   <Function Name="checkFarmerRegistered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -301,6 +345,10 @@
   <Function Name="seeSellCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="email" Type="nvarchar" Mode="In" />
   </Function>
+  <Function Name="selectCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="selectStates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="setStatusCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="cropId" Type="int" Mode="In" />
   </Function>
@@ -354,6 +402,8 @@
   <Function Name="viewFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="viewFarmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="gladiatorModelStoreContainer">
+    <EntitySet Name="all_cities" EntityType="Self.all_cities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="all_states" EntityType="Self.all_states" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Bidder" EntityType="Self.Bidder" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="CropBuy" EntityType="Self.CropBuy" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Crops" EntityType="Self.Crops" Schema="dbo" store:Type="Tables" />
@@ -380,6 +430,10 @@
     <AssociationSet Name="CropSell_fk2" Association="Self.CropSell_fk2">
       <End Role="CropSell" EntitySet="CropSell" />
       <End Role="LiveBid" EntitySet="LiveBid" />
+    </AssociationSet>
+    <AssociationSet Name="FK__all_citie__state__17C286CF" Association="Self.FK__all_citie__state__17C286CF">
+      <End Role="all_states" EntitySet="all_states" />
+      <End Role="all_cities" EntitySet="all_cities" />
     </AssociationSet>
     <AssociationSet Name="fk_Bemail" Association="Self.fk_Bemail">
       <End Role="Bidder" EntitySet="Bidder" />

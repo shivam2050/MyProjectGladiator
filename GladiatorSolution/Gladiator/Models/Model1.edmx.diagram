@@ -23,6 +23,9 @@
         <AssociationConnector Association="gladiatorModel.CropSell_fk0" ManuallyRouted="false" />
         <AssociationConnector Association="gladiatorModel.CropSell_fk1" ManuallyRouted="false" />
         <AssociationConnector Association="gladiatorModel.CropSell_fk2" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="gladiatorModel.all_states" Width="1.5" PointX="3.375" PointY="10.75" />
+        <EntityTypeShape EntityType="gladiatorModel.all_cities" Width="1.5" PointX="5.625" PointY="11.625" />
+        <AssociationConnector Association="gladiatorModel.FK__all_citie__state__17C286CF" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -24,15 +24,15 @@ export class RouteComponent implements OnInit {
     
   }
   
-  login(){
+  // login(){
   
-  }
+  // }
 
-  logout(){
-    localStorage.clear();
-    this.idLoggedIn=false;
-    this.result="";
-  }
+  // logout(){
+  //   localStorage.clear();
+  //   this.idLoggedIn=false;
+  //   this.result="";
+  // }
   
 
 }

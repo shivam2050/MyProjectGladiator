@@ -66,9 +66,9 @@ ALTER TABLE CropSell DROP constraint df_key
 update CropSell set AdminApprove = 0 where CropName = 'Rice'
 
 
-create proc cropApproval
+alter proc cropApproval
 as
-select CropId,CropName,Femail,Fertilizer,Quantity,PhVal,ExpiryDate,BaseFarmerPrice from CropSell where AdminApprove = 0
+select CropId,CropName,Femail,Fertilizer,Quantity,PhVal,ExpiryDate,BaseFarmerPrice from CropSell where AdminApprove = 0 and DeclineStatus = 0
 
 exec cropApproval
 
@@ -265,6 +265,7 @@ exec liveCropBid
  as
  insert into [Transaction](BidID) values (@bidId)
 
+ select * from Farmer
  
  
  create proc buyCrop(@bidId int,@price int)
@@ -316,4 +317,39 @@ update CropSell set AdminApprove = 3 where CropID = @cropId
  CropSell cs on f.Femail = cs.Femail inner join
  LiveBid lb on cs.CropID = lb.CropId where cs.AdminApprove = 3 and lb.BidStatus = 1 and f.Femail = @email
 
+
+ create proc checkFarmerRegistered(@email nvarchar(50))
+ as
+ select Name,Femail from Farmer where Femail=@email
+
+ alter proc checkBidderRegistered(@email nvarchar(50))
+ as
+ select Name,Bemail from Bidder where Bemail=@email
+
+delete from Farmer where Name like 'yfuy'
+ select * from Documents
+
+ select * from OfficialUsers
+
+ select * from CropSell
+ delete from CropSell
+ delete from LiveBid
+ delete from CropBuy
+ delete from [Transaction]
+
+ alter table CropSell add DeclineStatus bit default '0'
+
+
+
  
+alter proc cropDeclined(@id int)
+as
+Update CropSell set DeclineStatus = 1 where CropId = @id
+
+
+create proc viewCropDeclined(@email nvarchar(50))
+as
+select * from CropSell where Femail = @email
+
+update CropSell set DeclineStatus = 0
+

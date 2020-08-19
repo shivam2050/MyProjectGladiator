@@ -26,12 +26,12 @@ export class AcceptfarmerComponent implements OnInit {
     });
     this.http.put('http://localhost:50107/api/Documents/1',new String(value)).subscribe(data =>{
       console.log(data);
+      this.http.get('http://localhost:50107/api/AcceptFarmer').subscribe( data => {
+        this.farmer = data;
+        // console.log(data);
+        }
+      );
     });
-    this.http.get('http://localhost:50107/api/AcceptFarmer').subscribe( data => {
-      this.farmer = data;
-      // console.log(data);
-      }
-    );
   }
 
   onDelete(value:any)

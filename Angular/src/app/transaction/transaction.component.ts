@@ -39,10 +39,10 @@ export class TransactionComponent implements OnInit {
   makePayment(bidId,bidPrice){
     this.http.put('http://localhost:50107/api/BuyCrop?id=' + bidId, bidPrice).subscribe( data => {
       this.trans = data;
-    }
-    );
-    this.http.put('http://localhost:50107/api/Trans?id=' + bidId, new String(bidPrice)).subscribe( data => {
-      this.trans = data;
+      this.http.put('http://localhost:50107/api/Trans?id=' + bidId, new String(bidPrice)).subscribe( data => {
+        this.trans = data;
+      }
+      );
     }
     );
     this.http.put('http://localhost:50107/api/SetStatusCrop?id=' + this.cropId, new String(bidPrice)).subscribe( data => {

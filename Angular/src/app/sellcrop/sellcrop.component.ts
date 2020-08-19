@@ -21,7 +21,13 @@ export class SellcropComponent implements OnInit {
   sell : FormGroup;
   result;
   crops;
+  x:string;
+  alert:boolean;
+  check:boolean;
   constructor(private cropSellSer:CropSellService, private http:HttpClient) {
+    this.check = false;
+    this.alert = true;
+    this.x = new Date().toISOString().split('T')[0].toString();
     this.sellForm = new SellCropForm();
     this.http.get('http://localhost:50107/api/Crops').subscribe( data => {
       this.crops = data;
@@ -62,9 +68,22 @@ export class SellcropComponent implements OnInit {
   onSubmit(){
     console.log(this.sellForm.Femail);
     this.sellForm.Femail = this.email;
-    this.cropSellSer.addSellCrop(this.sellForm).subscribe((data) => {
-      this.result = data;
-    })
+    if(this.sellForm.Quantity == null || this.sellForm.BaseFarmerPrice == null || this.sellForm.CropName == "" || this.sellForm.Fertilizer == null || this.sellForm.PhVal == "" || this.sellForm.ExpiryDate == "")
+    {
+      this.check = true;
+    }
+    else
+    {
+      this.cropSellSer.addSellCrop(this.sellForm).subscribe((data) => {
+        this.result = data;
+        this.alert = false;
+      })
+    }
+  }
+
+  onCross()
+  {
+    this.check = false;
   }
 
 }

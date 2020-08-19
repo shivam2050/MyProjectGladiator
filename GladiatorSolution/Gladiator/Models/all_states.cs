@@ -11,24 +11,20 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.Runtime.Serialization;
-
-    [DataContract]
-    public partial class CropBuy
+    
+    public partial class all_states
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public CropBuy()
+        public all_states()
         {
-            this.Transactions = new HashSet<Transaction>();
+            this.all_cities = new HashSet<all_cities>();
         }
-        [DataMember]
     
-        public int BidId { get; set; }
-        [DataMember]
-        public double BuyPrice { get; set; }
+        public string state_code { get; set; }
+        public string state_name { get; set; }
+        public string country_code { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Transaction> Transactions { get; set; }
-        public virtual LiveBid LiveBid { get; set; }
+        public virtual ICollection<all_cities> all_cities { get; set; }
     }
 }

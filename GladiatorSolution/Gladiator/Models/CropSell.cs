@@ -11,7 +11,9 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class CropSell
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,16 +22,26 @@ namespace Gladiator.Models
             this.LiveBids = new HashSet<LiveBid>();
         }
     
+        [DataMember]
         public string CropName { get; set; }
+        [DataMember]
         public string Femail { get; set; }
+        [DataMember]
         public string Fertilizer { get; set; }
+        [DataMember]
         public decimal Quantity { get; set; }
+        [DataMember]
         public string PhVal { get; set; }
+        [DataMember]
         public System.DateTime ExpiryDate { get; set; }
+        [DataMember]
         public int AdminApprove { get; set; }
+        [DataMember]
         public Nullable<int> BaseFarmerPrice { get; set; }
+        [DataMember]
         public int CropID { get; set; }
-        public Nullable<bool> DeclineStatus { get; set; }
+        [DataMember]
+        public bool DeclineStatus { get; set; }
     
         public virtual Crop Crop { get; set; }
         public virtual Farmer Farmer { get; set; }

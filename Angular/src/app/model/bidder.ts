@@ -1,7 +1,7 @@
 export class BidderRegister{
     name : string;
     bemail : string;
-    contact : string;
+    contactno : string;
     address : string;
     city : string;
     state : string;

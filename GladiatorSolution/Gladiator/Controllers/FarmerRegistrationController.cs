@@ -32,8 +32,9 @@ namespace Gladiator.Controllers
         {
             try
             {
-            db.Farmers.Add(Farmer);
-            db.SaveChanges();
+                //db.addFarmer(Farmer.name, Farmer.femail, Farmer.contactno, Farmer.address, Farmer.city, Farmer.state, Farmer.pin, Farmer.accno, Farmer.ifsc, Farmer.password);
+                db.Farmers.Add(Farmer);
+                db.SaveChanges();
 
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)

@@ -38,6 +38,8 @@ namespace Gladiator.Models
         public virtual DbSet<OfficialUser> OfficialUsers { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<all_states> all_states { get; set; }
+        public virtual DbSet<all_cities> all_cities { get; set; }
     
         public virtual ObjectResult<AdminLogin_Result> AdminLogin(string username, string password)
         {
@@ -518,6 +520,74 @@ namespace Gladiator.Models
                 new ObjectParameter("email", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<viewCropDeclined_Result>("viewCropDeclined", emailParameter);
+        }
+    
+        public virtual ObjectResult<checkDcouments_Result> checkDcouments(string email)
+        {
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<checkDcouments_Result>("checkDcouments", emailParameter);
+        }
+    
+        public virtual ObjectResult<selectCity_Result> selectCity(string id)
+        {
+            var idParameter = id != null ?
+                new ObjectParameter("id", id) :
+                new ObjectParameter("id", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<selectCity_Result>("selectCity", idParameter);
+        }
+    
+        public virtual ObjectResult<selectStates_Result> selectStates()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<selectStates_Result>("selectStates");
+        }
+    
+        public virtual int addFarmer(string name, string femail, string contactno, string address, string city, string state, string pin, string accno, string ifsc, string password)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("name", name) :
+                new ObjectParameter("name", typeof(string));
+    
+            var femailParameter = femail != null ?
+                new ObjectParameter("femail", femail) :
+                new ObjectParameter("femail", typeof(string));
+    
+            var contactnoParameter = contactno != null ?
+                new ObjectParameter("contactno", contactno) :
+                new ObjectParameter("contactno", typeof(string));
+    
+            var addressParameter = address != null ?
+                new ObjectParameter("address", address) :
+                new ObjectParameter("address", typeof(string));
+    
+            var cityParameter = city != null ?
+                new ObjectParameter("city", city) :
+                new ObjectParameter("city", typeof(string));
+    
+            var stateParameter = state != null ?
+                new ObjectParameter("state", state) :
+                new ObjectParameter("state", typeof(string));
+    
+            var pinParameter = pin != null ?
+                new ObjectParameter("pin", pin) :
+                new ObjectParameter("pin", typeof(string));
+    
+            var accnoParameter = accno != null ?
+                new ObjectParameter("accno", accno) :
+                new ObjectParameter("accno", typeof(string));
+    
+            var ifscParameter = ifsc != null ?
+                new ObjectParameter("ifsc", ifsc) :
+                new ObjectParameter("ifsc", typeof(string));
+    
+            var passwordParameter = password != null ?
+                new ObjectParameter("password", password) :
+                new ObjectParameter("password", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("addFarmer", nameParameter, femailParameter, contactnoParameter, addressParameter, cityParameter, stateParameter, pinParameter, accnoParameter, ifscParameter, passwordParameter);
         }
     }
 }

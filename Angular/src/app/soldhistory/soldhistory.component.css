@@ -8,6 +8,36 @@
 
 }
 
+.cardMainDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 20%;
+    width: 100%; */
+}
+.cardChildDiv{
+    display: flex;
+    flex-direction: row;
+    height: 50vh;
+    padding-left: 5%;
+    padding-top: 10%;
+}
+
+.linkDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+.lowerDiv{
+    display: flex;
+    justify-content: flex-end;
+    height: 10%;
+    background-color: turquoise;
+    align-items: center;
+    padding-right: 5%;
+
+}
+
 .soldDiv{
     display: flex;
     justify-content: center;

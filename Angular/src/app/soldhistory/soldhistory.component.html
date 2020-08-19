@@ -3,21 +3,20 @@
         Welcome {{email}}
     </div>
     <div>
-        <button (click)="onLogout()">Logout</button>
+        <button >Logout</button>
     </div>
 </div>
 
-<div class="soldDiv">
+
+<div class="soldDiv" >
     <table class="soldTable table-bordered">
         <tr>
-            <th>S.No.</th>
             <th>Crop Name</th>
             <th>Quantity</th>
             <th>Farmer's Base Price</th>
             <th>Sold Price</th>
         </tr>
         <tr *ngFor="let s of sold">
-            <td>{{count + 1}}.</td>
             <td>{{s.CropName}}</td>
             <td>{{s.Quantity}}</td>
             <td>{{s.BaseFarmerPrice}}</td>

@@ -49,7 +49,7 @@
     <Property Name="AdminApprove" Type="Int32" Nullable="false" />
     <Property Name="BaseFarmerPrice" Type="Int32" />
     <Property Name="CropID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="DeclineStatus" Type="Boolean" />
+    <Property Name="DeclineStatus" Type="Boolean" Nullable="false" />
     <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
     <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
     <NavigationProperty Name="LiveBids" Relationship="Self.CropSell_fk2" FromRole="CropSell" ToRole="LiveBid" />
@@ -406,6 +406,31 @@
     <FunctionImport Name="viewCropDeclined" ReturnType="Collection(gladiatorModel.viewCropDeclined_Result)">
       <Parameter Name="email" Mode="In" Type="String" />
     </FunctionImport>
+    <FunctionImport Name="checkDcouments" ReturnType="Collection(gladiatorModel.checkDcouments_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="selectCity" ReturnType="Collection(gladiatorModel.selectCity_Result)">
+      <Parameter Name="id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="selectStates" ReturnType="Collection(gladiatorModel.selectStates_Result)" />
+    <FunctionImport Name="addFarmer">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="femail" Mode="In" Type="String" />
+      <Parameter Name="contactno" Mode="In" Type="String" />
+      <Parameter Name="address" Mode="In" Type="String" />
+      <Parameter Name="city" Mode="In" Type="String" />
+      <Parameter Name="state" Mode="In" Type="String" />
+      <Parameter Name="pin" Mode="In" Type="String" />
+      <Parameter Name="accno" Mode="In" Type="String" />
+      <Parameter Name="ifsc" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="all_states" EntityType="gladiatorModel.all_states" />
+    <EntitySet Name="all_cities" EntityType="gladiatorModel.all_cities" />
+    <AssociationSet Name="FK__all_citie__state__17C286CF" Association="gladiatorModel.FK__all_citie__state__17C286CF">
+      <End Role="all_states" EntitySet="all_states" />
+      <End Role="all_cities" EntitySet="all_cities" />
+    </AssociationSet>
   </EntityContainer>
   <ComplexType Name="AdminLogin_Result">
     <Property Type="String" Name="ID" Nullable="false" MaxLength="255" />
@@ -637,4 +662,53 @@
     <Property Type="Int32" Name="CropID" Nullable="false" />
     <Property Type="Boolean" Name="DeclineStatus" Nullable="true" />
   </ComplexType>
+  <ComplexType Name="checkDcouments_Result">
+    <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
+    <Property Type="String" Name="Aadhar" Nullable="false" />
+    <Property Type="String" Name="PAN" Nullable="false" />
+    <Property Type="String" Name="TraderLi" Nullable="true" />
+    <Property Type="String" Name="CertificateFarmer" Nullable="true" />
+    <Property Type="Boolean" Name="ApproveStatus" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="selectCity_Result">
+    <Property Type="String" Name="city_name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="city_code" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="state_code" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="selectStates_Result">
+    <Property Type="String" Name="state_code" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="state_name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="country_code" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <EntityType Name="all_states">
+    <Key>
+      <PropertyRef Name="state_code" />
+    </Key>
+    <Property Name="state_code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="state_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="country_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="all_cities" Relationship="gladiatorModel.FK__all_citie__state__17C286CF" FromRole="all_states" ToRole="all_cities" />
+  </EntityType>
+  <EntityType Name="all_cities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="city_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="city_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="state_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="all_states" Relationship="gladiatorModel.FK__all_citie__state__17C286CF" FromRole="all_cities" ToRole="all_states" />
+  </EntityType>
+  <Association Name="FK__all_citie__state__17C286CF">
+    <End Type="gladiatorModel.all_states" Role="all_states" Multiplicity="0..1" />
+    <End Type="gladiatorModel.all_cities" Role="all_cities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="all_states">
+        <PropertyRef Name="state_code" />
+      </Principal>
+      <Dependent Role="all_cities">
+        <PropertyRef Name="state_code" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

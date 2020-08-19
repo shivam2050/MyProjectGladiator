@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="gladiatorModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="all_cities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_name" Type="varchar" MaxLength="50" />
+          <Property Name="city_code" Type="varchar" MaxLength="50" />
+          <Property Name="state_code" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="all_states">
+          <Key>
+            <PropertyRef Name="state_code" />
+          </Key>
+          <Property Name="state_code" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="state_name" Type="varchar" MaxLength="50" />
+          <Property Name="country_code" Type="varchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Bidder">
           <Key>
             <PropertyRef Name="Bemail" />
@@ -49,7 +66,7 @@
           <Property Name="AdminApprove" Type="int" Nullable="false" />
           <Property Name="BaseFarmerPrice" Type="int" />
           <Property Name="CropID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DeclineStatus" Type="bit" />
+          <Property Name="DeclineStatus" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CropType">
           <Key>
@@ -173,6 +190,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__all_citie__state__17C286CF">
+          <End Role="all_states" Type="Self.all_states" Multiplicity="0..1" />
+          <End Role="all_cities" Type="Self.all_cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="all_states">
+              <PropertyRef Name="state_code" />
+            </Principal>
+            <Dependent Role="all_cities">
+              <PropertyRef Name="state_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Bemail">
           <End Role="Bidder" Type="Self.Bidder" Multiplicity="1" />
           <End Role="LiveBid" Type="Self.LiveBid" Multiplicity="*" />
@@ -209,6 +238,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="addFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="nvarchar" Mode="In" />
+          <Parameter Name="femail" Type="nvarchar" Mode="In" />
+          <Parameter Name="contactno" Type="nvarchar" Mode="In" />
+          <Parameter Name="address" Type="nvarchar" Mode="In" />
+          <Parameter Name="city" Type="nvarchar" Mode="In" />
+          <Parameter Name="state" Type="nvarchar" Mode="In" />
+          <Parameter Name="pin" Type="nvarchar" Mode="In" />
+          <Parameter Name="accno" Type="nvarchar" Mode="In" />
+          <Parameter Name="ifsc" Type="nvarchar" Mode="In" />
+          <Parameter Name="password" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="AdminLogin" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="username" Type="nvarchar" Mode="In" />
           <Parameter Name="password" Type="nvarchar" Mode="In" />
@@ -238,6 +279,9 @@
           <Parameter Name="price" Type="int" Mode="In" />
         </Function>
         <Function Name="checkBidderRegistered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="checkDcouments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="email" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="checkFarmerRegistered" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
@@ -306,6 +350,10 @@
         <Function Name="seeSellCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="email" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="selectCity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="selectStates" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="setStatusCrop" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="cropId" Type="int" Mode="In" />
         </Function>
@@ -359,6 +407,8 @@
         <Function Name="viewFarmer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="viewFarmerApproval" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="gladiatorModelStoreContainer">
+          <EntitySet Name="all_cities" EntityType="Self.all_cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="all_states" EntityType="Self.all_states" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Bidder" EntityType="Self.Bidder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CropBuy" EntityType="Self.CropBuy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Crops" EntityType="Self.Crops" Schema="dbo" store:Type="Tables" />
@@ -385,6 +435,10 @@
           <AssociationSet Name="CropSell_fk2" Association="Self.CropSell_fk2">
             <End Role="CropSell" EntitySet="CropSell" />
             <End Role="LiveBid" EntitySet="LiveBid" />
+          </AssociationSet>
+          <AssociationSet Name="FK__all_citie__state__17C286CF" Association="Self.FK__all_citie__state__17C286CF">
+            <End Role="all_states" EntitySet="all_states" />
+            <End Role="all_cities" EntitySet="all_cities" />
           </AssociationSet>
           <AssociationSet Name="fk_Bemail" Association="Self.fk_Bemail">
             <End Role="Bidder" EntitySet="Bidder" />
@@ -452,7 +506,7 @@
           <Property Name="AdminApprove" Type="Int32" Nullable="false" />
           <Property Name="BaseFarmerPrice" Type="Int32" />
           <Property Name="CropID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="DeclineStatus" Type="Boolean" />
+          <Property Name="DeclineStatus" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Crop" Relationship="Self.CropSell_fk0" FromRole="CropSell" ToRole="Crops" />
           <NavigationProperty Name="Farmer" Relationship="Self.CropSell_fk1" FromRole="CropSell" ToRole="Farmer" />
           <NavigationProperty Name="LiveBids" Relationship="Self.CropSell_fk2" FromRole="CropSell" ToRole="LiveBid" />
@@ -807,8 +861,33 @@
           <FunctionImport Name="viewFarmer" ReturnType="Collection(gladiatorModel.viewFarmer_Result)" />
           <FunctionImport Name="viewFarmerApproval" ReturnType="Collection(gladiatorModel.viewFarmerApproval_Result)" />
           <FunctionImport Name="viewCropDeclined" ReturnType="Collection(gladiatorModel.viewCropDeclined_Result)">
-            <Parameter Name="email" Mode="In" Type="String" />
+          <Parameter Name="email" Mode="In" Type="String" />
           </FunctionImport>
+          <FunctionImport Name="checkDcouments" ReturnType="Collection(gladiatorModel.checkDcouments_Result)">
+          <Parameter Name="email" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="selectCity" ReturnType="Collection(gladiatorModel.selectCity_Result)">
+          <Parameter Name="id" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="selectStates" ReturnType="Collection(gladiatorModel.selectStates_Result)" />
+          <FunctionImport Name="addFarmer">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="femail" Mode="In" Type="String" />
+            <Parameter Name="contactno" Mode="In" Type="String" />
+            <Parameter Name="address" Mode="In" Type="String" />
+            <Parameter Name="city" Mode="In" Type="String" />
+            <Parameter Name="state" Mode="In" Type="String" />
+            <Parameter Name="pin" Mode="In" Type="String" />
+            <Parameter Name="accno" Mode="In" Type="String" />
+            <Parameter Name="ifsc" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="all_states" EntityType="gladiatorModel.all_states" />
+          <EntitySet Name="all_cities" EntityType="gladiatorModel.all_cities" />
+          <AssociationSet Name="FK__all_citie__state__17C286CF" Association="gladiatorModel.FK__all_citie__state__17C286CF">
+            <End Role="all_states" EntitySet="all_states" />
+            <End Role="all_cities" EntitySet="all_cities" />
+          </AssociationSet>
         </EntityContainer>
         <ComplexType Name="AdminLogin_Result">
           <Property Type="String" Name="ID" Nullable="false" MaxLength="255" />
@@ -1040,6 +1119,55 @@
           <Property Type="Int32" Name="CropID" Nullable="false" />
           <Property Type="Boolean" Name="DeclineStatus" Nullable="true" />
         </ComplexType>
+        <ComplexType Name="checkDcouments_Result">
+          <Property Type="String" Name="Email" Nullable="false" MaxLength="255" />
+          <Property Type="String" Name="Aadhar" Nullable="false" />
+          <Property Type="String" Name="PAN" Nullable="false" />
+          <Property Type="String" Name="TraderLi" Nullable="true" />
+          <Property Type="String" Name="CertificateFarmer" Nullable="true" />
+          <Property Type="Boolean" Name="ApproveStatus" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="selectCity_Result">
+          <Property Type="String" Name="city_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="city_code" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="state_code" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="selectStates_Result">
+          <Property Type="String" Name="state_code" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="state_name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="country_code" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="all_states">
+          <Key>
+            <PropertyRef Name="state_code" />
+          </Key>
+          <Property Name="state_code" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="country_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="all_cities" Relationship="gladiatorModel.FK__all_citie__state__17C286CF" FromRole="all_states" ToRole="all_cities" />
+        </EntityType>
+        <EntityType Name="all_cities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="city_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="state_code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="all_states" Relationship="gladiatorModel.FK__all_citie__state__17C286CF" FromRole="all_cities" ToRole="all_states" />
+        </EntityType>
+        <Association Name="FK__all_citie__state__17C286CF">
+          <End Type="gladiatorModel.all_states" Role="all_states" Multiplicity="0..1" />
+          <End Type="gladiatorModel.all_cities" Role="all_cities" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="all_states">
+              <PropertyRef Name="state_code" />
+            </Principal>
+            <Dependent Role="all_cities">
+              <PropertyRef Name="state_code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1537,6 +1665,56 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="checkDcouments" FunctionName="gladiatorModel.Store.checkDcouments">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.checkDcouments_Result">
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+                <ScalarProperty Name="PAN" ColumnName="PAN" />
+                <ScalarProperty Name="TraderLi" ColumnName="TraderLi" />
+                <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+                <ScalarProperty Name="ApproveStatus" ColumnName="ApproveStatus" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="selectCity" FunctionName="gladiatorModel.Store.selectCity">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.selectCity_Result">
+                <ScalarProperty Name="city_name" ColumnName="city_name" />
+                <ScalarProperty Name="city_code" ColumnName="city_code" />
+                <ScalarProperty Name="state_code" ColumnName="state_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="selectStates" FunctionName="gladiatorModel.Store.selectStates">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="gladiatorModel.selectStates_Result">
+                <ScalarProperty Name="state_code" ColumnName="state_code" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+                <ScalarProperty Name="country_code" ColumnName="country_code" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="addFarmer" FunctionName="gladiatorModel.Store.addFarmer" />
+          <EntitySetMapping Name="all_states">
+            <EntityTypeMapping TypeName="gladiatorModel.all_states">
+              <MappingFragment StoreEntitySet="all_states">
+                <ScalarProperty Name="country_code" ColumnName="country_code" />
+                <ScalarProperty Name="state_name" ColumnName="state_name" />
+                <ScalarProperty Name="state_code" ColumnName="state_code" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="all_cities">
+            <EntityTypeMapping TypeName="gladiatorModel.all_cities">
+              <MappingFragment StoreEntitySet="all_cities">
+                <ScalarProperty Name="state_code" ColumnName="state_code" />
+                <ScalarProperty Name="city_code" ColumnName="city_code" />
+                <ScalarProperty Name="city_name" ColumnName="city_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

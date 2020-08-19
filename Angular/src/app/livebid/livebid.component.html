@@ -12,8 +12,33 @@
     </button>
   </div>
 
-<table class=" table-bordered">
-    <tr>
+  <div class="class1 py-5"> 
+    <table class=" table-bordered ">
+        <thead>
+        <tr class="table-success">
+            <th>Crop Id</th>
+            <th>Crop Name</th>
+            <th>Farmer Email</th>
+            <th>Fertilizer</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Base Farmer Price</th>
+        </tr>
+    </thead>
+        <tr *ngFor="let f of crop">
+            <td>{{f.CropID}}</td>
+            <td>{{f.CropName}}</td>
+            <td>{{f.Femail}}</td>
+            <td>{{f.Fertilizer}}</td>
+            <td>{{f.Quantity}}</td>
+            <td>{{f.ExpiryDate}}</td>
+            <td>{{f.BaseFarmerPrice}}</td>
+        </tr>
+    </table>
+</div>
+
+<!-- <table class=" table-bordered ">
+    <tr class="table-success">
         <th>Crop Id</th>
         <th>Crop Name</th>
         <th>Farmer Email</th>
@@ -31,11 +56,12 @@
         <td>{{f.ExpiryDate}}</td>
         <td>{{f.BaseFarmerPrice}}</td>
     </tr>
-</table>
+</table> -->
 <hr>
 
+<div class="class1 py-5"> 
 <table class="table-bordered">
-    <tr>
+    <tr class="table-info">
         <th>Crop ID</th>
         <th>Crop Name</th>
         <th>Farmer Base Price</th>
@@ -52,10 +78,11 @@
     </tr>
 </table>
 
+
 <hr>
 
 <table class="table-bordered">
-    <tr>
+    <tr class="table-warning">
         <th>Crop Id</th>
         <th>Crop Name</th>
         <th>Farmer Price</th>
@@ -70,3 +97,4 @@
         <td>{{cur.TimeLeft}}hrs</td>
     </tr>
 </table>
+</div>

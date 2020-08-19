@@ -492,5 +492,55 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="checkDcouments" FunctionName="gladiatorModel.Store.checkDcouments">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.checkDcouments_Result">
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Aadhar" ColumnName="Aadhar" />
+          <ScalarProperty Name="PAN" ColumnName="PAN" />
+          <ScalarProperty Name="TraderLi" ColumnName="TraderLi" />
+          <ScalarProperty Name="CertificateFarmer" ColumnName="CertificateFarmer" />
+          <ScalarProperty Name="ApproveStatus" ColumnName="ApproveStatus" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="selectCity" FunctionName="gladiatorModel.Store.selectCity">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.selectCity_Result">
+          <ScalarProperty Name="city_name" ColumnName="city_name" />
+          <ScalarProperty Name="city_code" ColumnName="city_code" />
+          <ScalarProperty Name="state_code" ColumnName="state_code" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="selectStates" FunctionName="gladiatorModel.Store.selectStates">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="gladiatorModel.selectStates_Result">
+          <ScalarProperty Name="state_code" ColumnName="state_code" />
+          <ScalarProperty Name="state_name" ColumnName="state_name" />
+          <ScalarProperty Name="country_code" ColumnName="country_code" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="addFarmer" FunctionName="gladiatorModel.Store.addFarmer" />
+    <EntitySetMapping Name="all_states">
+      <EntityTypeMapping TypeName="gladiatorModel.all_states">
+        <MappingFragment StoreEntitySet="all_states">
+          <ScalarProperty Name="country_code" ColumnName="country_code" />
+          <ScalarProperty Name="state_name" ColumnName="state_name" />
+          <ScalarProperty Name="state_code" ColumnName="state_code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="all_cities">
+      <EntityTypeMapping TypeName="gladiatorModel.all_cities">
+        <MappingFragment StoreEntitySet="all_cities">
+          <ScalarProperty Name="state_code" ColumnName="state_code" />
+          <ScalarProperty Name="city_code" ColumnName="city_code" />
+          <ScalarProperty Name="city_name" ColumnName="city_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

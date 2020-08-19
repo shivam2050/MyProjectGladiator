@@ -3,6 +3,10 @@
     <button (click)="onCross()" type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
+    <Button (click)="redirect()"> 
+        Click here to upload documents if not uploaded
+        
+    </Button> 
   </div>
 
 <div class="mainDiv">
@@ -20,10 +24,11 @@
             <p class="alert alert-danger" *ngIf="bemail.touched && bemail.invalid">
                 <span class="alert alert-danger" *ngIf="bemail.errors.required">Email cannot be empty</span>
                 <span class="alert alert-danger" *ngIf="femail.errors.email">Email format is wrong(e.g. xyz@gmail.com)</span>
+                <span class="alert alert-danger" *ngIf="contact.errors.pattern">Contact must be number</span>
             </p>
 
             <label for="">Contact*</label>
-            <input type="text" class="form-control" formControlName="contact" [(ngModel)] = "bidder.contact">
+            <input type="text" pattern="[0-9]" class="form-control" formControlName="contact" [(ngModel)] = "bidder.contactno">
             <p class="alert alert-danger" *ngIf="contact.touched && contact.invalid">
                 <span class="alert alert-danger" *ngIf="contact.errors.required">Contact cannot be empty</span>
                 <span class="alert alert-danger" *ngIf="contact.errors.minlength">Contact length is less than 10</span>
@@ -36,40 +41,50 @@
                 <span class="alert alert-danger" *ngIf="address.errors.required">Address cannot be empty</span>
             </p>
 
+            <label for="">State*</label>
+            <select (ngModelChange)="getCity($event)" class="form-control" formControlName="state" [(ngModel)]="bidder.state">
+                <option [ngValue]="s.state_name" *ngFor="let s of states">{{s.state_name}}</option>
+            </select>
             <label for="">City*</label>
-            <input type="text" class="form-control" formControlName="city" [(ngModel)] = "bidder.city">
+            <select name="" id="" class="form-control" formControlName="city" #d.Cropname [(ngModel)]="bidder.city">
+                <option *ngFor="let d of details" [ngValue]="d.city_name" >{{d.city_name}}</option>
+            </select>
+            <!-- <input type="text" class="form-control" formControlName="city" [(ngModel)] = "bidder.city">
             <p class="alert alert-danger" *ngIf="city.touched && city.invalid">
                 <span class="alert alert-danger" *ngIf="city.errors.required">City cannot be empty</span>
-            </p>
+            </p> -->
 
-            <label for="">State*</label>
-            <input type="text" class="form-control" formControlName="state" [(ngModel)] = "bidder.state">
+            <!-- <input type="text" class="form-control" formControlName="state" [(ngModel)] = "bidder.state">
             <p class="alert alert-danger" *ngIf="state.touched && state.invalid">
                 <span class="alert alert-danger" *ngIf="state.errors.required">State cannot be empty</span>
-            </p>
+            </p> -->
 
             <label for="">Pin*</label>
             <input type="text" class="form-control" formControlName="pin" [(ngModel)] = "bidder.pin">
             <p class="alert alert-danger" *ngIf="pin.touched && pin.invalid">
                 <span class="alert alert-danger" *ngIf="pin.errors.required">Pin cannot be empty</span>
+                <span class="alert alert-danger" *ngIf="pin.errors.minlength||pin.errors.maxlength">Pin Code can only have 6 digits</span>
             </p>
 
             <label for="">Account No.*</label>
             <input type="text" class="form-control" formControlName="accno" [(ngModel)] = "bidder.accno">
             <p class="alert alert-danger" *ngIf="accno.touched && accno.invalid">
                 <span class="alert alert-danger" *ngIf="accno.errors.required">Account No. cannot be empty</span>
+                <span class="alert alert-danger" *ngIf="accno.errors.minlength||accno.errors.maxlength">Account Number should range between 9-18 digits</span>
             </p>
 
             <label for="">IFSC Code*</label>
-            <input type="text" class="form-control" formControlName="ifsc" [(ngModel)] = "bidder.ifsc">
+            <input type="text" class="form-control" pattern="[A-Za-z]{4}[0-9]"  formControlName="ifsc" [(ngModel)] = "bidder.ifsc">
             <p class="alert alert-danger" *ngIf="ifsc.touched && ifsc.invalid">
                 <span class="alert alert-danger" *ngIf="ifsc.errors.required">IFSC Code cannot be empty</span>
+                <span class="alert alert-danger" *ngIf="ifsc.errors.minlength||ifsc.errors.maxlength || ifsc.errors.pattern">Invalid IFSC(e.g. SBIN0018173)</span>
             </p>
                 
             <label for="">Password*</label>
             <input type="password" class="form-control" formControlName="password" [(ngModel)] = "bidder.password">
             <p class="alert alert-danger" *ngIf="password.touched && password.invalid">
                 <span class="alert alert-danger" *ngIf="password.errors.required">Password cannot be empty</span>
+                <span class="alert alert-danger" *ngIf="password.errors.minlength">Password should have minimum 8 characters</span>
             </p>
 
             <label for="">Confirm Password*</label>

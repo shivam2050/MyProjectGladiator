@@ -1,7 +1,7 @@
 export class FarmerRegister{
     name : string;
     femail : string;
-    contact : string;
+    contactno : string;
     address : string;
     city : string;
     state : string;
