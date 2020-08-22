@@ -11,12 +11,18 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Transaction
     {
+        [DataMember]
         public string PaymentType { get; set; }
+        [DataMember]
         public System.DateTime Date { get; set; }
+        [DataMember]
         public Nullable<int> BidID { get; set; }
+        [DataMember]
         public int TransactioID { get; set; }
     
         public virtual CropBuy CropBuy { get; set; }

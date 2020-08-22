@@ -1,3 +1,5 @@
+<app-route></app-route>
+
 <div *ngIf="check" class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>Failed!</strong> User already exist!!!
     <button (click)="onCross()" type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -28,7 +30,7 @@
             </p>
 
             <label for="">Contact*</label>
-            <input type="text" pattern="[0-9]" class="form-control" formControlName="contact" [(ngModel)] = "bidder.contactno">
+            <input type="text" class="form-control" formControlName="contact" [(ngModel)] = "bidder.contactno">
             <p class="alert alert-danger" *ngIf="contact.touched && contact.invalid">
                 <span class="alert alert-danger" *ngIf="contact.errors.required">Contact cannot be empty</span>
                 <span class="alert alert-danger" *ngIf="contact.errors.minlength">Contact length is less than 10</span>
@@ -74,10 +76,10 @@
             </p>
 
             <label for="">IFSC Code*</label>
-            <input type="text" class="form-control" pattern="[A-Za-z]{4}[0-9]"  formControlName="ifsc" [(ngModel)] = "bidder.ifsc">
+            <input type="text" class="form-control"  formControlName="ifsc" [(ngModel)] = "bidder.ifsc">
             <p class="alert alert-danger" *ngIf="ifsc.touched && ifsc.invalid">
                 <span class="alert alert-danger" *ngIf="ifsc.errors.required">IFSC Code cannot be empty</span>
-                <span class="alert alert-danger" *ngIf="ifsc.errors.minlength||ifsc.errors.maxlength || ifsc.errors.pattern">Invalid IFSC(e.g. SBIN0018173)</span>
+                <span class="alert alert-danger" *ngIf="ifsc.errors.minlength||ifsc.errors.maxlength">Invalid IFSC(e.g. SBIN0018173)</span>
             </p>
                 
             <label for="">Password*</label>
@@ -101,7 +103,7 @@
     
             <div class="btnDiv">
                 <section class="linkSection">
-                    <button [disabled]="!bidderRegistrationForm.valid" class="btn btn-success" (click) = "insertBidder(confirm.value)">Save</button>
+                    <button [disabled]="!bidderRegistrationForm.valid" class="btn btn-success" (click) = "insertBidder(confirm.value)">Save and proceed to next</button>
                 </section>
                 <!-- <section class="linkSection">
                     <a routerLink="/documentsbidder"><p style="color: brown;">Next</p></a>

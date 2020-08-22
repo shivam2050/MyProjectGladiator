@@ -1,3 +1,5 @@
+<app-bidderroute></app-bidderroute>
+
 <div *ngIf="alert" class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>Failed!</strong> Your bid should be greater than Farmer's Base Price...
     <button (click)="onClose()" type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -12,8 +14,93 @@
     </button>
   </div>
 
-  <div class="class1 py-5"> 
-    <table class=" table-bordered ">
+  <div class="col">
+    <div class="container ">  
+        <div>
+            <h3 class="text-center text-uppercase">Market Price</h3> </div>
+    <table class="table"> 
+        <thead class="thead-dark"> 
+        <tr class="justify-content-center">
+            <th>Crop Id</th>
+            <th>Crop Name</th>
+            <th>Farmer Email</th>
+            <th>Fertilizer</th>
+            <th>Quantity</th>
+            <th>Expiry Date</th>
+            <th>Base Farmer Price</th>
+        </tr>
+        </thead>
+        
+    <tr *ngFor="let f of crop">
+        <td>{{f.CropID}}</td>
+        <td>{{f.CropName}}</td>
+        <td>{{f.Femail}}</td>
+        <td>{{f.Fertilizer}}</td>
+        <td>{{f.Quantity}}</td>
+        <td>{{f.ExpiryDate}}</td>
+        <td>{{f.BaseFarmerPrice}}</td>
+    </tr>
+</table>
+</div>
+</div>
+<div class="col">
+    <div  class="form-row">
+        <div class="container "> 
+        <div>
+            <h3 class="text-center text-uppercase">Current Bids</h3> </div>
+        
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Crop Id</th>
+                <th>Crop Name</th>
+                <th>Farmer Price</th>
+                <th>Current Bid</th>
+                <th>Time Left</th>
+            </tr>
+            </thead>
+            <tr *ngFor="let cur of currentBid">
+                <td>{{cur.CropID}}</td>
+                <td>{{cur.Crop_Name}}</td>
+                <td>{{cur.Farmer_Price}}</td>
+                <td>{{cur.CurrentBid}}</td>
+                <td>{{cur.TimeLeft}}hrs</td>
+            </tr>
+        </table>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="container"> 
+                <div>
+                    <h3 class="text-center text-uppercase">Make Bid</h3> </div>
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Crop ID</th>
+                        <th>Crop Name</th>
+                        <th>Farmer Base Price</th>
+                        <th>Bidder Email</th>
+                        <th>Enter your Bid Price</th>
+                        <th>Confirm</th>
+                    </tr>
+                </thead>
+                    <tr *ngFor="let f of crop">
+                        <td>{{f.CropID}}</td>
+                        <td>{{f.CropName}}</td>
+                        <td>{{f.BaseFarmerPrice}}</td>
+                        <td><input class="inputClass" [value]="bidemail"></td>
+                        <td><input value=0 type="number" #bidprice></td>
+                        <td><Button (click) = "makeBid(f.CropID,f.BaseFarmerPrice,bidprice.value)" class="btn btn-dark">Make Bid</Button></td>
+                    </tr>
+                </table>
+                </div>
+
+    </div>
+</div>
+
+
+  <!-- <div class="class1 py-5"> 
+    <table class=" ">
         <thead>
         <tr class="table-success">
             <th>Crop Id</th>
@@ -37,26 +124,7 @@
     </table>
 </div>
 
-<!-- <table class=" table-bordered ">
-    <tr class="table-success">
-        <th>Crop Id</th>
-        <th>Crop Name</th>
-        <th>Farmer Email</th>
-        <th>Fertilizer</th>
-        <th>Quantity</th>
-        <th>Expiry Date</th>
-        <th>Base Farmer Price</th>
-    </tr>
-    <tr *ngFor="let f of crop">
-        <td>{{f.CropID}}</td>
-        <td>{{f.CropName}}</td>
-        <td>{{f.Femail}}</td>
-        <td>{{f.Fertilizer}}</td>
-        <td>{{f.Quantity}}</td>
-        <td>{{f.ExpiryDate}}</td>
-        <td>{{f.BaseFarmerPrice}}</td>
-    </tr>
-</table> -->
+
 <hr>
 
 <div class="class1 py-5"> 
@@ -97,4 +165,4 @@
         <td>{{cur.TimeLeft}}hrs</td>
     </tr>
 </table>
-</div>
+</div> -->

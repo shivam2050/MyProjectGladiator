@@ -16,10 +16,10 @@ export class AdminhomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onLogout()
-  {
-    localStorage.clear();
-    this.router.navigate(['/adminlogin'])
-  }
+  // onLogout()
+  // {
+  //   localStorage.clear();
+  //   this.router.navigate(['/adminlogin'])
+  // }
 
 }

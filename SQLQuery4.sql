@@ -1,8 +1,14 @@
 create table all_cities (
-city_name varchar(50),
+id int identity(1,1) primary key,
+city_name varchar(50) ,
 city_code varchar(50),
 state_code varchar(50) references all_states(state_code) 
 );
+
+alter table all_cities
+
+alter table all_cities add constraint pk_code Primary Key(city_code)
+alter table all_cities alter column city_code varchar(50 )not null
 
 create table all_states (
 state_code varchar(50) Primary key,
@@ -14,8 +20,10 @@ delete from all_cities
 drop table all_states
 drop table all_cities
 
+
+
 -- Andaman & Nicobar
-INSERT INTO all_cities (city_name,city_code,state_code)
+INSERT INTO all_cities(city_name,city_code,state_code)
 Values('Alipur', '101','1'),
 ('Andaman Island', '102','1'),
 ('Anderson Island', '103','1'),

@@ -1,12 +1,14 @@
-<div class="upperDiv">
+<app-famrerroute></app-famrerroute>
+
+<!-- <div class="upperDiv">
     <div>
         Welcome {{email}}
     </div>
     <div>
         <button >Logout</button>
     </div>
-</div>
-<div class="container py-5">  
+</div> -->
+<div class=" py-5">  
     <div>
     <h3 class="text-uppercase">Market Prices</h3> </div>
     <div class="class1"> 
@@ -21,7 +23,7 @@
           <tr *ngFor="let cr of crops" class="text-center">  
 
             <td>{{cr.CropName}}</td>  
-            <td>Rs.{{cr.Price}}</td>  
+            <td>${{cr.Price}}</td>  
           </tr>   
       </table> 
     </div> 

@@ -11,16 +11,26 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class LiveBid
     {
+        [DataMember]
         public Nullable<int> CropId { get; set; }
+        [DataMember]
         public double BasePrice { get; set; }
+        [DataMember]
         public double BidPrice { get; set; }
+        [DataMember]
         public bool BidStatus { get; set; }
+        [DataMember]
         public string Bemail { get; set; }
+        [DataMember]
         public Nullable<int> TransBidID { get; set; }
+        [DataMember]
         public Nullable<System.DateTime> time { get; set; }
+        [DataMember]
         public int BidId { get; set; }
     
         public virtual Bidder Bidder { get; set; }

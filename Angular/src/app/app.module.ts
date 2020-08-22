@@ -50,6 +50,11 @@ import { CropdeclinedComponent } from './cropdeclined/cropdeclined.component';
 import { AuthGuard } from './service/farmerauth';
 import { AdminAuthGuard } from './service/adminauth';
 import { BidderAuthGuard } from './service/bidderauth';
+import { AdminrouteComponent } from './adminroute/adminroute.component';
+import { FamrerrouteComponent } from './famrerroute/famrerroute.component';
+import { BidderrouteComponent } from './bidderroute/bidderroute.component';
+import { DocumentsBidderAuthGuard } from './service/documentsbidderauth';
+import { DocumentsFarmerAuthGuard } from './service/documentsfarmerauth';
 
 var myRoutes:Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'  },
@@ -62,10 +67,10 @@ var myRoutes:Routes = [
   { path:"adminlogin", component:AdminloginComponent },
   { path:"farmerregistration", component:FarmerregistrationComponent },
   { path:"bidderregistration", component:BidderregistrationComponent },
-  { path:"documentsfarmer", component:DocumentsfarmerComponent },
+  { path:"documentsfarmer", component:DocumentsfarmerComponent, canActivate:[DocumentsFarmerAuthGuard] },
   { path:"farmerportal", component:FarmerportalComponent, canActivate:[AuthGuard]},
   { path:"soldhistory", component:SoldhistoryComponent, canActivate:[AuthGuard] },
-  { path:"documentsbidder", component:DocumentsbidderComponent },
+  { path:"documentsbidder", component:DocumentsbidderComponent, canActivate:[DocumentsBidderAuthGuard] },
   { path:"sellcrop", component:SellcropComponent, canActivate:[AuthGuard] },
   { path:"market-val-bid", component:MarketValBidComponent },
   { path:"bidder-home", component:BidderHomeComponent, canActivate:[BidderAuthGuard] },
@@ -120,7 +125,10 @@ var myRoutes:Routes = [
     BiddercropboughtComponent,
     TransactionComponent,
     BidderhistoryComponent,
-    CropdeclinedComponent
+    CropdeclinedComponent,
+    AdminrouteComponent,
+    FamrerrouteComponent,
+    BidderrouteComponent
   ],
   imports: [
     BrowserModule,
@@ -131,7 +139,7 @@ var myRoutes:Routes = [
     HttpClientModule,
     RouterModule.forRoot(myRoutes)
   ],
-  providers: [FarmerRegisterService,BidderRegisterService,SoldService,DocumentsFarmerService,DocumentsBidderService,CropSellService,AuthGuard,BidderAuthGuard,AdminAuthGuard],
+  providers: [FarmerRegisterService,BidderRegisterService,SoldService,DocumentsFarmerService,DocumentsBidderService,CropSellService,AuthGuard,BidderAuthGuard,AdminAuthGuard,DocumentsBidderAuthGuard,DocumentsFarmerAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

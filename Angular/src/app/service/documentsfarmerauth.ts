@@ -2,21 +2,21 @@ import { Injectable } from '@angular/core';
 import { CanActivate,Router } from '@angular/router';
 
 @Injectable()
-export class BidderAuthGuard implements CanActivate {
+export class DocumentsFarmerAuthGuard implements CanActivate {
 
     constructor(private route:Router){
 
     }
     
     canActivate() {
-        if (localStorage.getItem("loginBidderEmail") !== null)
+        if (localStorage.getItem("email") !== null)
         {
 
             return true;
         }
         else
         {
-            this.route.navigate(['/login']);
+            this.route.navigate(['/home']);
         }
     }
 }

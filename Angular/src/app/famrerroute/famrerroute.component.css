@@ -1,0 +1,9 @@
+.upperDiv{
+    display: flex;
+    justify-content: flex-end;
+    height: 10%;
+    background-color: turquoise;
+    align-items: center;
+    padding-right: 5%;
+
+}

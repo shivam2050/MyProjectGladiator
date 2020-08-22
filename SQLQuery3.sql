@@ -114,3 +114,12 @@ as
 select * from all_cities where state_code = @id
 
 exec selectCity '2'
+
+
+select * from CropType
+insert into CropType values(102,'Kharif')
+select * from Crops
+insert into Crops values('102','Wheat',400)
+
+
+exec cropdata 'Rabi'

@@ -11,7 +11,9 @@ namespace Gladiator.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.Runtime.Serialization;
+
+    [DataContract]
     public partial class Bidder
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,16 +22,27 @@ namespace Gladiator.Models
             this.LiveBids = new HashSet<LiveBid>();
         }
     
+        [DataMember]
         public string Name { get; set; }
+        [DataMember]
         public string Bemail { get; set; }
+        [DataMember]
         public string ContactNo { get; set; }
+        [DataMember]
         public string Address { get; set; }
+        [DataMember]
         public string City { get; set; }
+        [DataMember]
         public string State { get; set; }
+        [DataMember]
         public string PIN { get; set; }
+        [DataMember]
         public string AccNo { get; set; }
+        [DataMember]
         public string IFSC { get; set; }
+        [DataMember]
         public string Password { get; set; }
+        [DataMember]
         public bool RegStatus { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -341,15 +341,17 @@ delete from Farmer where Name like 'yfuy'
 
 
 
- 
+ select * from farmer
 alter proc cropDeclined(@id int)
 as
 Update CropSell set DeclineStatus = 1 where CropId = @id
 
 
-create proc viewCropDeclined(@email nvarchar(50))
+alter proc viewCropDeclined(@email nvarchar(50))
 as
-select * from CropSell where Femail = @email
+select * from CropSell where Femail = @email and DeclineStatus = 1
+
+exec viewCropDeclined 'dev@gmail.com'
 
 update CropSell set DeclineStatus = 0
 

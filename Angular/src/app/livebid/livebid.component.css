@@ -2,7 +2,7 @@
     pointer-events: none;
 }
 
-table{
+/* table{
     width: 100vh;
     
 }
@@ -17,4 +17,4 @@ tr:nth-child(even) {
 .class1{
     display:flex;
     justify-content: center;
-}
+} */
